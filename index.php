@@ -8,7 +8,7 @@ if (!file_exists("config.php")) {
 	exit;
 }
 include_once("config.php");
-if ($BLOGCONF["version"] < 2) {
+if ($BLOGCONF["version"] < 3) {
 	echo $BLOGLANG["message"]["confTooOld"];
 	exit;
 }
@@ -80,14 +80,13 @@ if (is_state_old($name)) {
 	rm_ex($BLOGCONF["cache"]["menutab_Tags"]["cachePath"]);
 }
 
-session_start();
-
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title><?=$BLOGCONF["title"]?></title>
+		<link rel="alternate" type="application/rss+xml" title="<?=$BLOGCONF["title"]?>" href="rss2.php?feed=all" />
 		<script type="text/javascript">
 blog = {};
 blog.lang = {};
@@ -364,7 +363,7 @@ function showArticle(fpath, position) {
 			<div id="menures">
 				<a href="rss2.php?feed=all"><?php
 if (file_exists($BLOGCONF["rss2AllImg"]))
-	echo "<img alt='".$BLOGLANG["mainmenu"]["menures"]["rss2All"]."' src='rss2.gif' />";
+	echo "<img alt='".$BLOGLANG["mainmenu"]["menures"]["rss2All"]."' src='".$BLOGCONF["rss2AllImg"]."' />";
 else
 	echo $BLOGLANG["mainmenu"]["menures"]["rss2All"];
 ?></a><br />

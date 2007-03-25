@@ -30,7 +30,6 @@ function transPathV2R($path) {
 	return $res;
 }
 
-/*
 function transPathR2V($path, $type) {
 	global $BLOGCONF;
 
@@ -57,6 +56,5 @@ function transPathR2V($path, $type) {
 
 	return $vpath.substr($path, $chklen);
 }
-*/
 
 ?>

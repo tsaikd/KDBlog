@@ -1,6 +1,7 @@
 <?php
 
 include_once("config.php");
+include_once("php/transPath.php");
 /*
 class CXmlArticle {
 	var $parser;
@@ -132,11 +133,13 @@ function showArticleItem($fpath) {
 		echo "<title>".$vals[$i]["value"]."</title>";
 	}
 
-	echo "<link>".$BLOGCONF["link"]."?fpath=".$fpath."</link>";
+	$vpath = transPathR2V($fpath, "data");
+	echo "<link>".$BLOGCONF["link"]."?fpath=".$vpath."</link>";
+	echo "<guid>".$BLOGCONF["link"]."?fpath=".$vpath."</guid>";
 
 	$ftime = filectime($fpath);
 	if ($ftime)
-		echo "<pubDate>".strftime("%a, %d %b %Y %T GMT%z", $ftime)."</pubDate>";
+		echo "<pubDate>".strftime("%a, %d %b %Y %T %z", $ftime)."</pubDate>";
 
 	$xmlkey = "contents";
 	if ($index[$xmlkey]) {
@@ -184,17 +187,21 @@ function showArticleItem($fpath) {
 	echo "</item>";
 }
 
-header("Content-Type: text/xml");
+header("Content-Type: application/rss+xml");
 header("Pragma: no-cache");
 header("Expires: 0");
 echo '<?xml version="1.0" encoding="utf-8" ?>';
 echo '<rss version="2.0">';
 echo '<channel>';
 echo '<title>'.$BLOGCONF["title"].'</title>';
+echo '<description>'.$BLOGCONF["description"].'</description>';
 echo '<link>'.$BLOGCONF["link"].'</link>';
-echo '<language>'.$BLOGCONF["language"].'</language>';
+$lang = $BLOGCONF["language"];
+$lang = strtolower($lang);
+$lang = str_replace("_", "-", $lang);
+echo "<language>$lang</language>";
 echo '<managingEditor>'.$BLOGCONF["email"].'</managingEditor>';
-echo '<docs>'.$_SERVER["SCRIPT_FILENAME"].'?feed='.$_REQUEST["feed"].'</docs>';
+echo '<docs>http://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"].'</docs>';
 
 if ($_REQUEST["limit"]) {
 	$limit = (int)$_REQUEST["limit"];

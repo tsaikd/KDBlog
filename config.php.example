@@ -3,7 +3,7 @@
 # 以下設定為 KDBlog 網頁程式所使用
 ############################################################
 # (int) 設定檔的版本，當升級時版本有更動會產生訊息
-$BLOGCONF["version"] = 2;
+$BLOGCONF["version"] = 3;
 
 # (string) Blog 的標題
 $BLOGCONF["title"] = "KD's Blog";
@@ -28,6 +28,9 @@ $BLOGCONF["language"] = "zh_TW";
 
 # (string EMail) Blog 作者的電子郵件信箱
 $BLOGCONF["email"] = "tsaikd@gmail.com";
+
+# (string Path) RSS 圖示的路徑，若找不到檔案則用文字代替
+$BLOGCONF["rss2AllImg"] = "rss2.png";
 
 ############################################################
 # 路徑設定
@@ -79,9 +82,6 @@ $BLOGCONF["cache"]["menutab_Spec"]["enable"] = true;
 ############################################################
 # 以下設定不建議修改，除非你知道你在做什麼
 ############################################################
-
-# (string Path) RSS 圖示的路徑
-$BLOGCONF["rss2AllImg"] = "rss2.gif";
 
 # (string Path) 檢查是否需要清除快取
 $BLOGCONF["state"]["cleanCache"] = $BLOGCONF["cachpath"]."/cleanCache.state";
