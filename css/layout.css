@@ -187,12 +187,8 @@ ul, li {
 	padding: 0 2em;
 }
 
-#displayArea .article .comments .comment .commentHeader .commentFrom {
-	width: 15em;
-}
-
 #displayArea .article .comments .comment .commentHeader .commentTime {
-	width: 15em;
-	text-align: right;
+	float: right;
+	clear: left;
 }
 

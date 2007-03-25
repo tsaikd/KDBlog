@@ -38,7 +38,7 @@ function getArticleComments(xmldoc) {
 		if (attr) {
 			d = new Date();
 			d.setTime(attr.value*1000);
-			buf = d.getYear()+"/";
+			buf = d.getFullYear()+"/";
 			buf += d.getMonth()<10 ? "0"+d.getMonth() : d.getMonth();
 			buf += "/";
 			buf += d.getDate()<10 ? "0"+d.getDate() : d.getDate();

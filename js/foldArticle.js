@@ -17,8 +17,8 @@ function foldArticle(id) {
 			obj.getElementsByTagName("span")[0].style.display = "none";
 		// contents
 		obj.getElementsByTagName("pre")[0].style.display = "none";
-		// comment
-		node = findChildByName(obj, "comment");
+		// comments
+		node = findChildByName(obj, "comments");
 		if (node)
 			node.style.display = "none";
 
@@ -35,8 +35,8 @@ function foldArticle(id) {
 			obj.getElementsByTagName("span")[0].style.display = "block";
 		// contents
 		obj.getElementsByTagName("pre")[0].style.display = "block";
-		// comment
-		node = findChildByName(obj, "comment");
+		// comments
+		node = findChildByName(obj, "comments");
 		if (node)
 			node.style.display = "block";
 
