@@ -11,7 +11,7 @@ function reload_security(obj) {
 
 function send_comment() {
 	var obj = document.getElementById("comment_form");
-	var comment = escape(obj.elements[0].value);
+	var comment = URLencode(obj.elements[0].value);
 	var reg_num_check = obj.elements[1].value;
 	var submit = obj.elements[2];
 	var id = getNodeId(obj.parentNode);

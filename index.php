@@ -8,7 +8,7 @@ if (!file_exists("config.php")) {
 	exit;
 }
 include_once("config.php");
-if ($BLOGCONF["version"] < 1) {
+if ($BLOGCONF["version"] < 2) {
 	echo $BLOGLANG["message"]["confTooOld"];
 	exit;
 }
@@ -117,6 +117,10 @@ blog.lang.comment.errmsg.multiComment = "<?=$BLOGLANG["comment"]["errmsg"]["mult
 
 blog.conf = {};
 blog.conf.currentArticle = null;
+
+blog.conf.func = {};
+blog.conf.func.comment = {};
+blog.conf.func.comment.enable = <?=$BLOGCONF["func"]["comment"]["enable"]?"true":"false"?>;
 
 if (!Array.prototype.indexOf) { // for IE6
 	Array.prototype.indexOf = function(val, fromIndex) {
@@ -367,7 +371,6 @@ else
 			</div>
 		</div>
 		<div id="displayArea"></div>
-		<script src="/js/debug.js" type="text/javascript"></script>
 		<script type="text/javascript">
 function init() {
 	chgMenuTag("menutab_All");

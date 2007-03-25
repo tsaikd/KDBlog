@@ -282,6 +282,13 @@ case "comment":
 	header("Content-Type: text/xml");
 	echo '<?xml version="1.0" encoding="utf-8" ?>';
 	echo '<root>';
+
+	if (!$BLOGCONF["func"]["comment"]["enable"]) {
+		echo "<error type='$ftype' ename='funcOff'>".$BLOGLANG["message"]["funcOff"]."</error>";
+		echo '</root>';
+		break;
+	}
+
 	if ($_SESSION["reg_num_check"] != $_REQUEST["reg_num_check"]) {
 		echo "<error type='$ftype' ename='reg_num_check'>".$BLOGLANG["comment"]["errmsg"]["reg_num_check"]."</error>";
 		echo '</root>';
@@ -289,7 +296,6 @@ case "comment":
 	}
 	unset($_SESSION["reg_num_check"]);
 
-	$comment = $_REQUEST["comment"];
 	$fpath = transPathV2R($_REQUEST["fpath"]);
 	if (!isValidArticlePath($_REQUEST["fpath"])
 		|| !file_exists($fpath)) {
@@ -298,8 +304,13 @@ case "comment":
 		break;
 	}
 
+	$comment = $_REQUEST["comment"];
+	$comment = str_replace("\\\\", "\\", $comment);
+	$comment = str_replace("\\\"", "\"", $comment);
+	$comment = str_replace("\\'", "'", $comment);
+	$comment = htmlentities($comment);
 	include_once("php/writeArticleComment.php");
-	writeArticleComment($_REQUEST["fpath"], $_REQUEST["comment"]);
+	writeArticleComment($_REQUEST["fpath"], $comment);
 	echo '</root>';
 	break;
 default:

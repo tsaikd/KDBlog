@@ -1,5 +1,6 @@
 function getArticleComments(xmldoc) {
 	var i;
+	var d;
 	var buf;
 	var node;
 	var attr;
@@ -35,11 +36,21 @@ function getArticleComments(xmldoc) {
 
 		attr = node[i].attributes.getNamedItem("time");
 		if (attr) {
-			buf = new Date();
-			buf.setTime(attr.value*1000);
+			d = new Date();
+			d.setTime(attr.value*1000);
+			buf = d.getYear()+"/";
+			buf += d.getMonth()<10 ? "0"+d.getMonth() : d.getMonth();
+			buf += "/";
+			buf += d.getDate()<10 ? "0"+d.getDate() : d.getDate();
+			buf += " ";
+			buf += d.getHours()<10 ? "0"+d.getHours() : d.getHours();
+			buf += ":";
+			buf += d.getMinutes()<10 ? "0"+d.getMinutes() : d.getMinutes();
+			buf += ":";
+			buf += d.getSeconds()<10 ? "0"+d.getSeconds() : d.getSeconds();
 			cTimeNode = document.createElement("span");
 			cTimeNode.setAttribute("class", "commentTime");
-			cTimeNode.innerHTML = buf.getYear()+"/"+buf.getMonth()+"/"+buf.getDate()+" "+buf.getHours()+":"+buf.getMinutes()+":"+buf.getSeconds();
+			cTimeNode.innerHTML = buf;
 			cHeaderNode.appendChild(cTimeNode);
 		}
 

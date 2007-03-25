@@ -9,6 +9,7 @@ $BLOGLANG["message"]["cannotmake"] = "make file failed in the server";
 $BLOGLANG["message"]["checkconf"] = "please check your config file";
 $BLOGLANG["message"]["invalidPath"] = "Invalid path";
 $BLOGLANG["message"]["confTooOld"] = "Your config file is out of date, please update";
+$BLOGLANG["message"]["funcOff"] = "This function is closed. Please contact to administrator.";
 
 $BLOGLANG["mainmenu"]["menuOpt"]["closeAll"] = "CloseAll";
 
