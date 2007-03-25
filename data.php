@@ -203,7 +203,8 @@ case "article":
 		break;
 	}
 
-	$data = file_get_contents($_REQUEST["fpath"]);
+	$fpath = transPathV2R($_REQUEST["fpath"]);
+	$data = file_get_contents($fpath);
 	$offset = strpos($data, "</article>");
 	echo substr($data, 0, $offset);
 
