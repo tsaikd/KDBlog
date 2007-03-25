@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<article>
+<title>標準文章格式</title>
+<macro name="quote" />
+<contents>
+KDBlog 是以檔案系統為基礎的閱讀介面
+讀取的文章必須符合標準的格式
+目前是使用 xml 來制定格式
+<quote><![CDATA[
+<?xml version="1.0" encoding="utf-8" ?>
+<article>
+<title></title>
+<tag></tag>
+<macro name="quote" />
+<macro name="replace">
+<from>&lt;![CDATA[KDBlog]]&gt;</from>
+<to>&lt;![CDATA[<a href="http://blog.tsaikd.org/">KDBlog</a>]]&gt;</to>
+</macro>
+<contents>
+</contents>
+</article>
+]]></quote>
+
+上面是一個標準的文章格式
+包括了所有可用的項目
+現在開始詳細介紹必要的項目
+<hr />
+<quote><![CDATA[
+<?xml version="1.0" encoding="utf-8" ?>
+]]></quote>
+根據 xml 的定義
+需要在文件一開始定義好 xml 的版本及所使用的編碼
+<hr />
+<quote><![CDATA[
+<article>
+</article>
+]]></quote>
+這是文章的 root
+<hr />
+<quote><![CDATA[
+<title>"標題"</title>
+]]></quote>
+你要為你的文章取個名字
+<hr />
+<quote><![CDATA[
+<contents>
+</contents>
+]]></quote>
+這裡就是放文章內容的地方
+如果你的文章包含了一些特殊的字元
+會讓這份 xml 文件變成非法的 xml 文件
+那就需要用 <![CDATA[&lt;![CDATA[  ]]&gt;]]> 這個東西把內容包起來
+看起來就會像這樣
+<quote><![CDATA[
+<contents>&lt;![CDATA[
+]]&gt;</contents>
+]]></quote>
+<hr />
+以上就是必要的項目
+接下來介紹一些選擇性的項目
+<hr />
+<quote><![CDATA[
+<tag>"標籤1"</tag>
+<tag>"標籤2"</tag>
+]]></quote>
+這個放此文章被分類到哪一個標籤
+每篇文章可以有數個標籤
+<hr />
+最後是介紹內建的 macro 功能
+目前有兩個 macro 可以使用
+  * quote
+  * replace
+<hr />
+macro quote 的使用方式：
+宣告文章有使用 macro quote
+<quote><![CDATA[
+<macro name="quote" />
+]]></quote>
+<![CDATA[
+然後在文章內容裡就可以使用
+&lt;quote&gt;引述文章內容&lt;/quote&gt;
+]]>
+
+看起來就會像這樣
+<quote>引述文章內容</quote>
+
+macro quote 裡常會使用 <![CDATA[&lt;![CDATA[  ]]&gt;]]> 以免使得 xml 格式錯誤
+
+<hr />
+macro replace 的使用方式：
+宣告文章有使用 macro replace
+<quote><![CDATA[
+<macro name="replace">
+<from>&lt;![CDATA[KDBlog]]&gt;</from>
+<to>&lt;![CDATA[<a href="http://blog.tsaikd.org/">KDBlog</a>]]&gt;</to>
+</macro>
+]]></quote>
+macro replace 就是把文章內容中
+所有出現過的關鍵字(用 from 包起來)
+用指定的內容取代(用 to 包起來)
+上面那段定義就是說把文章內容中所有 KDBlog 字樣都換成具有超連結顯示的型式
+
+例如原來的文章是這樣的話
+<quote><![CDATA[
+這裡是 KDBlog 的 macro replace 範例顯示
+想進一步的了解 KDBlog
+請參考 http://blog.tsaikd.org/
+]]></quote>
+
+如果有使用 macro replace 就會在文章顯示時自動轉成這樣
+<quote><![CDATA[
+這裡是 <a href="http://blog.tsaikd.org/">KDBlog</a> 的 macro replace 範例顯示
+想進一步的了解 <a href="http://blog.tsaikd.org/">KDBlog</a>
+請參考 http://blog.tsaikd.org/
+]]></quote>
+</contents>
+</article>

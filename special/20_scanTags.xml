@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<article>
+<title>掃瞄文章分類</title>
+<spectype>php</spectype>
+<contents>
+此功能會掃瞄資料目錄中的檔案來建立分類索引
+若資料目錄中的檔案太多時
+可能會需要一段時間
+
+此功能要等到下次瀏覽時才會作用
+
+通常不需要執行此程式
+除非是以下情況
+<ul>
+<li>新增文章</li>
+</ul>
+</contents>
+<code><![CDATA[
+include_once("config.php");
+global $BLOGCONF;
+touch($BLOGCONF["state"]["scanTags"]);
+touch($BLOGCONF["state"]["menutab_All"]);
+]]></code>
+</article>

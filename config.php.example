@@ -1,0 +1,122 @@
+<?php
+############################################################
+# 以下設定為 KDBlog 網頁程式所使用
+############################################################
+
+# (int) 設定檔的版本，當升級時版本有更動會產生訊息
+$BLOGCONF["version"] = 1;
+
+# (string) Blog 的標題
+$BLOGCONF["title"] = "KD's Blog";
+# (string) Blog 的描述
+$BLOGCONF["description"] = "KD 的生活點滴";
+
+# (string URL) Blog 的連結，請用 '/' 結尾
+$BLOGCONF["link"] = "http://blog.tsaikd.org/";
+
+# (int) 一開始顯示的文章數
+$BLOGCONF["numAtStart"] = 2;
+
+# (int) rss 中預設顯示的文章數
+$BLOGCONF["rssDefNum"] = 20;
+
+# (int) rss 中最大顯示的文章數
+$BLOGCONF["rssMaxNum"] = 50;
+
+# (string Lang) 使用的語言檔
+# 可用的語言檔請參考目錄 'lang'
+$BLOGCONF["language"] = "zh_TW";
+
+# (string EMail) Blog 作者的電子郵件信箱
+$BLOGCONF["email"] = "tsaikd@gmail.com";
+
+# 下面五個路徑可用絕對路徑
+# 也可以設定到 http server 沒開放的地方 (資料隱藏)
+# 所有路徑不能重複
+#
+# (string Path) 快取檔的存放路徑 (http server 需可讀寫)
+# 若系統中有使用 tmpfs 且記憶體空間足夠
+# 則可以考慮將快取路徑設置在其中 (ex: "/tmp/kdblog/cache")
+# 若此目錄不存在，系統將會嘗試建立
+# IMPORTANT: 即使不啟用快取，系統仍然需要此目錄
+$BLOGCONF["cachpath"] = "cache";
+# (string Path) 資料的路徑 (http server 需可讀取)
+$BLOGCONF["datapath"] = "data";
+# (string Path) 標簽的路徑 (http server 需可讀寫)
+# 建議將標簽路徑設在 tmpfs 中，以加快速度 (ex: "/tmp/kdblog/tags")
+# 若此目錄不存在，系統將會嘗試建立
+$BLOGCONF["tagspath"] = "tags";
+# (string Path) 評論的路徑 (http server 需可讀寫)
+# 若此目錄不存在，系統將會嘗試建立
+$BLOGCONF["cmntpath"] = "comment";
+# (string Path) 功能檔的路徑 (http server 需可讀取)
+$BLOGCONF["specpath"] = "special";
+
+# 快取設定
+# (bool) 快取控制總開關，若要啟用任一快取，請將此選項啟動
+$BLOGCONF["cache"]["enable"] = true;
+# (bool) 將 css 檔在 index 中展開
+$BLOGCONF["cache"]["cssInside"]["enable"] = true;
+# (bool) 將 javascript 檔在 index 中展開
+$BLOGCONF["cache"]["jsInside"]["enable"] = true;
+# (bool) 快取 menutab_All
+$BLOGCONF["cache"]["menutab_All"]["enable"] = true;
+# (bool) 快取 menutab_Tags
+$BLOGCONF["cache"]["menutab_Tags"]["enable"] = true;
+# (bool) 快取 menutab_Spec
+$BLOGCONF["cache"]["menutab_Spec"]["enable"] = true;
+
+############################################################
+# 以下設定不建議修改，除非你知道你在做什麼
+############################################################
+
+# (string Path) RSS 圖示的路徑
+$BLOGCONF["rss2AllImg"] = "rss2.gif";
+
+# (string Path) 檢查是否需要清除快取
+$BLOGCONF["state"]["cleanCache"] = $BLOGCONF["cachpath"]."/cleanCache.state";
+# (string Path) 檢查是否需要掃瞄分類
+$BLOGCONF["state"]["scanTags"] = $BLOGCONF["cachpath"]."/scanTags.state";
+# (string Path) 檢查是否需要重建分類
+$BLOGCONF["state"]["rebuildTags"] = $BLOGCONF["cachpath"]."/rebuildTags.state";
+
+# cssInside cache config
+$name = "cssInside";
+$BLOGCONF["cache"][$name]["cachePath"] = $BLOGCONF["cachpath"]."/".$name.".cache";
+$BLOGCONF["cache"][$name]["isValidCacheProc"] = "only_true";
+$BLOGCONF["cache"][$name]["showDataProc"] = "showCssData";
+
+# jsInside cache config
+$name = "jsInside";
+$BLOGCONF["cache"][$name]["cachePath"] = $BLOGCONF["cachpath"]."/".$name.".cache";
+$BLOGCONF["cache"][$name]["isValidCacheProc"] = "only_true";
+$BLOGCONF["cache"][$name]["showDataProc"] = "showJsData";
+
+# menutab_All cache config
+$name = "menutab_All";
+$BLOGCONF["cache"][$name]["cachePath"] = $BLOGCONF["cachpath"]."/".$name.".cache";
+$BLOGCONF["cache"][$name]["isValidCacheProc"] = "only_true";
+$BLOGCONF["cache"][$name]["showDataProc"] = "showData_menutab_All";
+
+# menutab_Tags cache config
+$name = "menutab_Tags";
+$BLOGCONF["cache"][$name]["cachePath"] = $BLOGCONF["cachpath"]."/".$name.".cache";
+$BLOGCONF["cache"][$name]["isValidCacheProc"] = "only_true";
+$BLOGCONF["cache"][$name]["showDataProc"] = "showData_menutab_Tags";
+
+# menutab_Spec cache config
+$name = "menutab_Spec";
+$BLOGCONF["cache"][$name]["cachePath"] = $BLOGCONF["cachpath"]."/".$name.".cache";
+$BLOGCONF["cache"][$name]["isValidCacheProc"] = "only_true";
+$BLOGCONF["cache"][$name]["showDataProc"] = "showData_menutab_Spec";
+
+# 設定寫入檔案的權限
+umask(0002);
+
+# 載入語言檔
+include_once("lang/".$BLOGCONF["language"].".php");
+
+# 載入快取函數
+include_once("php/cache.php");
+
+?>

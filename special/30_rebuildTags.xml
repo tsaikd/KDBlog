@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<article>
+<title>重建分類索引</title>
+<spectype>php</spectype>
+<contents>
+此功能會先將分類目錄中的所有索引清除
+再依照資料目錄中的檔案重建分類索引
+若資料目錄中的檔案太多時
+可能會需要一段時間
+
+此功能要等到下次瀏覽時才會作用
+
+通常不需要執行此程式
+除非是以下情況
+<ul>
+<li>分類索引損毀</li>
+<li>修改了資料檔案的分類內容 (移除了某項分類)</li>
+</ul>
+</contents>
+<code><![CDATA[
+include_once("config.php");
+global $BLOGCONF;
+touch($BLOGCONF["state"]["rebuildTags"]);
+touch($BLOGCONF["state"]["menutab_All"]);
+]]></code>
+</article>

@@ -1,0 +1,70 @@
+body {
+	background-color: #d7d8e8;
+}
+
+a, a:visited {
+	color: blue;
+}
+
+.errorMsg {
+	color: red;
+}
+
+#header {
+	background-color: #5d4b97;
+}
+
+#header .title {
+	color: white;
+}
+
+#header .subtitle {
+	color: #0b5;
+}
+
+#mainmenu {
+	background-color: #efefef;
+}
+
+#mainmenu a:hover {
+	color: white;
+	background-color: #5d4b97;
+}
+
+#mainmenuTabs .menutab {
+	color: white;
+	background-color: #888;
+}
+
+#mainmenuTabs .selecting {
+	color: #008;
+	background-color: #ee0;
+}
+
+#mainmenuTabs .selected {
+	color: #008;
+	background-color: #efefef;
+}
+
+#displayArea {
+	background: white;
+}
+
+#displayArea .article .toolbar .selected {
+	color: black;
+	background-color: #dfd;
+}
+
+#displayArea .article .toolbar .button {
+	color: black;
+}
+
+#displayArea .article .toolbar .button:hover {
+	color: white;
+	background-color: #5d4b97;
+}
+
+#displayArea .article .articlemenu .tagsmenu {
+	background-color: #efefef;
+}
+
