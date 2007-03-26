@@ -367,8 +367,6 @@ if ($_REQUEST["fpath"]) {
 	$darray = getRecentArticlePath($BLOGCONF["datapath"], $BLOGCONF["numAtStart"]);
 }
 
-for ($i=0 ; $i<count($darray) ; $i++)
-	$darray[$i] = "data".substr($darray[$i], strlen($BLOGCONF["datapath"]));
 foreach ($darray as $val)
 	echo "showText += \"<div class='article' id='\"+getIdFromPath(\"$val\")+\"' onmouseover='javascript:selectArticle(this)'><\\/div>\";\n";
 echo "showObj.innerHTML = showText;\n";

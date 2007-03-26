@@ -188,6 +188,7 @@ function showArticleItem($fpath) {
 }
 
 header("Content-Type: application/rss+xml");
+// header("Content-Type: text/xml"); // for debug
 header("Pragma: no-cache");
 header("Expires: 0");
 echo '<?xml version="1.0" encoding="utf-8" ?>';
