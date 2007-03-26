@@ -365,6 +365,8 @@ if ($_REQUEST["fpath"]) {
 	$darray = array_unique($darray);
 } else {
 	$darray = getRecentArticlePath($BLOGCONF["datapath"], $BLOGCONF["numAtStart"]);
+	for ($i=0 ; $i<count($darray) ; $i++)
+		$darray[$i] = "data".substr($darray[$i], strlen($BLOGCONF["datapath"]));
 }
 
 foreach ($darray as $val)
