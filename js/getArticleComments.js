@@ -26,11 +26,19 @@ function getArticleComments(xmldoc) {
 		cHeaderNode.setAttribute("class", "commentHeader");
 		cNode.appendChild(cHeaderNode);
 
+		buf = "";
+		attr = node[i].attributes.getNamedItem("user");
+		if (attr)
+			buf = attr.value;
 		attr = node[i].attributes.getNamedItem("ip");
 		if (attr) {
+			if (buf.length)
+				buf = "From: "+buf+" ("+attr.value+")";
+			else
+				buf = "From: "+attr.value;
 			cFromNode = document.createElement("span");
 			cFromNode.setAttribute("class", "commentFrom");
-			cFromNode.innerHTML = "From: "+attr.value;
+			cFromNode.innerHTML = buf;
 			cHeaderNode.appendChild(cFromNode);
 		}
 

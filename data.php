@@ -166,6 +166,26 @@ function isValidCache_menutab_All() {
 	return true;
 }
 
+function isValidCache_menutab_Tags() {
+	global $BLOGCONF;
+
+	if (is_state_old("rebuildTags") || is_state_old("scanTags"))
+		return false;
+
+	include_once("php/getRecentArticlePath.php");
+	$cpath = $BLOGCONF["cache"]["menutab_Tags"]["cachePath"];
+	$farray = getRecentArticlePath($BLOGCONF["datapath"], 2);
+	$statetime = filectime($cpath);
+	foreach ($farray as $path) {
+		if (filectime($path) > $statetime) {
+			set_state_old("scanTags");
+			return false;
+		}
+	}
+
+	return true;
+}
+
 function showData_menutab_All() {
 	logecho("<html>");
 	listDataDir("menuyear", "data", "");
@@ -173,6 +193,23 @@ function showData_menutab_All() {
 }
 
 function showData_menutab_Tags() {
+	global $BLOGCONF;
+
+	if (is_state_old("rebuildTags")) {
+		include_once("php/rm_ex.php");
+		include_once("php/cleanDir.php");
+		include_once("php/rebuildTags.php");
+		cleanDir($BLOGCONF["tagspath"]);
+		rebuildTags($BLOGCONF["datapath"], $BLOGCONF["tagspath"]);
+		touch_state_file("rebuildTags");
+		touch_state_file("scanTags");
+		rm_ex($BLOGCONF["cache"]["menutab_All"]["cachePath"]);
+	} else if (is_state_old("scanTags")) {
+		include_once("php/rebuildTags.php");
+		rebuildTags($BLOGCONF["datapath"], $BLOGCONF["tagspath"]);
+		touch_state_file("scanTags");
+	}
+
 	logecho("<html>");
 	listDataDir("menutags", "tags", "");
 	logecho("</html>");
@@ -304,13 +341,21 @@ case "comment":
 		break;
 	}
 
-	$comment = $_REQUEST["comment"];
-	$comment = str_replace("\\\\", "\\", $comment);
-	$comment = str_replace("\\\"", "\"", $comment);
-	$comment = str_replace("\\'", "'", $comment);
-	$comment = htmlentities($comment);
+	include_once("php/strSafeHtml.php");
+	$comment = strSafeHtml($_REQUEST["comment"]);
+	if (strlen($comment) == 0) {
+		echo "<error type='$ftype' ename='emptyComment'>".$BLOGLANG["comment"]["errmsg"]["emptyComment"]."</error>";
+		echo '</root>';
+		break;
+	}
+
+	if (strlen($_REQUEST["user"]))
+		$user = strSafeHtml($_REQUEST["user"]);
+	else
+		$user = null;
+
 	include_once("php/writeArticleComment.php");
-	writeArticleComment($_REQUEST["fpath"], $comment);
+	writeArticleComment($_REQUEST["fpath"], $comment, $user);
 	echo '</root>';
 	break;
 default:

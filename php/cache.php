@@ -30,6 +30,12 @@ function is_state_old($name) {
 		return false;
 }
 
+function set_state_old($name) {
+	global $BLOGCONF;
+	$path = $BLOGCONF["state"][$name];
+	touch($path);
+}
+
 function logecho($text) {
 	global $logfp;
 	if ($logfp)

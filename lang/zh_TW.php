@@ -40,5 +40,6 @@ $BLOGLANG["special"]["noSpecCode"] = "程式檔案沒有程式碼";
 
 $BLOGLANG["comment"]["errmsg"]["reg_num_check"] = "驗證碼輸入錯誤";
 $BLOGLANG["comment"]["errmsg"]["multiComment"] = "不能同時評論兩篇文章";
+$BLOGLANG["comment"]["errmsg"]["emptyComment"] = "空的評論內容";
 
 ?>

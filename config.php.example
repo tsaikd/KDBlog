@@ -3,7 +3,7 @@
 # 以下設定為 KDBlog 網頁程式所使用
 ############################################################
 # (int) 設定檔的版本，當升級時版本有更動會產生訊息
-$BLOGCONF["version"] = 3;
+$BLOGCONF["version"] = 4;
 
 # (string) Blog 的標題
 $BLOGCONF["title"] = "KD's Blog";
@@ -14,7 +14,7 @@ $BLOGCONF["description"] = "KD 的生活點滴";
 $BLOGCONF["link"] = "http://blog.tsaikd.org/";
 
 # (int) 一開始顯示的文章數
-$BLOGCONF["numAtStart"] = 2;
+$BLOGCONF["numAtStart"] = 3;
 
 # (int) rss 中預設顯示的文章數
 $BLOGCONF["rssDefNum"] = 20;
@@ -105,13 +105,13 @@ $BLOGCONF["cache"][$name]["showDataProc"] = "showJsData";
 # menutab_All cache config
 $name = "menutab_All";
 $BLOGCONF["cache"][$name]["cachePath"] = $BLOGCONF["cachpath"]."/".$name.".cache";
-$BLOGCONF["cache"][$name]["isValidCacheProc"] = "only_true";
+$BLOGCONF["cache"][$name]["isValidCacheProc"] = "isValidCache_menutab_All";
 $BLOGCONF["cache"][$name]["showDataProc"] = "showData_menutab_All";
 
 # menutab_Tags cache config
 $name = "menutab_Tags";
 $BLOGCONF["cache"][$name]["cachePath"] = $BLOGCONF["cachpath"]."/".$name.".cache";
-$BLOGCONF["cache"][$name]["isValidCacheProc"] = "only_true";
+$BLOGCONF["cache"][$name]["isValidCacheProc"] = "isValidCache_menutab_Tags";
 $BLOGCONF["cache"][$name]["showDataProc"] = "showData_menutab_Tags";
 
 # menutab_Spec cache config

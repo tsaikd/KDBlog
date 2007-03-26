@@ -2,13 +2,15 @@
 $start_time[0] = time();
 $start_time[1] = (double)microtime();
 
+header('Content-type: text/html; charset=utf-8');
+
 if (!file_exists("config.php")) {
 	echo "Please setup your config file first!\n";
 	echo "See 'config.php.example' for more information.\n";
 	exit;
 }
 include_once("config.php");
-if ($BLOGCONF["version"] < 3) {
+if ($BLOGCONF["version"] < 4) {
 	echo $BLOGLANG["message"]["confTooOld"];
 	exit;
 }
@@ -55,29 +57,6 @@ $name = "cleanCache";
 if (is_state_old($name)) {
 	cleanCache();
 	touch_state_file($name);
-}
-
-$name = "rebuildTags";
-if (is_state_old($name)) {
-	include_once("php/rm_ex.php");
-	include_once("php/cleanDir.php");
-	include_once("php/rebuildTags.php");
-	cleanDir($BLOGCONF["tagspath"]);
-	rebuildTags($BLOGCONF["datapath"], $BLOGCONF["tagspath"]);
-	touch_state_file($name);
-	touch_state_file("scanTags");
-	rm_ex($BLOGCONF["cache"]["menutab_All"]["cachePath"]);
-	rm_ex($BLOGCONF["cache"]["menutab_Tags"]["cachePath"]);
-}
-
-$name = "scanTags";
-if (is_state_old($name)) {
-	include_once("php/rm_ex.php");
-	include_once("php/rebuildTags.php");
-	rebuildTags($BLOGCONF["datapath"], $BLOGCONF["tagspath"]);
-	touch_state_file($name);
-	rm_ex($BLOGCONF["cache"]["menutab_All"]["cachePath"]);
-	rm_ex($BLOGCONF["cache"]["menutab_Tags"]["cachePath"]);
 }
 
 ?>

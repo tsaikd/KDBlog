@@ -1,7 +1,7 @@
 <?php
 include_once("php/getArticleCommentPath.php");
 
-function writeArticleComment($vArticlePath, $comment) {
+function writeArticleComment($vArticlePath, $comment, $user=null) {
 	$comment = str_replace("\r\n", "\n", $comment);
 
 	$aPath = getArticleCommentPath($vArticlePath, 0x01);
@@ -16,7 +16,12 @@ function writeArticleComment($vArticlePath, $comment) {
 
 	$fp = fopen($fCommentPath, "w");
 	fwrite($fp, '<?xml version="1.0" encoding="utf-8" ?>'."\n");
-	fwrite($fp, '<comment ip="'.$_SERVER["REMOTE_ADDR"].'" time="'.$_SERVER["REQUEST_TIME"].'"><![CDATA['."\n");
+	fwrite($fp, '<comment');
+	fwrite($fp, ' ip="'.$_SERVER["REMOTE_ADDR"].'"');
+	fwrite($fp, ' time="'.$_SERVER["REQUEST_TIME"].'"');
+	if ($user != null)
+	fwrite($fp, ' user="'.$user.'"');
+	fwrite($fp, '><![CDATA['."\n");
 	fwrite($fp, $comment."\n");
 	fwrite($fp, ']]></comment>'."\n");
 	fclose($fp);

@@ -18,8 +18,6 @@
 </ul>
 </contents>
 <code><![CDATA[
-include_once("config.php");
-global $BLOGCONF;
-touch($BLOGCONF["state"]["cleanCache"]);
+set_state_old("cleanCache");
 ]]></code>
 </article>

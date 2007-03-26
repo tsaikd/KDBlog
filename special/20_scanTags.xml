@@ -16,9 +16,6 @@
 </ul>
 </contents>
 <code><![CDATA[
-include_once("config.php");
-global $BLOGCONF;
-touch($BLOGCONF["state"]["scanTags"]);
-touch($BLOGCONF["state"]["menutab_All"]);
+set_state_old("scanTags");
 ]]></code>
 </article>

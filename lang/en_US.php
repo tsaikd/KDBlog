@@ -40,5 +40,6 @@ $BLOGLANG["special"]["noSpecCode"] = "No code found in specFile";
 
 $BLOGLANG["comment"]["errmsg"]["reg_num_check"] = "Invalid check number";
 $BLOGLANG["comment"]["errmsg"]["multiComment"] = "You cannot comment more than 1 article at the same time";
+$BLOGLANG["comment"]["errmsg"]["emptyComment"] = "Empty comment";
 
 ?>

@@ -18,9 +18,8 @@
 </ul>
 </contents>
 <code><![CDATA[
-include_once("config.php");
 global $BLOGCONF;
-touch($BLOGCONF["state"]["rebuildTags"]);
-touch($BLOGCONF["state"]["menutab_All"]);
+set_state_old("rebuildTags");
+rm_ex($BLOGCONF["cache"]["menutab_All"]["cachePath"]);
 ]]></code>
 </article>

@@ -7,13 +7,16 @@ function reload_security(obj) {
 	else
 		obj.attr_num++;
 	obj.src = "security.php?num="+obj.attr_num;
+
+	findChildByName(obj.parentNode, "reg_num_check").value = "";
 }
 
 function send_comment() {
 	var obj = document.getElementById("comment_form");
-	var comment = URLencode(obj.elements[0].value);
-	var reg_num_check = obj.elements[1].value;
-	var submit = obj.elements[2];
+	var user = URLencode(obj.elements[0].value);
+	var comment = URLencode(obj.elements[1].value);
+	var reg_num_check = URLencode(obj.elements[2].value);
+	var submit = obj.elements[3];
 	var id = getNodeId(obj.parentNode);
 	var path = getPathFromId(id);
 
@@ -33,9 +36,7 @@ function send_comment() {
 
 				if (xmldoc.getElementsByTagName('error').length) {
 					node = xmldoc.getElementsByTagName('error')[0];
-					var attr = node.attributes.getNamedItem("ename");
-					if (attr.value == "reg_num_check")
-						reload_security();
+					reload_security();
 					alert(getNodeText(node));
 
 					obj.disabled = submit.disabled = false;
@@ -50,7 +51,7 @@ function send_comment() {
 	ajax.open("POST", "data.php", true);
 	ajax.setRequestHeader("Content-Type", 
 		"application/x-www-form-urlencoded; charset=utf-8");
-	ajax.send("ftype=comment&comment="+comment+"&reg_num_check="+reg_num_check+"&fpath="+path);
+	ajax.send("ftype=comment&user="+user+"&comment="+comment+"&reg_num_check="+reg_num_check+"&fpath="+path);
 }
 
 // in Opera 9, modify article contents with innerHTML will destroy javascript
@@ -82,11 +83,15 @@ function commentArticle(id) {
 
 		var showText = "";
 
+		showText += "ID: <input name='user' type='text' /><br />";
 		showText += "<textarea name='comment' rows='8' cols='60'></textarea><br />";
 		showText += "<img id='comment_img' src='security.php' onclick='javascript:reload_security()' />";
 		showText += "<input name='reg_num_check' type='text' size='4' maxlength='4' />";
 		showText += "<input type='submit' value='"+blog.lang.button.submit+"' />";
 		node.innerHTML = showText;
+
+		scrollToArticle(node);
+		findChildByName(node, "user").focus();
 	}
 }
 
