@@ -143,7 +143,7 @@ function showArticleItem($fpath) {
 
 	$xmlkey = "contents";
 	if ($index[$xmlkey]) {
-		echo "<description><![CDATA[";
+		echo "<description><![CDATA[<pre>";
 
 		$c = count($index[$xmlkey]);
 		$c = $index[$xmlkey][$c-1];
@@ -181,7 +181,7 @@ function showArticleItem($fpath) {
 				break;
 			}
 		}
-		echo "]]></description>";
+		echo "</pre>]]></description>";
 	}
 
 	echo "</item>";
