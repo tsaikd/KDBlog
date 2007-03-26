@@ -57,4 +57,15 @@ function transPathR2V($path, $type) {
 	return $vpath.substr($path, $chklen);
 }
 
+function transPathVTag2VData($path) {
+	$pinfo = explode("/", $path);
+	$f = array_shift($pinfo);
+	if ($f != "tags")
+		return "";
+
+	array_shift($pinfo);
+	$res = "data/".implode("/", $pinfo);
+	return $res;
+}
+
 ?>

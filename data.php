@@ -80,12 +80,17 @@ function listDataDir($type, $vpath, $parentType) {
 			}
 
 			$xml = xml_parser_create("UTF-8");
+			xml_parser_set_option($xml, XML_OPTION_CASE_FOLDING, 0);
 			xml_parse_into_struct($xml, file_get_contents("$path/$f"), $vals, $index);
 			xml_parser_free($xml);
 
-			$title = $vals[$index["TITLE"][0]]["value"];
+			$title = $vals[$index["title"][0]]["value"];
 
-			logecho("<a onfocus='this.blur()' class='$type' href='javascript:showArticle(\"$vpath/$f\", 1)'>".$f[0].$f[1]);
+			if (substr($vpath, 0, 5) == "tags/")
+				$dataVPath = transPathVTag2VData("$vpath/$f");
+			else
+				$dataVPath = "$vpath/$f";
+			logecho("<a onfocus='this.blur()' class='$type' href='javascript:showArticle(\"$dataVPath\", 1)'>".$f[0].$f[1]);
 			if ($title)
 				logecho(" - ".$title);
 			logecho("</a>\n");
