@@ -103,6 +103,13 @@ ul, li {
 	border: none;
 }
 
+#menures .version {
+	float: right;
+	clear: left;
+	margin-right: 1em;
+	font-size: 0.8em;
+}
+
 #displayArea {
 	border: 1px solid #888;
 	width: 79%;

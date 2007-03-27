@@ -344,7 +344,10 @@ if (file_exists($BLOGCONF["rss2AllImg"]))
 	echo "<img alt='".$BLOGLANG["mainmenu"]["menures"]["rss2All"]."' src='".$BLOGCONF["rss2AllImg"]."' />";
 else
 	echo $BLOGLANG["mainmenu"]["menures"]["rss2All"];
-?></a><br />
+?></a><br /><?php
+if ($BLOGCONF["func"]["version"]["enable"])
+	echo "<span class='version'>KDBlog rev".$BLOGCONF["version"]."</span><br />";
+?>
 			</div>
 		</div>
 		<div id="displayArea"></div>
