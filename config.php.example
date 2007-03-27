@@ -63,6 +63,9 @@ $BLOGCONF["specpath"] = "special";
 ############################################################
 # 功能設定
 ############################################################
+# (bool) 是否顯示 KDBlog 版本訊息
+$BLOGCONF["func"]["version"]["enable"] = true;
+
 # (bool) 是否啟用評論功能
 $BLOGCONF["func"]["comment"]["enable"] = true;
 
