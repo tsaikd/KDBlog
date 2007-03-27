@@ -10,43 +10,13 @@ if (!file_exists("config.php")) {
 	exit;
 }
 include_once("config.php");
-if ($BLOGCONF["version"] < 4) {
+if ($BLOGCONF["version"] < 5) {
 	echo $BLOGLANG["message"]["confTooOld"];
 	exit;
 }
 
-/*
-flag:
-	0x01: read
-	0x02: write
-	0x04: try to create if not exists
-*/
-function check_necessary_dir($cname, $flag) {
-	global $BLOGCONF;
-	global $BLOGLANG;
-	$path = $BLOGCONF[$cname];
-
-	if ($flag & 0x04) {
-		if (!file_exists($path)) {
-			include_once("php/mkdir_ex.php");
-
-			@mkdir_ex($path) or
-				die("'".$cname."' ".$BLOGLANG["message"]["cannotmake"].", ".$BLOGLANG["message"]["checkconf"]);
-		}
-	}
-
-	if ($flag & 0x01) {
-		is_readable($path) or
-			die("'".$cname."' ".$BLOGLANG["message"]["cannotread"].", ".$BLOGLANG["message"]["checkconf"]);
-	}
-
-	if ($flag & 0x02) {
-		is_writable($path) or
-			die("'".$cname."' ".$BLOGLANG["message"]["cannotwrite"].", ".$BLOGLANG["message"]["checkconf"]);
-	}
-}
-
 # Checking server state
+include_once("php/check_necessary_dir.php");
 check_necessary_dir("cachpath", 0x07);
 check_necessary_dir("datapath", 0x01);
 check_necessary_dir("tagspath", 0x07);
@@ -97,6 +67,8 @@ blog.conf = {};
 blog.conf.currentArticle = null;
 
 blog.conf.func = {};
+blog.conf.init = null;
+
 blog.conf.func.comment = {};
 blog.conf.func.comment.enable = <?=$BLOGCONF["func"]["comment"]["enable"]?"true":"false"?>;
 
@@ -325,32 +297,8 @@ function showArticle(fpath, position) {
 		"application/x-www-form-urlencoded; charset=utf-8");
 	ajax.send("ftype=article&fpath="+fpath);
 }
-		</script>
-	</head>
-	<body>
-		<div id="header"><a onfocus='this.blur()' class='title' href="<?=$BLOGCONF["link"]?>"><?=$BLOGCONF["title"]?></a><span class="subtitle"><?=$BLOGCONF["description"]?></span></div>
-		<div id="mainmenu">
-			<div id="menuOpt">
-				<a onfocus='this.blur()' href="javascript:closeArticle('displayArea')"><?=$BLOGLANG["mainmenu"]["menuOpt"]["closeAll"]?></a>
-			</div>
-			<div id="mainmenuTabs">
-				<a onfocus='this.blur()' id="menutab_All" class="menutab" href="javascript:chgMenuTag('menutab_All')"><?=$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_All"]?></a>
-				<a onfocus='this.blur()' id="menutab_Tags" class="menutab" href="javascript:chgMenuTag('menutab_Tags')"><?=$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Tags"]?></a>
-				<a onfocus='this.blur()' id="menutab_Spec" class="menutab" href="javascript:chgMenuTag('menutab_Spec')"><?=$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Spec"]?></a>
-			</div>
-			<div id="menutabContents"></div>
-			<div id="menures">
-				<a href="rss2.php?feed=all"><?php
-if (file_exists($BLOGCONF["rss2AllImg"]))
-	echo "<img alt='".$BLOGLANG["mainmenu"]["menures"]["rss2All"]."' src='".$BLOGCONF["rss2AllImg"]."' />";
-else
-	echo $BLOGLANG["mainmenu"]["menures"]["rss2All"];
-?></a><br />
-			</div>
-		</div>
-		<div id="displayArea"></div>
-		<script type="text/javascript">
-function init() {
+
+blog.conf.init = function () {
 	chgMenuTag("menutab_All");
 
 	var showText = "";
@@ -376,16 +324,43 @@ foreach ($darray as $val)
 	echo "showArticle(\"$val\", 0x30);\n";
 ?>
 }
-
-init();
 		</script>
-	</body>
-</html>
-
+	</head>
+	<body>
+		<div id="header"><a onfocus='this.blur()' class='title' href="<?=$BLOGCONF["link"]?>"><?=$BLOGCONF["title"]?></a><span class="subtitle"><?=$BLOGCONF["description"]?></span></div>
+		<div id="mainmenu">
+			<div id="menuOpt">
+				<a onfocus='this.blur()' href="javascript:closeArticle('displayArea')"><?=$BLOGLANG["mainmenu"]["menuOpt"]["closeAll"]?></a>
+			</div>
+			<div id="mainmenuTabs">
+				<a onfocus='this.blur()' id="menutab_All" class="menutab" href="javascript:chgMenuTag('menutab_All')"><?=$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_All"]?></a>
+				<a onfocus='this.blur()' id="menutab_Tags" class="menutab" href="javascript:chgMenuTag('menutab_Tags')"><?=$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Tags"]?></a>
+				<a onfocus='this.blur()' id="menutab_Spec" class="menutab" href="javascript:chgMenuTag('menutab_Spec')"><?=$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Spec"]?></a>
+			</div>
+			<div id="menutabContents"></div>
+			<div id="menures">
+				<a href="rss2.php?feed=all"><?php
+if (file_exists($BLOGCONF["rss2AllImg"]))
+	echo "<img alt='".$BLOGLANG["mainmenu"]["menures"]["rss2All"]."' src='".$BLOGCONF["rss2AllImg"]."' />";
+else
+	echo $BLOGLANG["mainmenu"]["menures"]["rss2All"];
+?></a><br />
+			</div>
+		</div>
+		<div id="displayArea"></div>
+		<script type="text/javascript">
+			if (blog.conf.init)
+				blog.conf.init();
+		</script>
+<?php
+if ($BLOGCONF["extraFooter"])
+	foreach ($BLOGCONF["extraFooter"] as $f)
+		include($f);
+?>
 <?php
 $stop_time[0] = time();
 $stop_time[1] = (double)microtime();
-
 //printf("PHP use %d + %f sec", $stop_time[0]-$start_time[0], $stop_time[1]-$start_time[1]);
-
 ?>
+	</body>
+</html>
