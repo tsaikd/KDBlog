@@ -11,6 +11,7 @@ $BLOGLANG["message"]["invalidPath"] = "Invalid path";
 $BLOGLANG["message"]["confTooOld"] = "Your config file is out of date, please update";
 $BLOGLANG["message"]["funcOff"] = "This function is closed. Please contact to administrator.";
 
+$BLOGLANG["mainmenu"]["menuOpt"]["googleOpt"] = "only search this site";
 $BLOGLANG["mainmenu"]["menuOpt"]["closeAll"] = "CloseAll";
 
 $BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_All"] = "All";

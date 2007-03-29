@@ -34,6 +34,17 @@ function transPathR2V($path, $type) {
 	global $BLOGCONF;
 
 	switch ($type) {
+	case "auto":
+		$res = transPathR2V($path, "data");
+		if ($res != "")
+			return $res;
+		$res = transPathR2V($path, "tags");
+		if ($res != "")
+			return $res;
+		$res = transPathR2V($path, "special");
+		if ($res != "")
+			return $res;
+		return "";
 	case "data":
 		$chkpath = $BLOGCONF["datapath"];
 		$vpath = "data";
@@ -57,6 +68,13 @@ function transPathR2V($path, $type) {
 	return $vpath.substr($path, $chklen);
 }
 
+function transPathV2Id($vpath) {
+	$path = $vpath;
+	$path = str_replace("/", "__", $path);
+	$path = str_replace(".", "____", $path);
+	return $path;
+}
+
 function transPathVTag2VData($path) {
 	$pinfo = explode("/", $path);
 	$f = array_shift($pinfo);
@@ -66,6 +84,11 @@ function transPathVTag2VData($path) {
 	array_shift($pinfo);
 	$res = "data/".implode("/", $pinfo);
 	return $res;
+}
+
+function transPathVData2Date($path) {
+	$buf = explode("/", $path);
+	return $buf[1]."/".$buf[2]."/".substr($buf[3], 0, 2);
 }
 
 ?>

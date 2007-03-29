@@ -3,7 +3,7 @@
 # 以下設定為 KDBlog 網頁程式所使用
 ############################################################
 # (int) 設定檔的版本，當升級時版本有更動會產生訊息
-$BLOGCONF["version"] = 5;
+$BLOGCONF["version"] = 6;
 
 # (string) Blog 的標題
 $BLOGCONF["title"] = "KD's Blog";
@@ -69,6 +69,12 @@ $BLOGCONF["func"]["version"]["enable"] = true;
 # (bool) 是否啟用評論功能
 $BLOGCONF["func"]["comment"]["enable"] = true;
 
+# (bool) 是否顯示 Google 搜尋列
+$BLOGCONF["func"]["google"]["enable"] = true;
+
+# (bool) 是否提供文章列表給搜尋引擎
+$BLOGCONF["func"]["searchbot"]["enable"] = true;
+
 ############################################################
 # 快取設定
 ############################################################
@@ -84,6 +90,10 @@ $BLOGCONF["cache"]["menutab_All"]["enable"] = true;
 $BLOGCONF["cache"]["menutab_Tags"]["enable"] = true;
 # (bool) 快取 menutab_Spec
 $BLOGCONF["cache"]["menutab_Spec"]["enable"] = true;
+# (bool) 快取文章顯示結果
+$BLOGCONF["cache"]["articleHtml"]["enable"] = true;
+# (bool) 快取 rss 文章顯示結果
+$BLOGCONF["cache"]["articleRss"]["enable"] = true;
 
 ############################################################
 # 以下設定不建議修改，除非你知道你在做什麼

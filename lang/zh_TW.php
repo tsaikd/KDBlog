@@ -11,6 +11,7 @@ $BLOGLANG["message"]["invalidPath"] = "無效的路徑";
 $BLOGLANG["message"]["confTooOld"] = "設定檔版本太舊，請更新設定檔";
 $BLOGLANG["message"]["funcOff"] = "此功能已經關閉，請聯繫管理人員";
 
+$BLOGLANG["mainmenu"]["menuOpt"]["googleOpt"] = "只尋找站內文章";
 $BLOGLANG["mainmenu"]["menuOpt"]["closeAll"] = "關閉所有文章";
 
 $BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_All"] = "全部";

@@ -10,7 +10,7 @@ if (!file_exists("config.php")) {
 	exit;
 }
 include_once("config.php");
-if ($BLOGCONF["version"] < 5) {
+if ($BLOGCONF["version"] < 6) {
 	echo $BLOGLANG["message"]["confTooOld"];
 	exit;
 }
@@ -306,22 +306,18 @@ blog.conf.init = function () {
 	showObj = document.getElementById("displayArea");
 
 <?php
-include_once("php/getRecentArticlePath.php");
-
-if ($_REQUEST["fpath"]) {
-	$darray = explode(",", $_REQUEST["fpath"]);
-	$darray = array_unique($darray);
-} else {
+if (!$_REQUEST["fpath"]) {
+	include_once("php/getRecentArticlePath.php");
 	$darray = getRecentArticlePath($BLOGCONF["datapath"], $BLOGCONF["numAtStart"]);
 	for ($i=0 ; $i<count($darray) ; $i++)
 		$darray[$i] = "data".substr($darray[$i], strlen($BLOGCONF["datapath"]));
-}
 
-foreach ($darray as $val)
-	echo "showText += \"<div class='article' id='\"+getIdFromPath(\"$val\")+\"' onmouseover='javascript:selectArticle(this)'><\\/div>\";\n";
-echo "showObj.innerHTML = showText;\n";
-foreach ($darray as $val)
-	echo "showArticle(\"$val\", 0x30);\n";
+	foreach ($darray as $val)
+		echo "showText += \"<div class='article' id='\"+getIdFromPath(\"$val\")+\"' onmouseover='javascript:selectArticle(this)'><\\/div>\";\n";
+	echo "showObj.innerHTML = showText;\n";
+	foreach ($darray as $val)
+		echo "showArticle(\"$val\", 0x30);\n";
+}
 ?>
 }
 		</script>
@@ -330,6 +326,13 @@ foreach ($darray as $val)
 		<div id="header"><a onfocus='this.blur()' class='title' href="<?=$BLOGCONF["link"]?>"><?=$BLOGCONF["title"]?></a><span class="subtitle"><?=$BLOGCONF["description"]?></span></div>
 		<div id="mainmenu">
 			<div id="menuOpt">
+<?php if ($BLOGCONF["func"]["google"]["enable"]) : ?>
+<form class="googleForm" method="get" action="http://www.google.com/search">
+<input class="googleOpt" type="checkbox" name="sitesearch" value="<?=$_SERVER["HTTP_HOST"]?>" checked /><?=$BLOGLANG["mainmenu"]["menuOpt"]["googleOpt"]?><br />
+<input class="googleInput" type="text" name="q" />
+<input class="googleSubmit" type="submit" value="Google" />
+</form>
+<?php endif ?>
 				<a onfocus='this.blur()' href="javascript:closeArticle('displayArea')"><?=$BLOGLANG["mainmenu"]["menuOpt"]["closeAll"]?></a>
 			</div>
 			<div id="mainmenuTabs">
@@ -345,12 +348,23 @@ if (file_exists($BLOGCONF["rss2AllImg"]))
 else
 	echo $BLOGLANG["mainmenu"]["menures"]["rss2All"];
 ?></a><br /><?php
+if ($BLOGCONF["func"]["searchbot"]["enable"])
+	echo "<a href='data.php?ftype=searchbot' style='display: none;'>search bot only</a>";
 if ($BLOGCONF["func"]["version"]["enable"])
 	echo "<span class='version'>KDBlog rev".$BLOGCONF["version"]."</span><br />";
 ?>
 			</div>
 		</div>
-		<div id="displayArea"></div>
+		<div id="displayArea"><?
+if ($_REQUEST["fpath"]) {
+	$darray = explode(",", $_REQUEST["fpath"]);
+	$darray = array_unique($darray);
+
+	include_once("php/showArticle.php");
+	foreach ($darray as $val)
+		getCacheArticle($val, "html");
+}
+?></div>
 		<script type="text/javascript">
 			if (blog.conf.init)
 				blog.conf.init();

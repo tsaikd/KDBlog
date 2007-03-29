@@ -85,6 +85,40 @@ function getCache($name) {
 	}
 }
 
+/*
+$cInfo (array) include:
+	"enable"			=> bool
+	"cachePath"			=> string path
+	"isValidCacheProc"	=> function callback with param $cInfo (option)
+	"showDataProc"		=> function callback with param $cInfo
+*/
+function getGenCache($cInfo) {
+	global $BLOGCONF;
+	global $logfp;
+
+	if (!$cInfo["enable"])
+		return $cInfo["showDataProc"]($cInfo);
+
+	if (!file_exists($cInfo["cachePath"]))
+		$doCache = true;
+	else if ($cInfo["isValidCacheProc"] && !$cInfo["isValidCacheProc"]($cInfo))
+		$doCache = true;
+	else
+		$doCache = false;
+
+	if ($doCache) {
+		$tmpfname = tempnam($BLOGCONF["cachpath"], "_cache_tmp_");
+		$logfp = fopen($tmpfname, "w");
+		$cInfo["showDataProc"]($cInfo);
+		fclose($logfp);
+		rename($tmpfname, $cInfo["cachePath"]);
+		$logfp = null;
+		touch($cInfo["cachePath"]);
+	} else {
+		readfile($cInfo["cachePath"]);
+	}
+}
+
 function cleanCache() {
 	include_once("php/rm_ex.php");
 	global $BLOGCONF;

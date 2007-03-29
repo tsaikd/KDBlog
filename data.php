@@ -264,14 +264,14 @@ case "article":
 
 	break;
 case "menutab_All":
-	header("Content-Type: text/html");
+	header('Content-type: text/html; charset=utf-8');
 	$firstmonth = true;
 	getCache($ftype);
 	break;
 case "menutab_All_forceYear":
 	$vpath = $_REQUEST["fpath"];
 	if (isValidPath($vpath)) {
-		header("Content-Type: text/html");
+		header('Content-type: text/html; charset=utf-8');
 		echo "<html>";
 		listDataDir("menumonth", $vpath, $_REQUEST["parentType"]);
 		echo "</html>";
@@ -282,7 +282,7 @@ case "menutab_All_forceYear":
 case "menutab_All_forceMonth":
 	$vpath = $_REQUEST["fpath"];
 	if (isValidPath($vpath)) {
-		header("Content-Type: text/html");
+		header('Content-type: text/html; charset=utf-8');
 		echo "<html>";
 		listDataDir("menuday", $vpath, $_REQUEST["parentType"]);
 		echo "</html>";
@@ -291,13 +291,13 @@ case "menutab_All_forceMonth":
 	}
 	break;
 case "menutab_Tags":
-	header("Content-Type: text/html");
+	header('Content-type: text/html; charset=utf-8');
 	getCache($ftype);
 	break;
 case "menutab_Tags_forceTag":
 	$vpath = $_REQUEST["fpath"];
 	if (isValidPath($vpath)) {
-		header("Content-Type: text/html");
+		header('Content-type: text/html; charset=utf-8');
 		echo "<html>";
 		listDataDir("menuyear", $vpath, $_REQUEST["parentType"]);
 		echo "</html>";
@@ -306,7 +306,7 @@ case "menutab_Tags_forceTag":
 	}
 	break;
 case "menutab_Spec":
-	header("Content-Type: text/html");
+	header('Content-type: text/html; charset=utf-8');
 	getCache($ftype);
 	break;
 case "runspec":
@@ -363,8 +363,26 @@ case "comment":
 	writeArticleComment($_REQUEST["fpath"], $comment, $user);
 	echo '</root>';
 	break;
+case "searchbot":
+	header('Content-type: text/html; charset=utf-8');
+	echo "<html>";
+
+	if (!$BLOGCONF["func"]["searchbot"]["enable"]) {
+		echo "<error type='$ftype' ename='funcOff'>".$BLOGLANG["message"]["funcOff"]."</error>";
+		echo '</html>';
+		break;
+	}
+
+	include_once("php/getRecentArticlePath.php");
+	$farray = getRecentArticlePath($BLOGCONF["datapath"], -1);
+	foreach ($farray as $fpath) {
+		$vpath = transPathR2V($fpath, "data");
+		echo "<a href='".$BLOGCONF["link"]."?fpath=".$vpath."'>$vpath</a><br />\n";
+	}
+	echo "</html>";
+	break;
 default:
-	header("Content-Type: text/html");
+	header('Content-type: text/html; charset=utf-8');
 	echo "<html>$ftype: Not implement</html>";
 	break;
 }

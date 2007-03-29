@@ -44,6 +44,10 @@ ul, li {
 	border-bottom: solid 1px #888;
 }
 
+#menuOpt .googleForm .googleInput {
+	width: 60%;
+}
+
 #mainmenuTabs {
 	padding: 0.3em 0.3em;
 }
