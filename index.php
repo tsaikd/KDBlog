@@ -327,7 +327,7 @@ if (!$_REQUEST["fpath"]) {
 		<div id="mainmenu">
 			<div id="menuOpt">
 <?php if ($BLOGCONF["func"]["google"]["enable"]) : ?>
-<form class="googleForm" method="get" action="http://www.google.com/search">
+<form class="googleForm" target="_blank" method="get" action="http://www.google.com/search">
 <input class="googleOpt" type="checkbox" name="sitesearch" value="<?=$_SERVER["HTTP_HOST"]?>" checked /><?=$BLOGLANG["mainmenu"]["menuOpt"]["googleOpt"]?><br />
 <input class="googleInput" type="text" name="q" />
 <input class="googleSubmit" type="submit" value="Google" />
