@@ -359,12 +359,12 @@ if (count($farray)) {
 		$fname = basename($f);
 		$buf = explode("_", $fname);
 		$dataVPath = "data/$fdir/".$buf[0]."_".$buf[1].".xml";
-		echo "<a onfocus='this.blur()' class='menuday' href='javascript:showArticle(\"$dataVPath\", 1)'>".substr($dataVPath, 5, -4)." (".(int)$buf[2].")</a><br />";
+		echo "<a onfocus='javascript:this.blur()' class='menuday' href='javascript:showArticle(\"$dataVPath\", 1)'>".substr($dataVPath, 5, -4)." (".(int)$buf[2].")</a><br />";
 	}
 	echo "<hr />";
 }
 ?>
-				<a href="rss2.php?feed=all"><?php
+				<a onfocus='javascript:this.blur()' href="rss2.php?feed=all"><?php
 if (file_exists($BLOGCONF["rss2AllImg"]))
 	echo "<img alt='".$BLOGLANG["mainmenu"]["menures"]["rss2All"]."' src='".$BLOGCONF["rss2AllImg"]."' />";
 else
