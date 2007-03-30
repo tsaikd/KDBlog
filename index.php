@@ -10,7 +10,7 @@ if (!file_exists("config.php")) {
 	exit;
 }
 include_once("config.php");
-if ($BLOGCONF["version"] < 7) {
+if ($BLOGCONF["version"] < 8) {
 	echo $BLOGLANG["message"]["confTooOld"];
 	exit;
 }
@@ -66,6 +66,7 @@ blog.lang.comment.errmsg = {};
 blog.lang.comment.errmsg.multiComment = "<?=$BLOGLANG["comment"]["errmsg"]["multiComment"]?>";
 
 blog.conf = {};
+blog.conf.link = "<?=$BLOGCONF["link"]?>";
 blog.conf.currentArticle = null;
 
 blog.conf.func = {};
@@ -198,6 +199,7 @@ function showArticle(fpath, position) {
 					var macroBuf;
 					var macroReplace = new Array();
 					var macro = new Array();
+					var rtoday = blog.conf.link+"misc/"+transPath2Date(fpath);
 					node = xmldoc.getElementsByTagName('macro');
 					for (i=0 ; i<node.length ; i++) {
 						bufNode = node[i];
@@ -205,6 +207,7 @@ function showArticle(fpath, position) {
 						if (buf == "replace") {
 							if (bufNode.childNodes.length < 2)
 								continue;
+							today = bufNode.getAttribute("today");
 							macroBuf = new Array();
 							for (j=0 ; j<bufNode.childNodes.length ; j++) {
 								buf = bufNode.childNodes[j];
@@ -212,6 +215,8 @@ function showArticle(fpath, position) {
 									macroBuf[0] = (getNodeText(buf));
 								} else if (buf.nodeName == "to") {
 									macroBuf[1] = (getNodeText(buf));
+									if (today)
+										macroBuf[1] = macroBuf[1].replace(today, rtoday);
 								}
 							}
 							if (macroBuf.length == 2)

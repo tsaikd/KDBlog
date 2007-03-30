@@ -3,7 +3,7 @@
 # 以下設定為 KDBlog 網頁程式所使用
 ############################################################
 # (int) 設定檔的版本，當升級時版本有更動會產生訊息
-$BLOGCONF["version"] = 7;
+$BLOGCONF["version"] = 8;
 
 # (string) Blog 的標題
 $BLOGCONF["title"] = "KD's Blog";

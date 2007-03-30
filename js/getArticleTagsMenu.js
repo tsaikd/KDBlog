@@ -27,9 +27,8 @@ function getArticleTagsMenu(xmldoc, fpath) {
 	}
 
 	// show date
-	buf = fpath.split("/");
-	if (buf[3] && buf[2] && buf[1]) {
-		buf = buf[1]+"/"+buf[2]+"/"+buf[3].charAt(0)+buf[3].charAt(1);
+	buf = transPath2Date(fpath);
+	if (buf) {
 		bufNode = document.createElement("div");
 		bufNode.setAttribute("class", "articledate");
 		bufNode.innerHTML = buf;

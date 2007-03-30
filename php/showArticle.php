@@ -115,12 +115,14 @@ function showArticleItem($fpath, $type) {
 	$amacroReplace = array();
 	$xmlkey = "macro";
 	if ($index[$xmlkey]) {
+		$rtoday = $BLOGCONF["link"]."misc/".transPath2Date($fpath);
 		// macro define must be complete type, exclude "replace"
 		foreach ($index[$xmlkey] as $i) {
 			$macroName = $vals[$i]["attributes"]["name"];
 			if ($macroName == "replace") {
 				if ($vals[$i]["type"] != "open")
 					continue;
+				$today = $vals[$i]["attributes"]["today"];
 				$i++;
 				$aBuf = array();
 				while ($vals[$i]["type"] != "close") {
@@ -128,6 +130,8 @@ function showArticleItem($fpath, $type) {
 						$aBuf[0] = $vals[$i]["value"];
 					} else if ($vals[$i]["tag"] == "to") {
 						$aBuf[1] = $vals[$i]["value"];
+						if ($today)
+							$aBuf[1] = str_replace($today, $rtoday, $aBuf[1]);
 					}
 					$i++;
 				}

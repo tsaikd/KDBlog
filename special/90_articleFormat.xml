@@ -113,5 +113,25 @@ macro replace 就是把文章內容中
 想進一步的了解 <a href="http://blog.tsaikd.org/">KDBlog</a>
 請參考 http://blog.tsaikd.org/
 ]]></quote>
+
+macro replace 有個額外的自定變數 "today" 可以使用
+使用方式, 先在 macro 宣告區加上 today="%today%"
+然後在 to 的欄位中就可以使用 %today% 這個變數
+設定的變數將會自動轉成 "[你的站址]/misc/[文章的日期]"
+today 的值可以改成任意的合法字串 (ex: today="KDBlog/TODAY/KDBlog")
+例如用以下的設定
+<quote><![CDATA[
+<macro name="replace" today="%today%">
+<from>&lt;![CDATA[Image1]]&gt;</from>
+<to>&lt;![CDATA[<img src="%today%/image1.jpg" />]]&gt;</to>
+</macro>
+]]></quote>
+
+則顯示的字串會變成
+<quote><![CDATA[
+<img src="http://blog.tsaikd.org/misc/2007/03/31/image1.jpg" />
+]]></quote>
+上面的日期只是一個例子
+實際上會依照文章的日期
 </contents>
 </article>

@@ -126,8 +126,8 @@ ul, li {
 
 #displayArea .article {
 	font-size: 1.1em;
-	border-top: solid 1px;
-	padding: 0.2em 0.5em;
+	border: solid 3px #d7d8e8;
+	padding: 0.4em 0.7em;
 }
 
 #displayArea .selected {

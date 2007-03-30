@@ -93,6 +93,14 @@ function transPathVTag2VData($path) {
 	return $res;
 }
 
+function transPath2Date($path) {
+	$buf = explode("/", $path);
+	$len = count($buf);
+	if ($len < 3)
+		return "";
+	return $buf[$len-3]."/".$buf[$len-2]."/".substr($buf[$len-1], 0, 2);
+}
+
 function transPathVData2Date($path) {
 	$buf = explode("/", $path);
 	return $buf[1]."/".$buf[2]."/".substr($buf[3], 0, 2);
