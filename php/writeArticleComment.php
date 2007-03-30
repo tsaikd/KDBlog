@@ -2,6 +2,8 @@
 include_once("php/getArticleCommentPath.php");
 
 function writeArticleComment($vArticlePath, $comment, $user=null) {
+	global $BLOGCONF;
+
 	$comment = str_replace("\r\n", "\n", $comment);
 
 	$aPath = getArticleCommentPath($vArticlePath, 0x01);
@@ -25,6 +27,20 @@ function writeArticleComment($vArticlePath, $comment, $user=null) {
 	fwrite($fp, $comment."\n");
 	fwrite($fp, ']]></comment>'."\n");
 	fclose($fp);
+
+	// Set index
+	include_once("php/smartSymLink.php");
+	$indexPath = $BLOGCONF["func"]["comment"]["indexByTime"]."/".$_SERVER["REQUEST_TIME"];
+	smartSymLink($fCommentPath, $indexPath);
+
+	// Check index number
+	include_once("php/rm_ex.php");
+	include_once("php/getDir.php");
+	$dpath = $BLOGCONF["func"]["comment"]["indexByTime"];
+	$buf = getDir($dpath);
+	$iCount = count($buf) - $BLOGCONF["func"]["comment"]["indexNum"];
+	for ($i=0 ; $i<$iCount ; $i++)
+		rm_ex($dpath."/".$buf[$i]);
 }
 
 ?>

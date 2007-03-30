@@ -1,5 +1,8 @@
 <?php
 function smartSymLink($fpath, $tpath) {
+	if (file_exists($tpath))
+		return false;
+
 	$tbuf = explode("/", $tpath);
 
 	if ($tbuf[0] == "")

@@ -21,11 +21,13 @@ $BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Spec"] = "功能";
 $BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Spec_Msg"]["nospec"] = "找不到額外的功能";
 $BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Spec_Msg"]["notitle"] = "在檔案中找不到標題";
 
+$BLOGLANG["mainmenu"]["menures"]["cmntidx"] = "最近的評論";
 $BLOGLANG["mainmenu"]["menures"]["rss2All"] = "訂閱 RSS2";
 
 $BLOGLANG["article"]["toolbar"]["close"] = "關閉";
 $BLOGLANG["article"]["toolbar"]["fold"] = "收合";
 $BLOGLANG["article"]["toolbar"]["unfold"] = "展開";
+$BLOGLANG["article"]["toolbar"]["permalink"] = "連結";
 $BLOGLANG["article"]["toolbar"]["comment"] = "評論";
 
 $BLOGLANG["article"]["tags"] = "標籤";

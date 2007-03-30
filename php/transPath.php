@@ -75,6 +75,13 @@ function transPathV2Id($vpath) {
 	return $path;
 }
 
+function transPathId2V($id) {
+	$res = $id;
+	$res = str_replace("____", ".", $res);
+	$res = str_replace("__", "/", $res);
+	return $res;
+}
+
 function transPathVTag2VData($path) {
 	$pinfo = explode("/", $path);
 	$f = array_shift($pinfo);

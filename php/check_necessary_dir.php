@@ -4,11 +4,16 @@ flag:
 	0x01: read
 	0x02: write
 	0x04: try to create if not exists
+	0x08: $cname is a local path
 */
 function check_necessary_dir($cname, $flag) {
 	global $BLOGCONF;
 	global $BLOGLANG;
-	$path = $BLOGCONF[$cname];
+
+	if ($flag & 0x08)
+		$path = $cname;
+	else
+		$path = $BLOGCONF[$cname];
 
 	if ($flag & 0x04) {
 		if (!file_exists($path)) {

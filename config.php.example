@@ -3,7 +3,7 @@
 # 以下設定為 KDBlog 網頁程式所使用
 ############################################################
 # (int) 設定檔的版本，當升級時版本有更動會產生訊息
-$BLOGCONF["version"] = 6;
+$BLOGCONF["version"] = 7;
 
 # (string) Blog 的標題
 $BLOGCONF["title"] = "KD's Blog";
@@ -68,6 +68,11 @@ $BLOGCONF["func"]["version"]["enable"] = true;
 
 # (bool) 是否啟用評論功能
 $BLOGCONF["func"]["comment"]["enable"] = true;
+# (int) 要保留幾份最近的 comment index
+$BLOGCONF["func"]["comment"]["indexNum"] = 100;
+# (int) 在主選單顯示幾篇最近的 comment (不可超過 index 數)
+# 0 表示不顯示
+$BLOGCONF["func"]["comment"]["showNum"] = 5;
 
 # (bool) 是否顯示 Google 搜尋列
 $BLOGCONF["func"]["google"]["enable"] = true;
@@ -135,6 +140,9 @@ $name = "menutab_Spec";
 $BLOGCONF["cache"][$name]["cachePath"] = $BLOGCONF["cachpath"]."/".$name.".cache";
 $BLOGCONF["cache"][$name]["isValidCacheProc"] = "only_true";
 $BLOGCONF["cache"][$name]["showDataProc"] = "showData_menutab_Spec";
+
+# (string Path) comment index by time directory path
+$BLOGCONF["func"]["comment"]["indexByTime"] = $BLOGCONF["cmntpath"]."/.indexByTime";
 
 # 設定寫入檔案的權限
 umask(0002);

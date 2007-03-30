@@ -21,11 +21,13 @@ $BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Spec"] = "Spec";
 $BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Spec_Msg"]["nospec"] = "No special file found";
 $BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Spec_Msg"]["notitle"] = "No title in the file";
 
+$BLOGLANG["mainmenu"]["menures"]["cmntidx"] = "Recent comments";
 $BLOGLANG["mainmenu"]["menures"]["rss2All"] = "RSS2 Feed";
 
 $BLOGLANG["article"]["toolbar"]["close"] = "Close";
 $BLOGLANG["article"]["toolbar"]["fold"] = "fold";
 $BLOGLANG["article"]["toolbar"]["unfold"] = "unfold";
+$BLOGLANG["article"]["toolbar"]["permalink"] = "permalink";
 $BLOGLANG["article"]["toolbar"]["comment"] = "comment";
 
 $BLOGLANG["article"]["tags"] = "tags";

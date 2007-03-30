@@ -10,7 +10,7 @@ if (!file_exists("config.php")) {
 	exit;
 }
 include_once("config.php");
-if ($BLOGCONF["version"] < 6) {
+if ($BLOGCONF["version"] < 7) {
 	echo $BLOGLANG["message"]["confTooOld"];
 	exit;
 }
@@ -22,6 +22,7 @@ check_necessary_dir("datapath", 0x01);
 check_necessary_dir("tagspath", 0x07);
 check_necessary_dir("cmntpath", 0x07);
 check_necessary_dir("specpath", 0x01);
+check_necessary_dir($BLOGCONF["func"]["comment"]["indexByTime"], 0x0F);
 
 $name = "cleanCache";
 if (is_state_old($name)) {
@@ -48,6 +49,7 @@ blog.lang.article.toolbar = {};
 blog.lang.article.toolbar.close = "<?=$BLOGLANG["article"]["toolbar"]["close"]?>";
 blog.lang.article.toolbar.fold = "<?=$BLOGLANG["article"]["toolbar"]["fold"]?>";
 blog.lang.article.toolbar.unfold = "<?=$BLOGLANG["article"]["toolbar"]["unfold"]?>";
+blog.lang.article.toolbar.permalink = "<?=$BLOGLANG["article"]["toolbar"]["permalink"]?>";
 blog.lang.article.toolbar.comment = "<?=$BLOGLANG["article"]["toolbar"]["comment"]?>";
 
 blog.lang.article.tags = "<?=$BLOGLANG["article"]["tags"]?>";
@@ -71,6 +73,7 @@ blog.conf.init = null;
 
 blog.conf.func.comment = {};
 blog.conf.func.comment.enable = <?=$BLOGCONF["func"]["comment"]["enable"]?"true":"false"?>;
+blog.conf.func.comment.img_num = 0;
 
 if (!Array.prototype.indexOf) { // for IE6
 	Array.prototype.indexOf = function(val, fromIndex) {
@@ -125,6 +128,7 @@ position:
 function showArticle(fpath, position) {
 	unSelectAllArticle();
 
+	var buf;
 	var node;
 	var id = getIdFromPath(fpath);
 	var showObj = document.getElementById(id);
@@ -162,11 +166,14 @@ function showArticle(fpath, position) {
 	var ajax = createAjax();
 	ajax.onreadystatechange = function() {
 		if (ajax.readyState == 1) {
-			showObj.innerHTML = "<div class='loading'>"+blog.lang.article.loading+"<\/div>";
+			buf = "<div name='toolbar' class='toolbar'>";
+			buf += "<a name='close' onfocus='this.blur()' class='button' href='javascript:closeArticle(\""+id+"\")'>"+blog.lang.article.toolbar.close+"<\/a>";
+			buf += "<\/div>";
+			buf += "<div class='loading'>"+blog.lang.article.loading+"<\/div>";
+			showObj.innerHTML = buf;
 		} else if (ajax.readyState == 4) {
 			if (ajax.status == 200) {
 				var i, j;
-				var buf;
 				var bufNode;
 				var xmldoc = ajax.responseXML;
 
@@ -330,7 +337,7 @@ if (!$_REQUEST["fpath"]) {
 <form class="googleForm" target="_blank" method="get" action="http://www.google.com/search">
 <input class="googleOpt" type="checkbox" name="sitesearch" value="<?=$_SERVER["HTTP_HOST"]?>" checked /><?=$BLOGLANG["mainmenu"]["menuOpt"]["googleOpt"]?><br />
 <input class="googleInput" type="text" name="q" />
-<input class="googleSubmit" type="submit" value="Google" />
+<input class="googleSubmit" type="submit" value="Google" onfocus="javascript:this.blur()" />
 </form>
 <?php endif ?>
 				<a onfocus='this.blur()' href="javascript:closeArticle('displayArea')"><?=$BLOGLANG["mainmenu"]["menuOpt"]["closeAll"]?></a>
@@ -342,6 +349,21 @@ if (!$_REQUEST["fpath"]) {
 			</div>
 			<div id="menutabContents"></div>
 			<div id="menures">
+<?php
+include_once("php/getRecentCommentPath.php");
+$farray = getRecentCommentPath($BLOGCONF["func"]["comment"]["showNum"]);
+if (count($farray)) {
+	echo $BLOGLANG["mainmenu"]["menures"]["cmntidx"].":<br />";
+	foreach ($farray as $f) {
+		$fdir = dirname($f);
+		$fname = basename($f);
+		$buf = explode("_", $fname);
+		$dataVPath = "data/$fdir/".$buf[0]."_".$buf[1].".xml";
+		echo "<a onfocus='this.blur()' class='menuday' href='javascript:showArticle(\"$dataVPath\", 1)'>".substr($dataVPath, 5, -4)." (".(int)$buf[2].")</a><br />";
+	}
+	echo "<hr />";
+}
+?>
 				<a href="rss2.php?feed=all"><?php
 if (file_exists($BLOGCONF["rss2AllImg"]))
 	echo "<img alt='".$BLOGLANG["mainmenu"]["menures"]["rss2All"]."' src='".$BLOGCONF["rss2AllImg"]."' />";

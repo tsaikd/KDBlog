@@ -2,13 +2,14 @@ function reload_security(obj) {
 	// because some browser will cache the src url
 	if (obj == undefined)
 		obj = document.getElementById("comment_img");
-	if (!obj.attr_num)
-		obj.attr_num = 1;
-	else
-		obj.attr_num++;
-	obj.src = "security.php?num="+obj.attr_num;
+	blog.conf.func.comment.img_num++;
+	obj.src = "security.php?num="+blog.conf.func.comment.img_num;
 
-	findChildByName(obj.parentNode, "reg_num_check").value = "";
+	obj = findChildByName(obj.parentNode, "reg_num_check");
+	if (obj) {
+		obj.value = "";
+		obj.focus();
+	}
 }
 
 function send_comment() {
@@ -91,6 +92,7 @@ function commentArticle(id) {
 		node.innerHTML = showText;
 
 		scrollToArticle(node);
+		reload_security();
 		findChildByName(node, "user").focus();
 	}
 }
