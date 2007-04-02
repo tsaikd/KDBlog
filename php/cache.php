@@ -36,11 +36,17 @@ function set_state_old($name) {
 	touch($path);
 }
 
-function logecho($text) {
+/*
+flag:
+	0x01: log
+	0x02: echo
+*/
+function logecho($text, $flag=0x03) {
 	global $logfp;
-	if ($logfp)
+	if ($logfp && ($flag & 0x01))
 		fwrite($logfp, $text);
-	echo $text;
+	if ($flag & 0x02)
+		echo $text;
 }
 
 function isCache($name) {

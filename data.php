@@ -377,9 +377,41 @@ case "searchbot":
 	$farray = getRecentArticlePath($BLOGCONF["datapath"], -1);
 	foreach ($farray as $fpath) {
 		$vpath = transPathR2V($fpath, "data");
-		echo "<a href='".$BLOGCONF["link"]."?fpath=".$vpath."'>$vpath</a><br />\n";
+		echo "<a href='".$BLOGCONF["link"].$vpath."'>$vpath</a><br />\n";
 	}
 	echo "</html>";
+	break;
+case "sitemap":
+	if (!$BLOGCONF["func"]["sitemap"]["enable"]) {
+		header('Content-type: text/html; charset=utf-8');
+		echo '<html>';
+		echo "<error type='$ftype' ename='funcOff'>".$BLOGLANG["message"]["funcOff"]."</error>";
+		echo '</html>';
+		break;
+	}
+
+	header("Content-Type: text/xml");
+	echo '<?xml version="1.0" encoding="utf-8" ?>';
+	echo '<urlset xmlns="http://www.google.com/schemas/sitemap/0.84">';
+
+	echo '<url>';
+	echo '<loc>'.$BLOGCONF["link"].'</loc>';
+	$ftime = filectime("index.php");
+	echo '<lastmod>'.strftime("%Y-%m-%d", $ftime).'</lastmod>';
+	echo '</url>';
+
+	include_once("php/getRecentArticlePath.php");
+	$farray = getRecentArticlePath($BLOGCONF["datapath"], -1);
+	foreach ($farray as $fpath) {
+		$vpath = transPathR2V($fpath, "data");
+		echo '<url>';
+		echo '<loc>'.$BLOGCONF["link"].$vpath.'</loc>';
+		$ftime = filectime($fpath);
+		echo '<lastmod>'.strftime("%Y-%m-%d", $ftime).'</lastmod>';
+		echo '</url>';
+	}
+
+	echo '</urlset>';
 	break;
 default:
 	header('Content-type: text/html; charset=utf-8');

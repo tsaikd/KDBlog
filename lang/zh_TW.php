@@ -3,6 +3,7 @@
 $BLOGLANG["button"]["submit"] = "確定";
 
 $BLOGLANG["message"]["warn"] = "警告";
+$BLOGLANG["message"]["error"] = "錯誤";
 $BLOGLANG["message"]["cannotread"] = "檔案無法讀取";
 $BLOGLANG["message"]["cannotwrite"] = "檔案無法寫入";
 $BLOGLANG["message"]["cannotmake"] = "檔案無法建立";
@@ -10,6 +11,8 @@ $BLOGLANG["message"]["checkconf"] = "請檢查設定檔是否正確";
 $BLOGLANG["message"]["invalidPath"] = "無效的路徑";
 $BLOGLANG["message"]["confTooOld"] = "設定檔版本太舊，請更新設定檔";
 $BLOGLANG["message"]["funcOff"] = "此功能已經關閉，請聯繫管理人員";
+
+$BLOGLANG["server"]["movehtaccess"] = "由於權限不足，請自行將 '%s' 移動到 '%s' ，否則程式將會發生問題";
 
 $BLOGLANG["mainmenu"]["menuOpt"]["googleOpt"] = "只尋找站內文章";
 $BLOGLANG["mainmenu"]["menuOpt"]["closeAll"] = "關閉所有文章";

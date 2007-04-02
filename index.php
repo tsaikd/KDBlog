@@ -1,6 +1,8 @@
 <?php
+/*
 $start_time[0] = time();
 $start_time[1] = (double)microtime();
+*/
 
 header('Content-type: text/html; charset=utf-8');
 
@@ -10,12 +12,12 @@ if (!file_exists("config.php")) {
 	exit;
 }
 include_once("config.php");
-if ($BLOGCONF["version"] < 8) {
+if ($BLOGCONF["version"] < 9) {
 	echo $BLOGLANG["message"]["confTooOld"];
 	exit;
 }
 
-# Checking server state
+# Check server state
 include_once("php/check_necessary_dir.php");
 check_necessary_dir("cachpath", 0x07);
 check_necessary_dir("datapath", 0x01);
@@ -24,6 +26,29 @@ check_necessary_dir("cmntpath", 0x07);
 check_necessary_dir("specpath", 0x01);
 check_necessary_dir($BLOGCONF["func"]["comment"]["indexByTime"], 0x0F);
 
+# Check .htaccess to rewrite url
+if (!file_exists(".htaccess")) {
+	include_once("php/logHtaccess.php");
+	if (is_writeable(".")) {
+		$logfp = fopen(".htaccess", "w");
+		logHtaccess();
+		fclose($logfp);
+		unset($logfp);
+	} else {
+		$fpath = $BLOGCONF["cachpath"]."/htaccess.cache";
+		$logfp = fopen($fpath, "w");
+		printf($BLOGLANG["message"]["error"].": ".$BLOGLANG["server"]["movehtaccess"]
+			, $fpath
+			, dirname($_SERVER["SCRIPT_FILENAME"])."/.htaccess"
+		);
+		logHtaccess();
+		fclose($logfp);
+		unset($logfp);
+		exit();
+	}
+}
+
+# Check need to clean cache or not
 $name = "cleanCache";
 if (is_state_old($name)) {
 	cleanCache();
@@ -36,6 +61,7 @@ if (is_state_old($name)) {
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title><?=$BLOGCONF["title"]?></title>
+		<base href="<?=$BLOGCONF["link"]?>" />
 		<link rel="alternate" type="application/rss+xml" title="<?=$BLOGCONF["title"]?>" href="rss2.php?feed=all" />
 		<script type="text/javascript">
 blog = {};
@@ -340,7 +366,7 @@ if (!$_REQUEST["fpath"]) {
 			<div id="menuOpt">
 <?php if ($BLOGCONF["func"]["google"]["enable"]) : ?>
 <form class="googleForm" target="_blank" method="get" action="http://www.google.com/search">
-<input class="googleOpt" type="checkbox" name="sitesearch" value="<?=$_SERVER["HTTP_HOST"]?>" checked /><?=$BLOGLANG["mainmenu"]["menuOpt"]["googleOpt"]?><br />
+<input class="googleOpt" type="checkbox" name="sitesearch" value="<?=$BLOGCONF["blogurl"]["sitesearch"]?>" checked /><?=$BLOGLANG["mainmenu"]["menuOpt"]["googleOpt"]?><br />
 <input class="googleInput" type="text" name="q" />
 <input class="googleSubmit" type="submit" value="Google" onfocus="javascript:this.blur()" />
 </form>
@@ -376,7 +402,7 @@ else
 	echo $BLOGLANG["mainmenu"]["menures"]["rss2All"];
 ?></a><br /><?php
 if ($BLOGCONF["func"]["searchbot"]["enable"])
-	echo "<a href='data.php?ftype=searchbot' style='display: none;'>search bot only</a>";
+	echo "<a href='searchbot/' style='display: none;'>search bot only</a>";
 if ($BLOGCONF["func"]["version"]["enable"])
 	echo "<span class='version'>KDBlog rev".$BLOGCONF["version"]."</span><br />";
 ?>
@@ -402,9 +428,11 @@ if ($BLOGCONF["extraFooter"])
 		include($f);
 ?>
 <?php
+/*
 $stop_time[0] = time();
 $stop_time[1] = (double)microtime();
-//printf("PHP use %d + %f sec", $stop_time[0]-$start_time[0], $stop_time[1]-$start_time[1]);
+printf("PHP use %d + %f sec", $stop_time[0]-$start_time[0], $stop_time[1]-$start_time[1]);
+*/
 ?>
 	</body>
 </html>

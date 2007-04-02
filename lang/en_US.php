@@ -3,6 +3,7 @@
 $BLOGLANG["button"]["submit"] = "Submit";
 
 $BLOGLANG["message"]["warn"] = "WARN";
+$BLOGLANG["message"]["error"] = "ERROR";
 $BLOGLANG["message"]["cannotread"] = "it's not readable in the server";
 $BLOGLANG["message"]["cannotwrite"] = "it's not writable in the server";
 $BLOGLANG["message"]["cannotmake"] = "make file failed in the server";
@@ -10,6 +11,8 @@ $BLOGLANG["message"]["checkconf"] = "please check your config file";
 $BLOGLANG["message"]["invalidPath"] = "Invalid path";
 $BLOGLANG["message"]["confTooOld"] = "Your config file is out of date, please update";
 $BLOGLANG["message"]["funcOff"] = "This function is closed. Please contact to administrator.";
+
+$BLOGLANG["server"]["movehtaccess"] = "Because of permission deny, please move from '%s' to '%s' by yourself";
 
 $BLOGLANG["mainmenu"]["menuOpt"]["googleOpt"] = "only search this site";
 $BLOGLANG["mainmenu"]["menuOpt"]["closeAll"] = "CloseAll";
