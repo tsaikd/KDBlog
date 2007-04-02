@@ -82,6 +82,7 @@ $BLOGCONF["func"]["google"]["enable"] = true;
 
 # (bool) 是否提供文章列表給搜尋引擎
 $BLOGCONF["func"]["searchbot"]["enable"] = true;
+$BLOGCONF["func"]["sitemap"]["enable"] = true;
 
 ############################################################
 # 快取設定
@@ -107,14 +108,22 @@ $BLOGCONF["cache"]["articleRss"]["enable"] = true;
 # 以下設定不建議修改，除非你知道你在做什麼
 ############################################################
 
+# (string) Blog 主機的 domain
+# (ex: www.tsaikd.org)
+$BLOGCONF["blogurl"]["domain"] = $_SERVER["HTTP_HOST"];
 # (string URL) Blog 主機的網址，用 '/' 結尾
-$BLOGCONF["blogurl"]["server"] = "http://".$_SERVER["HTTP_HOST"]."/";
+# (ex: http://www.tsaikd.org/)
+$BLOGCONF["blogurl"]["server"] = "http://".$BLOGCONF["blogurl"]["domain"]."/";
 # (string URL) Blog 首頁的網址，相對於主機網址，用 '/' 開頭 '/' 結尾
+# (ex: /~tsaikd/blog/)
 $BLOGCONF["blogurl"]["blog"] = dirname($_SERVER["PHP_SELF"])."/";
 
 # 自動偵測 Blog 的網址
 if (!$BLOGCONF["link"])
 	$BLOGCONF["link"] = $BLOGCONF["blogurl"]["server"].substr($BLOGCONF["blogurl"]["blog"], 1);
+
+# (string) Google sitesearch
+$BLOGCONF["blogurl"]["sitesearch"] = $BLOGCONF["link"];
 
 # (string Path) 檢查是否需要清除快取
 $BLOGCONF["state"]["cleanCache"] = $BLOGCONF["cachpath"]."/cleanCache.state";
