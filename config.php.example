@@ -117,6 +117,8 @@ $BLOGCONF["blogurl"]["server"] = "http://".$BLOGCONF["blogurl"]["domain"]."/";
 # (string URL) Blog 首頁的網址，相對於主機網址，用 '/' 開頭 '/' 結尾
 # (ex: /~tsaikd/blog/)
 $BLOGCONF["blogurl"]["blog"] = dirname($_SERVER["PHP_SELF"])."/";
+if ($BLOGCONF["blogurl"]["blog"] == "//")
+	$BLOGCONF["blogurl"]["blog"] = "/";
 
 # 自動偵測 Blog 的網址
 if (!$BLOGCONF["link"])
