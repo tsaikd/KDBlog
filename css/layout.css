@@ -183,6 +183,10 @@ ul, li {
 	padding-left: 1em;
 }
 
+#displayArea .article .contents pre {
+	overflow: auto;
+}
+
 #displayArea .article .comments {
 	border-top: solid 1px #aaa;
 }

@@ -117,9 +117,14 @@ function getGenCache($cInfo) {
 		$logfp = fopen($tmpfname, "w");
 		$cInfo["showDataProc"]($cInfo);
 		fclose($logfp);
-		rename($tmpfname, $cInfo["cachePath"]);
 		$logfp = null;
-		touch($cInfo["cachePath"]);
+
+		if (filesize($tmpfname)) {
+			rename($tmpfname, $cInfo["cachePath"]);
+			touch($cInfo["cachePath"]);
+		} else {
+			unlink($tmpfname);
+		}
 	} else {
 		readfile($cInfo["cachePath"]);
 	}

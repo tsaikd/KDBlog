@@ -112,7 +112,7 @@ function listDataDir($type, $vpath, $parentType) {
 				if (!$title)
 					$title = $BLOGLANG["message"]["warn"].": '$f' ".$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Spec_Msg"]["notitle"];
 
-				logecho("<a class='$type' href='javascript:showArticle(\"$vpath/$f\", 1)'>$title</a>");
+				logecho("<a onfocus='this.blur()' class='$type' href='javascript:showArticle(\"$vpath/$f\", 1)'>$title</a>");
 			}
 		}
 		break;
@@ -236,32 +236,9 @@ case "article":
 		break;
 	}
 
-	header("Content-Type: text/xml");
-
-	include_once("php/getArticleCommentPath.php");
-	$aCommentPath = getArticleCommentPath($_REQUEST["fpath"]);
-	if (count($aCommentPath) == 0) {
-		readfile($fpath);
-		break;
-	}
-
-	$fpath = transPathV2R($_REQUEST["fpath"]);
-	$data = file_get_contents($fpath);
-	$offset = strpos($data, "</article>");
-	echo substr($data, 0, $offset);
-
-	foreach ($aCommentPath as $v) {
-		$data = file_get_contents($v);
-		$iStart = strpos($data, "<comment");
-		if ($iStart == false)
-			continue;
-		$iEnd = strpos($data, "</comment>", $iStart);
-		if ($iEnd == false)
-			continue;
-		echo substr($data, $iStart, $iEnd-$iStart+10)."\n";
-	}
-	echo "</article>\n";
-
+	header('Content-type: text/html; charset=utf-8');
+	include_once("php/showArticle.php");
+	getCacheArticle($_REQUEST["fpath"], "html");
 	break;
 case "menutab_All":
 	header('Content-type: text/html; charset=utf-8');

@@ -102,6 +102,8 @@ function transPath2Date($path) {
 }
 
 function transPathVData2Date($path) {
+	if (substr($path, 0, 5) != "data/")
+		return "";
 	$buf = explode("/", $path);
 	return $buf[1]."/".$buf[2]."/".substr($buf[3], 0, 2);
 }

@@ -85,7 +85,7 @@ function commentArticle(id) {
 		var showText = "";
 
 		showText += "ID: <input name='user' type='text' /><br />";
-		showText += "<textarea name='comment' rows='8' cols='60'></textarea><br />";
+		showText += "<textarea name='comment' rows='8' cols='60'><\/textarea><br />";
 		showText += "<img id='comment_img' src='security.php' onclick='javascript:reload_security()' />";
 		showText += "<input name='reg_num_check' type='text' size='4' maxlength='4' />";
 		showText += "<input type='submit' value='"+blog.lang.button.submit+"' />";

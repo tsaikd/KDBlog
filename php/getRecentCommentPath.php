@@ -11,9 +11,12 @@ function getRecentCommentPath($numLimit) {
 	$cplen = strlen($cpath);
 	$dpath = $BLOGCONF["func"]["comment"]["indexByTime"];
 	$darray = getDir($dpath);
+	rsort($darray);
 	foreach($darray as $f) {
 		$fpath = realpath($dpath."/".$f);
 		if (!$fpath)
+			continue;
+		if (substr($fpath, -4) != ".xml")
 			continue;
 
 		$fpath = substr($fpath, $cplen+1);

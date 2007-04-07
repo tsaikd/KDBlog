@@ -65,7 +65,7 @@ function getArticleComments(xmldoc) {
 		buf = getNodeText(node[i]);
 		cDataNode = document.createElement("div");
 		cDataNode.setAttribute("class", "commentData");
-		cDataNode.innerHTML = "<pre>"+buf+"</pre>";
+		cDataNode.innerHTML = "<pre>"+buf+"<\/pre>";
 		cNode.appendChild(cDataNode);
 
 		obj.appendChild(cNode);

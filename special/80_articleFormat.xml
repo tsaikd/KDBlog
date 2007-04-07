@@ -118,7 +118,6 @@ macro replace 有個額外的自定變數 "today" 可以使用
 使用方式, 先在 macro 宣告區加上 today="%today%"
 然後在 to 的欄位中就可以使用 %today% 這個變數
 設定的變數將會自動轉成 "[你的站址]/misc/[文章的日期]"
-today 的值可以改成任意的合法字串 (ex: today="KDBlog/TODAY/KDBlog")
 例如用以下的設定
 <quote><![CDATA[
 <macro name="replace" today="%today%">
@@ -133,5 +132,17 @@ today 的值可以改成任意的合法字串 (ex: today="KDBlog/TODAY/KDBlog")
 ]]></quote>
 上面的日期只是一個例子
 實際上會依照文章的日期
+
+today 的值可以改成任意的合法字串
+例如改成 today="KDBlog/TODAY/KDBlog" 的話
+to 欄位也要跟著改
+其輸出結果同上
+<quote><![CDATA[
+<macro name="replace" today="KDBlog/TODAY/KDBlog">
+<from>&lt;![CDATA[Image1]]&gt;</from>
+<to>&lt;![CDATA[<img src="KDBlog/TODAY/KDBlog/image1.jpg" />]]&gt;</to>
+</macro>
+]]></quote>
+
 </contents>
 </article>

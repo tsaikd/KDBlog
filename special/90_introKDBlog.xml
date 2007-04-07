@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<article>
+<title>KDBlog 簡介</title>
+<macro name="quote" />
+<macro name="replace">
+<from><![CDATA["KDBlog"]]></from>
+<to><![CDATA[<a href="http://blog.tsaikd.org/">KDBlog</a>]]></to>
+</macro>
+<macro name="replace">
+<from><![CDATA[WordPress]]></from>
+<to><![CDATA[<a href="http://wordpress.org/">WordPress</a>]]></to>
+</macro>
+<macro name="replace">
+<from><![CDATA[MovableType]]></from>
+<to><![CDATA[<a href="http://www.movabletype.org/">MovableType</a>]]></to>
+</macro>
+<macro name="replace">
+<from><![CDATA[Google]]></from>
+<to><![CDATA[<a href="http://www.google.com.tw/">Google</a>]]></to>
+</macro>
+<macro name="replace">
+<from><![CDATA[MySQL]]></from>
+<to><![CDATA[<a href="http://www.mysql.com/">MySQL</a>]]></to>
+</macro>
+<macro name="replace">
+<from><![CDATA[Gentoo]]></from>
+<to><![CDATA[<a href="http://www.gentoo.org/">Gentoo</a>]]></to>
+</macro>
+<macro name="replace">
+<from><![CDATA[JackieKu]]></from>
+<to><![CDATA[<a href="http://ku.myftp.org/">JackieKu</a>]]></to>
+</macro>
+<macro name="replace">
+<from><![CDATA[GSiteMap]]></from>
+<to><![CDATA[<a href="http://www.google.com/webmasters/sitemaps/">Sitemap</a>]]></to>
+</macro>
+<macro name="replace">
+<from><![CDATA["用 Office 2007 寫 Blog"]]></from>
+<to><![CDATA[<a href="http://blog.tsaikd.org/index.php?fpath=data/2007/04/05_1.xml">"用 Office 2007 寫 Blog"</a>]]></to>
+</macro>
+<macro name="replace">
+<from><![CDATA[KDBlog_svn]]></from>
+<to><![CDATA[<a href="http://svn.tsaikd.org/tsaikd/KDBlog/">這裡</a>]]></to>
+</macro>
+<macro name="replace">
+<from><![CDATA[Subversion]]></from>
+<to><![CDATA[<a href="http://subversion.tigris.org/">Subversion</a>]]></to>
+</macro>
+<macro name="replace">
+<from><![CDATA[清除快取目錄]]></from>
+<to><![CDATA[<a href="javascript:showArticle('special/10_cleanCache.xml', 1)">清除快取目錄</a>]]></to>
+</macro>
+<macro name="replace">
+<from><![CDATA[重建分類索引]]></from>
+<to><![CDATA[<a href="javascript:showArticle('special/30_rebuildTags.xml', 1)">重建分類索引</a>]]></to>
+</macro>
+<macro name="replace">
+<from><![CDATA[標準文章格式]]></from>
+<to><![CDATA[<a href="javascript:showArticle('special/80_articleFormat.xml', 1)">標準文章格式</a>]]></to>
+</macro>
+<contents>
+<h2>"KDBlog" 是什麼?</h2>
+簡單來說 "KDBlog" 是一個放置 Blog 的平台
+類似的軟體有
+WordPress(簡稱 WP)
+MovableType(簡稱 MT)
+
+上面那些軟體都已經做的不錯了
+為什麼還要有 "KDBlog" ??
+
+<hr /><h2>寫 "KDBlog" 的動機</h2>
+當初我也用過 WP 來架自己的 Blog 站
+在 Google 上也許還可以找到一些 cached 的資料
+當然目前那些連結都已經失效了
+那為什麼要自己重寫一個哩??
+因為....MySQL 討厭我...XD
+我升級過幾次 MySQL
+有幾次是無痛升級 (用 Gentoo 的 emerge -u world)
+但是有兩次讓我終身難忘!!
+
+第一次我也不太清楚是從哪一版升到哪一版
+總之，升完了就掛了...
+我的 Gallery , Blog 裡的文字編碼整個爛掉
+也許是我的功力不夠
+不過還好那時候的資料不太多
+我手動一個一個重建回來
+
+又過了許久
+我又升級了一次 MySQL
+再掛一次...
+然後我就一整個懶了....
+因此催生出這個 "KDBlog"
+還在考慮要不要自己硬幹一個 Gallery 出來...XD
+
+<hr /><h2>"KDBlog" 的特色</h2>
+* Only One Database -- File System
+* Rely on: php, AJAX(javascript), symlink, mod_rewrite(apache)
+
+因為 MySQL 不喜歡我
+所以 "KDBlog" 絕對不會用 MySQL 當資料庫
+我在想:
+<quote>其實檔案系統(file system)本身不就是一個又穩又好的資料庫了嗎??</quote>
+所以我使用檔案系統來存資料
+這好像是廢話....絕大多數的 database 好像都是放在檔案系統上的...XD
+
+至於技術方面
+KDBlog 使用 php 當 server 端的程式
+其實好友 JackieKu 一直覺得我綁到 php 這個語言不太好
+不過我覺得 php 已經越來越普遍了
+而且重點是好用...^_^
+將來如果要把 php 換成其他的語言應該也不是什麼嚴重的問題
+
+Browser (Client) 端使用 AJAX 來產生使用者所看到的網頁
+使用 AJAX 不只是趕流行
+重點是能夠降低流量
+而且也比較快
+這時好友 JackieKu 又有意見了...^_^
+他覺得<quote>都已經用 php 這麼強大的後端了
+何必再讓 browser 做太多事哩...XD</quote>
+我個人的見解是: <quote>server 能不做事就最好不要做，
+反正 client 端的電腦閒著也是閒著
+何必把自己的 server 操死哩...^_^</quote>
+
+使用到 symlink 是為了要有效的處理 tag 的問題
+不過如果要架在 Windows 上面的話 (Windows 目前不支援 symlink)
+大概還要改寫一些東西
+我覺得 Windows 還是乖乖的當 desktop 就好了
+server 還是交給 Unix 系統吧
+
+mod_rewrite(apache) 的部份
+其實現在還在實驗中
+雖然可以讓網址看起來比較漂亮
+不過其實我不太想用
+要是 Google 的 GSiteMap 沒問題的話
+應該可以把 mod_rewrite 的部份拿掉
+
+<hr /><h2>"KDBlog" 的優缺點</h2>
+"KDBlog" 沒有使用額外的資料庫
+這個其實是有好有壞的
+優點:
+	* 不會因為資料庫的變動而出包
+	* 資料看的見
+缺點:
+	* 難以進行有效率的資料搜尋
+
+因為沒有使用額外的資料庫
+所以"不會因為資料庫的變動而出包"是想當然爾
+
+"KDBlog" 所讀取的文章是放在各別的檔案中
+以 xml 為格式
+所以可以用你所習慣的 Editor 來寫文章
+不像把文章都丟進資料庫那樣
+要看資料庫裡存了些什麼東西還要費一番功夫
+
+至於搜尋的問題
+我目前是用 Google 來幫我處理搜尋的問題
+使用 Google 的 GSiteMap 來請 Google 幫忙 index
+這樣的壞處就是 index 不一定會是最新的內容
+另一個解決的方案就是用 Google Desktop 的技術
+把這些文章另外做一份 cache
+不過這是另一個議題了
+
+<hr /><h2>"KDBlog" 的功能</h2>
+目前支援:
+	RSS 2.0
+	Comment
+	tag
+	(多國語言)
+	(theme)
+	(search)
+不支援:
+	線上文章編寫工具
+
+RSS 2.0
+目前只對所有文章輸出 RSS feed
+
+Comment
+對文章有意見的話可以直接留言
+
+tag
+每篇文章可以有一個或一個以上的類別
+
+(多國語言)
+都已經 21 世紀了
+不支援一下怎麼行哩...XD
+只不過我只在 server 端有選項可以設定
+而且目前只有繁中跟英文兩種"介面"
+注意喔...只有"介面"...^_^
+
+(theme)
+這個其實應該不太完整
+因為我的美工不好(看我的介面就知道了...XD)
+所以只有弄出一個 theme
+不過我覺得只要改一下 css 檔的話
+要有多種的 theme 應該不是問題
+再加上一些圖片的話
+應該就蠻漂亮了
+可惜...我沒天份...Orz
+
+(search)
+這個也不完整
+如同上面所提到的
+
+線上文章編寫工具
+如果"用 Office 2007 寫 Blog"所提到的
+何必去牽就難用的瀏覽器 Editor 哩??
+我自己是用 vi 來寫啦...^_^
+
+<hr /><h2>安裝 "KDBlog"</h2>
+目前 "KDBlog" 是使用 Subversion 來協助開發
+你可以在KDBlog_svn找到完整的程式碼
+建議使用這個指令來下載最新版
+<quote>svn co http://svn.tsaikd.org/tsaikd/KDBlog/tags/lastRelease/</quote>
+
+不然你也可以自行把程式抓下來
+只不過我沒有提供打包檔就是了...XD
+
+下載後參考 config.php.example
+寫一份新的設定檔到 config.php
+然後就可以用 browser 去看看囉!!
+
+第一次裝的話
+可能會有一些權限不足的問題
+就看 browser 上出現的訊息去做設定啦
+
+<hr /><h2>更新 "KDBlog"</h2>
+如果你用上面的方式取的 "KDBlog" 的話
+你就可以用這個指令來進行更新的動作
+<quote>svn up</quote>
+更新完後
+請手動把 cache 資料夾清一下 (或是使用清除快取目錄)
+
+如果設定檔有變動的話
+請看看 config.php.example 有什麼變化
+<quote>svn di config.php.example -r PREV</quote>
+然後看是要重新設定一次 config.php 或是手動把新加入的東西加到 config.php
+
+更詳細的 Subversion 操作請問問 Google 大神吧 (ex: svn merge ... etc)
+
+<hr /><h2>開始寫文章囉!!</h2>
+首先
+在你的 data 資料夾中(config.php 裡設定的路徑)
+建立一個新的資料夾
+名稱請用當天的西元年份 (ex: 2007)
+然後再裡面建立一個新的資料夾
+名稱請用當天的月份 (ex: 03)
+接著在月份裡面建立一個新的檔案
+名稱請用當天的日期加上'_'加上一個流水號
+附檔名請用 xml
+(ex: 31_1.xml)
+
+那個流水號會決定文章顯示的順序
+所以如果你的文章量大的時候(一天超過 9 篇)
+流水號可以選用兩位數
+或是用 a, b, c, ... etc 取代
+
+整個路徑看起來會像這樣
+data/2007/03/31_1.xml
+data/2007/03/31_a.xml
+
+接著就可以開始寫內容了
+內容的格式請參考標準文章格式
+
+ps:
+文章的路徑一但決定之後，請不要輕易更改
+否則該文章的 comment 會遺失
+若要刪除文章
+請自行到 comment 的目錄中把路徑相似的 comment 刪除
+再執行重建分類索引
+
+tips:
+寫文章時可以先建一個副檔名不是 xml 的檔案來暫存
+(通常是怕寫到一半當機之類的)
+等全部寫好之後，再把副檔名改成 xml
+</contents>
+</article>

@@ -61,8 +61,8 @@ if (is_state_old($name)) {
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title><?=$BLOGCONF["title"]?></title>
-		<base href="<?=$BLOGCONF["link"]?>" />
-		<link rel="alternate" type="application/rss+xml" title="<?=$BLOGCONF["title"]?>" href="rss2.php?feed=all" />
+		<base href="<?=$BLOGCONF["link"]?>">
+		<link rel="alternate" type="application/rss+xml" title="<?=$BLOGCONF["title"]?>" href="rss2.php?feed=all">
 		<script type="text/javascript">
 blog = {};
 blog.lang = {};
@@ -80,7 +80,6 @@ blog.lang.article.toolbar.comment = "<?=$BLOGLANG["article"]["toolbar"]["comment
 
 blog.lang.article.tags = "<?=$BLOGLANG["article"]["tags"]?>";
 blog.lang.article.loading = "<?=$BLOGLANG["article"]["loading"]?>";
-blog.lang.article.invalidData = "<?=$BLOGLANG["article"]["invalidData"]?>";
 blog.lang.article.notitle = "<?=$BLOGLANG["article"]["notitle"]?>";
 
 blog.lang.special = {};
@@ -115,7 +114,7 @@ if (!Array.prototype.indexOf) { // for IE6
 include_once("php/getDir.php");
 
 if (file_exists("favicon.ico"))
-	echo '<link rel="SHORTCUT ICON" href="favicon.ico" type="image/x-icon" ></link>'."\n";
+	echo '<link rel="SHORTCUT ICON" href="favicon.ico" type="image/x-icon">'."\n";
 
 if (isCache("cssInside")) {
 	getCache("cssInside");
@@ -204,122 +203,13 @@ function showArticle(fpath, position) {
 				var bufNode;
 				var xmldoc = ajax.responseXML;
 
-				showObj.innerHTML = "";
-				node = getArticleToolBar(id);
-				if (node)
-					showObj.appendChild(node);
+				buf = ajax.responseText;
+				i = buf.indexOf("<div")
+				i = buf.indexOf("<div", i+4)
+				j = buf.lastIndexOf("<\/div>");
+				buf = buf.substring(i, j);
 
-				if (xmldoc.getElementsByTagName('article').length) {
-					// show article menu (include: tags date)
-					node = getArticleTagsMenu(xmldoc, fpath);
-					if (node)
-						showObj.appendChild(node);
-
-					// show title
-					node = getArticleTitle(xmldoc, fpath);
-					if (node)
-						showObj.appendChild(node);
-					var title = getNodeText(node);
-
-					// get macro info
-					var macroBuf;
-					var macroReplace = new Array();
-					var macro = new Array();
-					var rtoday = blog.conf.link+"misc/"+transPath2Date(fpath);
-					node = xmldoc.getElementsByTagName('macro');
-					for (i=0 ; i<node.length ; i++) {
-						bufNode = node[i];
-						buf = bufNode.getAttribute("name");
-						if (buf == "replace") {
-							if (bufNode.childNodes.length < 2)
-								continue;
-							today = bufNode.getAttribute("today");
-							macroBuf = new Array();
-							for (j=0 ; j<bufNode.childNodes.length ; j++) {
-								buf = bufNode.childNodes[j];
-								if (buf.nodeName == "from") {
-									macroBuf[0] = (getNodeText(buf));
-								} else if (buf.nodeName == "to") {
-									macroBuf[1] = (getNodeText(buf));
-									if (today)
-										macroBuf[1] = macroBuf[1].replace(today, rtoday);
-								}
-							}
-							if (macroBuf.length == 2)
-								macroReplace.push(macroBuf);
-						} else {
-							macro.push(buf);
-						}
-					}
-
-					// show contents
-					node = xmldoc.getElementsByTagName('contents')[0];
-					if (node) {
-						for (i=0 ; i<node.childNodes.length ; i++) {
-							bufNode = node.childNodes[i];
-							if (bufNode.nodeType == 1) {
-								if (macro.indexOf(bufNode.nodeName) >= 0)
-									parseMacroNode(xmldoc, bufNode);
-							} else if (bufNode.nodeType == 3) {
-								if (bufNode.data.length <= 1) {
-									node.removeChild(bufNode);
-									i--;
-									continue;
-								}
-
-								for (j=0 ; j<macroReplace.length ; j++) {
-									buf = bufNode.data.indexOf(macroReplace[j][0]);
-									while (buf >= 0) {
-										bufNode.replaceData(buf, macroReplace[j][0].length, macroReplace[j][1]);
-										buf = bufNode.data.indexOf(macroReplace[j][0], buf+macroReplace[j][1].length);
-									}
-								}
-
-								// because IE will modify data of DOM text
-								macroBuf = xmldoc.createCDATASection(bufNode.data);
-								node.replaceChild(macroBuf, bufNode);
-							} else if (bufNode.nodeType == 4) {
-								for (j=0 ; j<macroReplace.length ; j++) {
-									buf = bufNode.data.indexOf(macroReplace[j][0]);
-									while (buf >= 0) {
-										bufNode.replaceData(buf, macroReplace[j][0].length, macroReplace[j][1]);
-										buf = bufNode.data.indexOf(macroReplace[j][0], buf+macroReplace[j][1].length);
-									}
-								}
-							}
-						}
-
-						bufNode = document.createElement("div");
-						bufNode.setAttribute("class", "contents");
-						// because IE will parse innerHTML
-						bufNode.innerHTML = "<pre>"+getNodeXml(node, 0x01)+"<\/pre>";
-						showObj.appendChild(bufNode);
-					}
-
-					// show comments
-					node = getArticleComments(xmldoc);
-					if (node)
-						showObj.appendChild(node);
-
-					// show run spec if it's a specFile
-					node = xmldoc.getElementsByTagName('spectype')[0];
-					if ((node) && (getNodeText(node) == "php")) {
-						if (xmldoc.getElementsByTagName('code')[0]) {
-							showObj.appendChild(document.createElement("br"));
-							node = document.createElement("a");
-							node.setAttribute("href", "javascript:runSpecFile('"+fpath+"')");
-							node.innerHTML = title;
-							showObj.appendChild(node);
-						}
-					}
-				} else {
-					showObj.innerHTML = "<div class='errorMsg'>"+blog.lang.article.invalidData+"<br \/>"+fpath+"<\/div>";
-				}
-
-				// without this stupid command, IE will display wrong contents
-				// but Opera cannot use this line ...@_@
-				if (navigator.appName != "Opera")
-					showObj.innerHTML = showObj.innerHTML;
+				showObj.innerHTML = buf;
 
 				if (!(position & 0x10)) {
 					scrollToArticle(showObj);

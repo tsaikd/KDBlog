@@ -48,35 +48,15 @@ echo "]]>";
 */
 
 function showMacroTag($node, $type) {
-	$res = "";
-	$tag = $node["tag"];
-
-	switch ($tag) {
-	case "quote":
-		if ($type == "rss") {
-			$style = " style='color: #206; background-color: #ffc; border: dotted 1px #888;'";
-		} else { // $type == "html"
-			$style = " class='macro_quote'";
-		}
-		$node["value"] = str_replace("<", "&lt;", $node["value"]);
-		$node["value"] = str_replace(">", "&gt;", $node["value"]);
-		switch ($node["type"]) {
-		case "open":
-			$res .= "<div$style>".$node["value"];
-			break;
-		case "close":
-			$res .= "</div>";
-			break;
-		case "complete":
-			$res .= "<div$style>".$node["value"]."</div>";
-			break;
-		default: // "cdata"
-			$res .= $node["value"];
-			break;
-		}
-		break;
+	$func = "macro_".$node["tag"];
+	if (is_callable($func))
+		return $func($node, $type);
+	$funcpath = "php/".$func.".php";
+	if (file_exists($funcpath)) {
+		include_once($funcpath);
+		if (is_callable($func))
+			return $func($node, $type);
 	}
-	return $res;
 }
 
 function echoXmlOpenTag($node) {
@@ -108,8 +88,14 @@ function showArticleItem($fpath, $type) {
 	xml_parse_into_struct($xml, file_get_contents($fpath), $vals, $index);
 	xml_parser_free($xml);
 
-	if (!$index["contents"])
+	if (!$index["contents"]) {
+		if ($type == "html") {
+			$vpath = transPathR2V($fpath, "auto");
+			echo "<div class='errorMsg'>".$BLOGLANG["article"]["invalidData"];
+			echo "<br />".$vpath."</div>";
+		}
 		return;
+	}
 
 	$amacro = array();
 	$amacroReplace = array();
@@ -143,7 +129,7 @@ function showArticleItem($fpath, $type) {
 		}
 	}
 
-	$vpath = transPathR2V($fpath, "data");
+	$vpath = transPathR2V($fpath, "auto");
 
 	if ($type == "rss") {
 		logecho("<item>");
@@ -168,7 +154,9 @@ function showArticleItem($fpath, $type) {
 		}
 
 		// show date
-		logecho("<div class='articledate'>".transPathVData2Date($vpath)."</div>");
+		$buf = transPathVData2Date($vpath);
+		if ($buf)
+			logecho("<div class='articledate'>".$buf."</div>");
 		logecho("</span>");
 	}
 
@@ -239,13 +227,77 @@ function showArticleItem($fpath, $type) {
 		logecho("</pre>]]></description>");
 		logecho("</item>");
 	} else { // $type == "html"
-		logecho("</pre></div>");
+		logecho("</pre>");
+
+		// show runSpecFile link
+		if ($index["spectype"] && $index["code"]
+			&& ($vals[$index["spectype"][0]]["value"]=="php")) {
+			logecho("<a href='javascript:runSpecFile(\"$fpath\")'>".$vals[$index["title"][0]]["value"]."</a>");
+		}
+
+		// show Comment
+		include_once("php/getArticleCommentPath.php");
+		$aCommentPath = getArticleCommentPath($vpath);
+		if (count($aCommentPath)) {
+			logecho("<div name='comments' class='comments'>");
+
+			foreach ($aCommentPath as $v) {
+				$xml = xml_parser_create("UTF-8");
+				xml_parser_set_option($xml, XML_OPTION_CASE_FOLDING, 0);
+				xml_parse_into_struct($xml, file_get_contents($v), $vals, $index);
+				xml_parser_free($xml);
+
+				if (!$index["comment"])
+					continue;
+
+				$data = $vals[$index["comment"][0]];
+				// comment Start
+				logecho("<div class='comment'>");
+
+				// comment Header
+				logecho("<div class='commentHeader'>");
+				// comment From
+				logecho("<span class='commentFrom'>");
+				if ($data["attributes"]["user"])
+					logecho("From: ".$data["attributes"]["user"]." (".$data["attributes"]["ip"].")");
+				else
+					logecho("From: ".$data["attributes"]["ip"]);
+				logecho("</span>");
+				// comment Time
+				logecho("<span class='commentTime'>");
+				logecho(strftime("%Y/%m/%d %T", (int)$data["attributes"]["time"]));
+				logecho("</span>");
+				// comment Header End
+				logecho("</div>");
+
+				// comment Data
+				logecho("<div class='commentData'><pre>");
+				logecho(substr($data["value"], 1, -1));
+				logecho("</pre></div>");
+
+				// comment End
+				logecho("</div>");
+			}
+
+			logecho("</div>");
+		}
+
+		logecho("</div>");
+		logecho("</div>");
 	}
 }
 
 function isValidCache_Article($cInfo) {
 	if (filectime($cInfo["fpath"]) > filectime($cInfo["cachePath"]))
 		return false;
+
+	include_once("php/getArticleCommentPath.php");
+	$aCommentPath = getArticleCommentPath($cInfo["vpath"]);
+	if (count($aCommentPath)) {
+		$fpath = array_pop($aCommentPath);
+		if (filectime($fpath) > filectime($cInfo["cachePath"]))
+			return false;
+	}
 
 	return true;
 }
@@ -272,6 +324,7 @@ function getCacheArticle($vpath, $type) {
 	$cInfo["showDataProc"] = "showData_Article";
 	$cInfo["articleType"] = $type;
 	$cInfo["fpath"] = $fpath;
+	$cInfo["vpath"] = $vpath;
 
 	return getGenCache($cInfo);
 }
