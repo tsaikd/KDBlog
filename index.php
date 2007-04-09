@@ -12,7 +12,7 @@ if (!file_exists("config.php")) {
 	exit;
 }
 include_once("config.php");
-if ($BLOGCONF["version"] < 9) {
+if ($BLOGCONF["version"] < 11) {
 	echo $BLOGLANG["message"]["confTooOld"];
 	exit;
 }
@@ -111,121 +111,15 @@ if (!Array.prototype.indexOf) { // for IE6
 }
 		</script>
 <?php
-include_once("php/getDir.php");
+include_once("php/indexHeader.php");
 
 if (file_exists("favicon.ico"))
 	echo '<link rel="SHORTCUT ICON" href="favicon.ico" type="image/x-icon">'."\n";
 
-if (isCache("cssInside")) {
-	getCache("cssInside");
-} else {
-	$path = "css";
-	$farray = getDir($path);
-	foreach ($farray as $f) {
-		if (strtolower(substr($f, -4)) != ".css")
-			continue;
-		echo "<link href=\"$path/$f\" rel=\"stylesheet\" type=\"text/css\">\n";
-	}
-}
-
-if (isCache("jsInside")) {
-	getCache("jsInside");
-} else {
-	$path = "js";
-	$farray = getDir($path);
-	foreach ($farray as $f) {
-		if (strtolower(substr($f, -3)) != ".js")
-			continue;
-		echo "<script src=\"$path/$f\" type=\"text/javascript\"></script>\n";
-	}
-}
-
+getCacheIndex("cssInside");
+getCacheIndex("jsInside");
 ?>
 		<script type="text/javascript">
-/*
-position:
-	0: "only" (default)
-	1: "top"
-	2: "bottom"
-
-	0x10: noscroll
-	0x20: force load
-*/
-function showArticle(fpath, position) {
-	unSelectAllArticle();
-
-	var buf;
-	var node;
-	var id = getIdFromPath(fpath);
-	var showObj = document.getElementById(id);
-	if (showObj == null) {
-		showObj = document.getElementById("displayArea");
-		node = document.createElement("div");
-		node.setAttribute("class", "article");
-		node.setAttribute("id", id);
-		node.setAttribute("onmouseover", "selectArticle(this)");
-
-		switch (position & 0x0F) {
-		case 1:
-			showObj.insertBefore(node, showObj.firstChild);
-			break;
-		case 2:
-			showObj.appendChild(node);
-			break;
-		default:
-			closeArticle();
-			showObj.appendChild(node);
-			break;
-		}
-
-		showObj = node;
-	} else {
-		position &= 0xF0;
-
-		if (!(position & 0x20)) {
-			scrollToArticle(showObj);
-			selectArticle(showObj);
-			return;
-		}
-	}
-
-	var ajax = createAjax();
-	ajax.onreadystatechange = function() {
-		if (ajax.readyState == 1) {
-			buf = "<div name='toolbar' class='toolbar'>";
-			buf += "<a name='close' onfocus='this.blur()' class='button' href='javascript:closeArticle(\""+id+"\")'>"+blog.lang.article.toolbar.close+"<\/a>";
-			buf += "<\/div>";
-			buf += "<div class='loading'>"+blog.lang.article.loading+"<\/div>";
-			showObj.innerHTML = buf;
-		} else if (ajax.readyState == 4) {
-			if (ajax.status == 200) {
-				var i, j;
-				var bufNode;
-				var xmldoc = ajax.responseXML;
-
-				buf = ajax.responseText;
-				i = buf.indexOf("<div")
-				i = buf.indexOf("<div", i+4)
-				j = buf.lastIndexOf("<\/div>");
-				buf = buf.substring(i, j);
-
-				showObj.innerHTML = buf;
-
-				if (!(position & 0x10)) {
-					scrollToArticle(showObj);
-					selectArticle(showObj);
-				}
-			} else {
-				alert('There was a problem with the request.');
-			}
-		}
-	}
-	ajax.open("POST", "data.php", true);
-	ajax.setRequestHeader("Content-Type", 
-		"application/x-www-form-urlencoded; charset=utf-8");
-	ajax.send("ftype=article&fpath="+fpath);
-}
-
 blog.conf.init = function () {
 	chgMenuTag("menutab_All");
 
@@ -258,15 +152,15 @@ if (!$_REQUEST["fpath"]) {
 <form class="googleForm" target="_blank" method="get" action="http://www.google.com/search">
 <input class="googleOpt" type="checkbox" name="sitesearch" value="<?=$BLOGCONF["blogurl"]["sitesearch"]?>" checked /><?=$BLOGLANG["mainmenu"]["menuOpt"]["googleOpt"]?><br />
 <input class="googleInput" type="text" name="q" />
-<input class="googleSubmit" type="submit" value="Google" onfocus="javascript:this.blur()" />
+<input class="googleSubmit" type="submit" value="Google" title="<?=$BLOGLANG["message"]["runNewWin"]?>" onfocus="javascript:this.blur()" />
 </form>
 <?php endif ?>
-				<a onfocus='this.blur()' href="javascript:closeArticle('displayArea')"><?=$BLOGLANG["mainmenu"]["menuOpt"]["closeAll"]?></a>
+				<a onfocus='javascript:this.blur()' href="javascript:closeArticle('displayArea')"><?=$BLOGLANG["mainmenu"]["menuOpt"]["closeAll"]?></a>
 			</div>
 			<div id="mainmenuTabs">
-				<a onfocus='this.blur()' id="menutab_All" class="menutab" href="javascript:chgMenuTag('menutab_All')"><?=$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_All"]?></a>
-				<a onfocus='this.blur()' id="menutab_Tags" class="menutab" href="javascript:chgMenuTag('menutab_Tags')"><?=$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Tags"]?></a>
-				<a onfocus='this.blur()' id="menutab_Spec" class="menutab" href="javascript:chgMenuTag('menutab_Spec')"><?=$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Spec"]?></a>
+				<a onfocus='javascript:this.blur()' id="menutab_All" class="menutab" href="javascript:chgMenuTag('menutab_All')"><?=$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_All"]?></a>
+				<a onfocus='javascript:this.blur()' id="menutab_Tags" class="menutab" href="javascript:chgMenuTag('menutab_Tags')"><?=$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Tags"]?></a>
+				<a onfocus='javascript:this.blur()' id="menutab_Spec" class="menutab" href="javascript:chgMenuTag('menutab_Spec')"><?=$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Spec"]?></a>
 			</div>
 			<div id="menutabContents"></div>
 			<div id="menures">
@@ -290,11 +184,22 @@ if (file_exists($BLOGCONF["rss2AllImg"]))
 	echo "<img alt='".$BLOGLANG["mainmenu"]["menures"]["rss2All"]."' src='".$BLOGCONF["rss2AllImg"]."' />";
 else
 	echo $BLOGLANG["mainmenu"]["menures"]["rss2All"];
-?></a><br /><?php
-if ($BLOGCONF["func"]["searchbot"]["enable"])
-	echo "<a href='searchbot/' style='display: none;'>search bot only</a>";
+?></a><br /><br /><?php
+if ($BLOGCONF["func"]["showLastDate"]["enable"]) {
+	echo "<span class='lastDate'>";
+
+	include_once("php/getRecentArticlePath.php");
+	$farray = getRecentArticlePath($BLOGCONF["datapath"], 1);
+	include_once("php/transPath.php");
+	$lastDate = transPath2Date($farray[0]);
+	echo $BLOGLANG["mainmenu"]["menures"]["lastDate"].": ".$lastDate;
+
+	echo "</span><br />";
+}
 if ($BLOGCONF["func"]["version"]["enable"])
 	echo "<span class='version'>KDBlog rev".$BLOGCONF["version"]."</span><br />";
+if ($BLOGCONF["func"]["searchbot"]["enable"])
+	echo "<a href='data.php?ftype=searchbot' style='display: none;'>search bot only</a>";
 ?>
 			</div>
 		</div>

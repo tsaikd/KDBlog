@@ -158,6 +158,28 @@ function showDataError($ftype, $fpath, $msg) {
 	echo '</root>';
 }
 
+function getCacheMenuTab($name) {
+	global $BLOGCONF;
+
+	$cInfo = array();
+	$cInfo["enable"] = $BLOGCONF["cache"][$name]["enable"];
+	$cInfo["cachePath"] = $BLOGCONF["cachpath"]."/".$name.".cache";
+	switch ($name) {
+	case "menutab_All":
+	case "menutab_Tags":
+		$cInfo["isValidCacheProc"] = "isValidCache_".$name;
+		$cInfo["showDataProc"] = "showData_".$name;
+		break;
+	case "menutab_Spec":
+		$cInfo["showDataProc"] = "showData_".$name;
+		break;
+	default:
+		return;
+	}
+
+	return getGenCache($cInfo);
+}
+
 function isValidCache_menutab_All() {
 	global $BLOGCONF;
 	include_once("php/getRecentArticlePath.php");
@@ -243,7 +265,7 @@ case "article":
 case "menutab_All":
 	header('Content-type: text/html; charset=utf-8');
 	$firstmonth = true;
-	getCache($ftype);
+	getCacheMenuTab($ftype);
 	break;
 case "menutab_All_forceYear":
 	$vpath = $_REQUEST["fpath"];
@@ -269,7 +291,7 @@ case "menutab_All_forceMonth":
 	break;
 case "menutab_Tags":
 	header('Content-type: text/html; charset=utf-8');
-	getCache($ftype);
+	getCacheMenuTab($ftype);
 	break;
 case "menutab_Tags_forceTag":
 	$vpath = $_REQUEST["fpath"];
@@ -284,7 +306,7 @@ case "menutab_Tags_forceTag":
 	break;
 case "menutab_Spec":
 	header('Content-type: text/html; charset=utf-8');
-	getCache($ftype);
+	getCacheMenuTab($ftype);
 	break;
 case "runspec":
 	$vpath = $_REQUEST["fpath"];
@@ -354,7 +376,7 @@ case "searchbot":
 	$farray = getRecentArticlePath($BLOGCONF["datapath"], -1);
 	foreach ($farray as $fpath) {
 		$vpath = transPathR2V($fpath, "data");
-		echo "<a href='".$BLOGCONF["link"].$vpath."'>$vpath</a><br />\n";
+		echo "<a href='".$BLOGCONF["link"]."index.php?fpath=".$vpath."'>$vpath</a><br />\n";
 	}
 	echo "</html>";
 	break;
@@ -382,7 +404,7 @@ case "sitemap":
 	foreach ($farray as $fpath) {
 		$vpath = transPathR2V($fpath, "data");
 		echo '<url>';
-		echo '<loc>'.$BLOGCONF["link"].$vpath.'</loc>';
+		echo '<loc>'.$BLOGCONF["link"]."index.php?fpath=".$vpath.'</loc>';
 		$ftime = filectime($fpath);
 		echo '<lastmod>'.strftime("%Y-%m-%d", $ftime).'</lastmod>';
 		echo '</url>';

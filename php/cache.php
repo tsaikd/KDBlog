@@ -1,9 +1,6 @@
 <?php
 include_once("config.php");
 
-function only_true() { return true; }
-function only_false() { return false; }
-
 function touch_state_file($name, $offset=2) {
 	global $BLOGCONF;
 	$path = $BLOGCONF["state"][$name];
@@ -49,48 +46,6 @@ function logecho($text, $flag=0x03) {
 		echo $text;
 }
 
-function isCache($name) {
-	global $BLOGCONF;
-
-	if (!$BLOGCONF["cache"]["enable"])
-		return false;
-	if (!$BLOGCONF["cache"][$name]["enable"])
-		return false;
-
-	return true;
-}
-
-function getCache($name) {
-	global $BLOGCONF;
-	global $logfp;
-
-	$enableCache = isCache($name);
-	$cpath = $BLOGCONF["cache"][$name]["cachePath"];
-	$checkProc = $BLOGCONF["cache"][$name]["isValidCacheProc"];
-	$showProc = $BLOGCONF["cache"][$name]["showDataProc"];
-
-	if (!$enableCache)
-		return $showProc();
-
-	$doCache = false;
-	if (!file_exists($cpath))
-		$doCache = true;
-	else if (!$checkProc())
-		$doCache = true;
-
-	if ($doCache) {
-		$tmpfname = tempnam($BLOGCONF["cachpath"], "_cache_tmp_".$name);
-		$logfp = fopen($tmpfname, "w");
-		$showProc();
-		fclose($logfp);
-		rename($tmpfname, $cpath);
-		$logfp = null;
-		touch($cpath);
-	} else {
-		readfile($cpath);
-	}
-}
-
 /*
 $cInfo (array) include:
 	"enable"			=> bool
@@ -102,7 +57,7 @@ function getGenCache($cInfo) {
 	global $BLOGCONF;
 	global $logfp;
 
-	if (!$cInfo["enable"])
+	if (!$cInfo["enable"] || !$BLOGCONF["cache"]["enable"])
 		return $cInfo["showDataProc"]($cInfo);
 
 	if (!file_exists($cInfo["cachePath"]))
@@ -145,38 +100,6 @@ function cleanCache() {
 	$d->close();
 
 	return $res;
-}
-
-function showCssData() {
-	include_once("php/getDir.php");
-
-	logecho("<style type=\"text/css\">");
-
-	$path = "css";
-	$farray = getDir($path);
-	foreach ($farray as $f) {
-		if (strtolower(substr($f, -4)) != ".css")
-			continue;
-		logecho(file_get_contents("$path/$f"));
-	}
-
-	logecho("</style>");
-}
-
-function showJsData() {
-	include_once("php/getDir.php");
-
-	logecho("<script type=\"text/javascript\">");
-
-	$path = "js";
-	$farray = getDir($path);
-	foreach ($farray as $f) {
-		if (strtolower(substr($f, -3)) != ".js")
-			continue;
-		logecho(file_get_contents("$path/$f"));
-	}
-
-	logecho("</script>");
 }
 
 ?>

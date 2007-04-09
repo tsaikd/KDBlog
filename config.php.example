@@ -3,7 +3,7 @@
 # 以下設定為 KDBlog 網頁程式所使用
 ############################################################
 # (int) 設定檔的版本，當升級時版本有更動會產生訊息
-$BLOGCONF["version"] = 10;
+$BLOGCONF["version"] = 11;
 
 # (string) Blog 的標題
 $BLOGCONF["title"] = "KD's Blog";
@@ -84,6 +84,9 @@ $BLOGCONF["func"]["google"]["enable"] = true;
 $BLOGCONF["func"]["searchbot"]["enable"] = true;
 $BLOGCONF["func"]["sitemap"]["enable"] = true;
 
+# (bool) 是否在首頁顯示最新文章日期 (可以看看搜尋引擎最後 cache 到的日期)
+$BLOGCONF["func"]["showLastDate"]["enable"] = true;
+
 ############################################################
 # 快取設定
 ############################################################
@@ -133,36 +136,6 @@ $BLOGCONF["state"]["cleanCache"] = $BLOGCONF["cachpath"]."/cleanCache.state";
 $BLOGCONF["state"]["scanTags"] = $BLOGCONF["cachpath"]."/scanTags.state";
 # (string Path) 檢查是否需要重建分類
 $BLOGCONF["state"]["rebuildTags"] = $BLOGCONF["cachpath"]."/rebuildTags.state";
-
-# cssInside cache config
-$name = "cssInside";
-$BLOGCONF["cache"][$name]["cachePath"] = $BLOGCONF["cachpath"]."/".$name.".cache";
-$BLOGCONF["cache"][$name]["isValidCacheProc"] = "only_true";
-$BLOGCONF["cache"][$name]["showDataProc"] = "showCssData";
-
-# jsInside cache config
-$name = "jsInside";
-$BLOGCONF["cache"][$name]["cachePath"] = $BLOGCONF["cachpath"]."/".$name.".cache";
-$BLOGCONF["cache"][$name]["isValidCacheProc"] = "only_true";
-$BLOGCONF["cache"][$name]["showDataProc"] = "showJsData";
-
-# menutab_All cache config
-$name = "menutab_All";
-$BLOGCONF["cache"][$name]["cachePath"] = $BLOGCONF["cachpath"]."/".$name.".cache";
-$BLOGCONF["cache"][$name]["isValidCacheProc"] = "isValidCache_menutab_All";
-$BLOGCONF["cache"][$name]["showDataProc"] = "showData_menutab_All";
-
-# menutab_Tags cache config
-$name = "menutab_Tags";
-$BLOGCONF["cache"][$name]["cachePath"] = $BLOGCONF["cachpath"]."/".$name.".cache";
-$BLOGCONF["cache"][$name]["isValidCacheProc"] = "isValidCache_menutab_Tags";
-$BLOGCONF["cache"][$name]["showDataProc"] = "showData_menutab_Tags";
-
-# menutab_Spec cache config
-$name = "menutab_Spec";
-$BLOGCONF["cache"][$name]["cachePath"] = $BLOGCONF["cachpath"]."/".$name.".cache";
-$BLOGCONF["cache"][$name]["isValidCacheProc"] = "only_true";
-$BLOGCONF["cache"][$name]["showDataProc"] = "showData_menutab_Spec";
 
 # (string Path) comment index by time directory path
 $BLOGCONF["func"]["comment"]["indexByTime"] = $BLOGCONF["cmntpath"]."/.indexByTime";

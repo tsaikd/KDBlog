@@ -107,6 +107,13 @@ ul, li {
 	border: none;
 }
 
+#menures .lastDate {
+	float: right;
+	clear: left;
+	margin-right: 1em;
+	font-size: 0.8em;
+}
+
 #menures .version {
 	float: right;
 	clear: left;

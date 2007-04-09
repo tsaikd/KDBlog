@@ -11,6 +11,7 @@ $BLOGLANG["message"]["checkconf"] = "請檢查設定檔是否正確";
 $BLOGLANG["message"]["invalidPath"] = "無效的路徑";
 $BLOGLANG["message"]["confTooOld"] = "設定檔版本太舊，請更新設定檔";
 $BLOGLANG["message"]["funcOff"] = "此功能已經關閉，請聯繫管理人員";
+$BLOGLANG["message"]["runNewWin"] = "此動作將會在新視窗中執行";
 
 $BLOGLANG["server"]["movehtaccess"] = "由於權限不足，請自行將 '%s' 移動到 '%s' ，否則程式將會發生問題";
 
@@ -26,6 +27,7 @@ $BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Spec_Msg"]["notitle"] = "在檔�
 
 $BLOGLANG["mainmenu"]["menures"]["cmntidx"] = "最近的評論";
 $BLOGLANG["mainmenu"]["menures"]["rss2All"] = "訂閱 RSS2";
+$BLOGLANG["mainmenu"]["menures"]["lastDate"] = "最後更新";
 
 $BLOGLANG["article"]["toolbar"]["close"] = "關閉";
 $BLOGLANG["article"]["toolbar"]["fold"] = "收合";

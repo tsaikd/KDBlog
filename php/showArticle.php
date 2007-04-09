@@ -160,13 +160,19 @@ function showArticleItem($fpath, $type) {
 		logecho("</span>");
 	}
 
+	// show title
 	$xmlkey = "title";
 	if ($index[$xmlkey]) {
 		$i = $index[$xmlkey][0];
 		if ($type == "rss") {
 			logecho("<title>".$vals[$i]["value"]."</title>");
 		} else { // $type == "html"
-			logecho("<h1>".$vals[$i]["value"]."</h1>");
+			logecho("<h1>");
+			// show permalink at title
+//			logecho("<a onfocus='this.blur()' href='index.php?fpath=".$vpath."'>");
+			logecho($vals[$i]["value"]);
+//			logecho("</a>");
+			logecho("</h1>");
 		}
 	}
 

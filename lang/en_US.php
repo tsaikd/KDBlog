@@ -11,6 +11,7 @@ $BLOGLANG["message"]["checkconf"] = "please check your config file";
 $BLOGLANG["message"]["invalidPath"] = "Invalid path";
 $BLOGLANG["message"]["confTooOld"] = "Your config file is out of date, please update";
 $BLOGLANG["message"]["funcOff"] = "This function is closed. Please contact to administrator.";
+$BLOGLANG["message"]["runNewWin"] = "Run in a new window";
 
 $BLOGLANG["server"]["movehtaccess"] = "Because of permission deny, please move from '%s' to '%s' by yourself";
 
@@ -26,6 +27,7 @@ $BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Spec_Msg"]["notitle"] = "No title
 
 $BLOGLANG["mainmenu"]["menures"]["cmntidx"] = "Recent comments";
 $BLOGLANG["mainmenu"]["menures"]["rss2All"] = "RSS2 Feed";
+$BLOGLANG["mainmenu"]["menures"]["lastDate"] = "Update";
 
 $BLOGLANG["article"]["toolbar"]["close"] = "Close";
 $BLOGLANG["article"]["toolbar"]["fold"] = "fold";
