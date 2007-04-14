@@ -17,19 +17,18 @@ function macro_quote($node, $type) {
 	if (substr($value, -1) == "\n")
 		$value = substr($value, 0, -1);
 
-	$res = "";
 	switch ($node["type"]) {
 	case "open":
-		$res .= "<div$style>".$value;
+		$res = "<div$style>".$value;
 		break;
 	case "close":
-		$res .= "</div>";
+		$res = "</div>";
 		break;
 	case "complete":
-		$res .= "<div$style>".$value."</div>";
+		$res = "<div$style>".$value."</div>";
 		break;
 	default: // "cdata"
-		$res .= $value;
+		$res = $value;
 		break;
 	}
 

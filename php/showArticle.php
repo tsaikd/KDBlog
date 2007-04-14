@@ -83,10 +83,10 @@ function showArticleItem($fpath, $type) {
 	if (!is_file($fpath))
 		return;
 
-	$xml = xml_parser_create("UTF-8");
-	xml_parser_set_option($xml, XML_OPTION_CASE_FOLDING, 0);
-	xml_parse_into_struct($xml, file_get_contents($fpath), $vals, $index);
-	xml_parser_free($xml);
+	include_once("php/parseXml.php");
+	$xml = parseXml($fpath);
+	$index = $xml["index"];
+	$vals = $xml["vals"];
 
 	if (!$index["contents"]) {
 		if ($type == "html") {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <article>
 <title>標準文章格式</title>
+<macro name="alink" />
 <macro name="quote" />
 <contents>
 KDBlog 是以檔案系統為基礎的閱讀介面
@@ -11,6 +12,7 @@ KDBlog 是以檔案系統為基礎的閱讀介面
 <article>
 <title></title>
 <tag></tag>
+<macro name="alink" />
 <macro name="quote" />
 <macro name="replace">
 <from>&lt;![CDATA[KDBlog]]&gt;</from>
@@ -67,11 +69,32 @@ KDBlog 是以檔案系統為基礎的閱讀介面
 每篇文章可以有數個標籤
 <hr />
 最後是介紹內建的 macro 功能
-目前有兩個 macro 可以使用
+目前有三個 macro 可以使用
+  * alink
   * quote
   * replace
 <hr />
-macro quote 的使用方式：
+macro alink 的使用方式:
+宣告文章有使用 macro alink
+<quote><![CDATA[
+<macro name="alink" />
+]]></quote>
+<![CDATA[
+然後在文章內容裡就可以使用
+&lt;alink src="連結文章路徑" /&gt;
+
+ex1) &lt;alink src="special/90_introKDBlog.xml" /&gt;
+ex2) &lt;alink src="data/2007/03/31_1.xml" /&gt;
+]]>
+
+看起來就會像這樣
+<alink src="special/90_introKDBlog.xml" />
+<alink src="data/2007/03/31_1.xml" />
+如果你的主機上沒有 data/2007/03/31_1.xml 這篇文章
+或是該文章格式有問題
+你將只會看到一個連結
+<hr />
+macro quote 的使用方式:
 宣告文章有使用 macro quote
 <quote><![CDATA[
 <macro name="quote" />
@@ -84,10 +107,10 @@ macro quote 的使用方式：
 看起來就會像這樣
 <quote>引述文章內容</quote>
 
-macro quote 裡常會使用 <![CDATA[&lt;![CDATA[  ]]&gt;]]> 以免使得 xml 格式錯誤
+macro quote 裡常會使用 <![CDATA[&lt;![CDATA[  ]]&gt;]]> 來避免 xml 格式錯誤
 
 <hr />
-macro replace 的使用方式：
+macro replace 的使用方式:
 宣告文章有使用 macro replace
 <quote><![CDATA[
 <macro name="replace">

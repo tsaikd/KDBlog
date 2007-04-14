@@ -3,8 +3,10 @@
 include_once("config.php");
 include_once("php/showArticle.php");
 
-header("Content-Type: application/rss+xml");
-//header("Content-Type: text/xml"); // for debug
+if ($BLOGCONF["func"]["debug"]["enable"])
+	header("Content-Type: text/xml");
+else
+	header("Content-Type: application/rss+xml");
 header("Pragma: no-cache");
 header("Expires: 0");
 echo '<?xml version="1.0" encoding="utf-8" ?>';

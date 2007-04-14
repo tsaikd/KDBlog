@@ -3,7 +3,7 @@
 # 以下設定為 KDBlog 網頁程式所使用
 ############################################################
 # (int) 設定檔的版本，當升級時版本有更動會產生訊息
-$BLOGCONF["version"] = 11;
+$BLOGCONF["version"] = 12;
 
 # (string) Blog 的標題
 $BLOGCONF["title"] = "KD's Blog";
@@ -139,6 +139,9 @@ $BLOGCONF["state"]["rebuildTags"] = $BLOGCONF["cachpath"]."/rebuildTags.state";
 
 # (string Path) comment index by time directory path
 $BLOGCONF["func"]["comment"]["indexByTime"] = $BLOGCONF["cmntpath"]."/.indexByTime";
+
+# (bool) 啟用 debug 模式
+$BLOGCONF["func"]["debug"]["enable"] = false;
 
 # 設定寫入檔案的權限
 umask(0002);

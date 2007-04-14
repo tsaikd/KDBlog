@@ -12,7 +12,7 @@ if (!file_exists("config.php")) {
 	exit;
 }
 include_once("config.php");
-if ($BLOGCONF["version"] < 11) {
+if ($BLOGCONF["version"] < 12) {
 	echo $BLOGLANG["message"]["confTooOld"];
 	exit;
 }

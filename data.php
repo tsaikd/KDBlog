@@ -180,12 +180,11 @@ function getCacheMenuTab($name) {
 	return getGenCache($cInfo);
 }
 
-function isValidCache_menutab_All() {
+function isValidCache_menutab_All($cInfo) {
 	global $BLOGCONF;
 	include_once("php/getRecentArticlePath.php");
-	$cpath = $BLOGCONF["cache"]["menutab_All"]["cachePath"];
 	$farray = getRecentArticlePath($BLOGCONF["datapath"], 2);
-	$statetime = filectime($cpath);
+	$statetime = filectime($cInfo["cachePath"]);
 	foreach ($farray as $path) {
 		if (filectime($path) > $statetime)
 			return false;
@@ -193,16 +192,15 @@ function isValidCache_menutab_All() {
 	return true;
 }
 
-function isValidCache_menutab_Tags() {
+function isValidCache_menutab_Tags($cInfo) {
 	global $BLOGCONF;
 
 	if (is_state_old("rebuildTags") || is_state_old("scanTags"))
 		return false;
 
 	include_once("php/getRecentArticlePath.php");
-	$cpath = $BLOGCONF["cache"]["menutab_Tags"]["cachePath"];
 	$farray = getRecentArticlePath($BLOGCONF["datapath"], 2);
-	$statetime = filectime($cpath);
+	$statetime = filectime($cInfo["cachePath"]);
 	foreach ($farray as $path) {
 		if (filectime($path) > $statetime) {
 			set_state_old("scanTags");
@@ -213,13 +211,13 @@ function isValidCache_menutab_Tags() {
 	return true;
 }
 
-function showData_menutab_All() {
+function showData_menutab_All($cInfo) {
 	logecho("<html>");
 	listDataDir("menuyear", "data", "");
 	logecho("</html>");
 }
 
-function showData_menutab_Tags() {
+function showData_menutab_Tags($cInfo) {
 	global $BLOGCONF;
 
 	if (is_state_old("rebuildTags")) {
@@ -230,7 +228,6 @@ function showData_menutab_Tags() {
 		rebuildTags($BLOGCONF["datapath"], $BLOGCONF["tagspath"]);
 		touch_state_file("rebuildTags");
 		touch_state_file("scanTags");
-		rm_ex($BLOGCONF["cache"]["menutab_All"]["cachePath"]);
 	} else if (is_state_old("scanTags")) {
 		include_once("php/rebuildTags.php");
 		rebuildTags($BLOGCONF["datapath"], $BLOGCONF["tagspath"]);
@@ -242,7 +239,7 @@ function showData_menutab_Tags() {
 	logecho("</html>");
 }
 
-function showData_menutab_Spec() {
+function showData_menutab_Spec($cInfo) {
 	logecho("<html>");
 	listDataDir("menuspec", "special", "");
 	logecho("</html>");
