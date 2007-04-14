@@ -237,6 +237,12 @@ tag
 
 更詳細的 Subversion 操作請問問 Google 大神吧 (ex: svn merge ... etc)
 
+附上一個小小的指令
+看不懂的話還是不要用比較保險...XD
+<quote>svn di config.php.example -r PREV | \
+	sed 's/config.php.example/config.php/g' | \
+	patch</quote>
+
 <hr /><h2>開始寫文章囉!!</h2>
 首先
 在你的 data 資料夾中(config.php 裡設定的路徑)

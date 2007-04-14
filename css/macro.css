@@ -1,3 +1,7 @@
+#displayArea .article .contents .macro_alink {
+	color: purple;
+}
+
 #displayArea .article .contents .macro_quote {
 	padding: 0.25em 0;
 	margin: 0.25em 0 0.25em 2em;

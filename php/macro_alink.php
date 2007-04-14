@@ -29,7 +29,7 @@ function macro_alink($node, $type) {
 	if ($type == "rss") {
 		$res = "<a href='".$BLOGCONF["link"]."?fpath=".$vpath."'>$title</a>";
 	} else { // $type == "html"
-		$res  = "<a onclick='javascript:";
+		$res  = "<a class='macro_alink' onclick='javascript:";
 		$res .= "showArticle(\"$vpath\", 0x01);";
 		$res .= "this.blur();";
 		$res .= "' href='javascript:;'>$title</a>";
