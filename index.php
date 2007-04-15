@@ -1,8 +1,8 @@
 <?php
-/*
-$start_time[0] = time();
-$start_time[1] = (double)microtime();
-*/
+if ($BLOGCONF["func"]["debug"]["enable"]) {
+	$start_time[0] = time();
+	$start_time[1] = (double)microtime();
+}
 
 header('Content-type: text/html; charset=utf-8');
 
@@ -12,7 +12,7 @@ if (!file_exists("config.php")) {
 	exit;
 }
 include_once("config.php");
-if ($BLOGCONF["version"] < 12) {
+if ($BLOGCONF["version"] < 13) {
 	echo $BLOGLANG["message"]["confTooOld"];
 	exit;
 }
@@ -27,6 +27,7 @@ check_necessary_dir("specpath", 0x01);
 check_necessary_dir($BLOGCONF["func"]["comment"]["indexByTime"], 0x0F);
 
 # Check .htaccess to rewrite url
+/*
 if (!file_exists(".htaccess")) {
 	include_once("php/logHtaccess.php");
 	if (is_writeable(".")) {
@@ -47,6 +48,7 @@ if (!file_exists(".htaccess")) {
 		exit();
 	}
 }
+*/
 
 # Check need to clean cache or not
 $name = "cleanCache";
@@ -121,7 +123,7 @@ getCacheIndex("jsInside");
 ?>
 		<script type="text/javascript">
 blog.conf.init = function () {
-	chgMenuTag("menutab_All");
+	chgMenuTag("menutab_Recent");
 
 	var showText = "";
 	var showObj;
@@ -130,15 +132,12 @@ blog.conf.init = function () {
 <?php
 if (!$_REQUEST["fpath"]) {
 	include_once("php/getRecentArticlePath.php");
-	$darray = getRecentArticlePath($BLOGCONF["datapath"], $BLOGCONF["numAtStart"]);
-	for ($i=0 ; $i<count($darray) ; $i++)
-		$darray[$i] = "data".substr($darray[$i], strlen($BLOGCONF["datapath"]));
-
-	foreach ($darray as $val)
-		echo "showText += \"<div class='article' id='\"+getIdFromPath(\"$val\")+\"' onmouseover='javascript:selectArticle(this)'><\\/div>\";\n";
+	$farray = getRecentArticlePath($BLOGCONF["numAtStart"]);
+	foreach ($farray as $vpath)
+		echo "showText += \"<div class='article' id='\"+getIdFromPath(\"$vpath\")+\"' onmouseover='javascript:selectArticle(this)'><\\/div>\";\n";
 	echo "showObj.innerHTML = showText;\n";
-	foreach ($darray as $val)
-		echo "showArticle(\"$val\", 0x30);\n";
+	foreach ($farray as $vpath)
+		echo "showArticle(\"$vpath\", 0x30);\n";
 }
 ?>
 }
@@ -158,6 +157,7 @@ if (!$_REQUEST["fpath"]) {
 				<a onfocus='javascript:this.blur()' href="javascript:closeArticle('displayArea')"><?=$BLOGLANG["mainmenu"]["menuOpt"]["closeAll"]?></a>
 			</div>
 			<div id="mainmenuTabs">
+				<a onfocus='javascript:this.blur()' id="menutab_Recent" class="menutab" href="javascript:chgMenuTag('menutab_Recent')"><?=$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Recent"]?></a>
 				<a onfocus='javascript:this.blur()' id="menutab_All" class="menutab" href="javascript:chgMenuTag('menutab_All')"><?=$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_All"]?></a>
 				<a onfocus='javascript:this.blur()' id="menutab_Tags" class="menutab" href="javascript:chgMenuTag('menutab_Tags')"><?=$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Tags"]?></a>
 				<a onfocus='javascript:this.blur()' id="menutab_Spec" class="menutab" href="javascript:chgMenuTag('menutab_Spec')"><?=$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Spec"]?></a>
@@ -186,15 +186,15 @@ else
 	echo $BLOGLANG["mainmenu"]["menures"]["rss2All"];
 ?></a><br /><br /><?php
 if ($BLOGCONF["func"]["showLastDate"]["enable"]) {
-	echo "<span class='lastDate'>";
-
 	include_once("php/getRecentArticlePath.php");
-	$farray = getRecentArticlePath($BLOGCONF["datapath"], 1);
-	include_once("php/transPath.php");
-	$lastDate = transPath2Date($farray[0]);
-	echo $BLOGLANG["mainmenu"]["menures"]["lastDate"].": ".$lastDate;
-
-	echo "</span><br />";
+	$farray = getRecentArticlePath(1);
+	if (count($farray)) {
+		include_once("php/transPath.php");
+		$lastDate = transPath2Date($farray[0]);
+		echo "<span class='lastDate'>";
+		echo $BLOGLANG["mainmenu"]["menures"]["lastDate"].": ".$lastDate;
+		echo "</span><br />";
+	}
 }
 if ($BLOGCONF["func"]["version"]["enable"])
 	echo "<span class='version'>KDBlog rev".$BLOGCONF["version"]."</span><br />";
@@ -221,13 +221,14 @@ if ($_REQUEST["fpath"]) {
 if ($BLOGCONF["extraFooter"])
 	foreach ($BLOGCONF["extraFooter"] as $f)
 		include($f);
-?>
-<?php
-/*
-$stop_time[0] = time();
-$stop_time[1] = (double)microtime();
-printf("PHP use %d + %f sec", $stop_time[0]-$start_time[0], $stop_time[1]-$start_time[1]);
-*/
+
+if ($BLOGCONF["func"]["debug"]["enable"]) {
+	$stop_time[0] = time();
+	$stop_time[1] = (double)microtime();
+	printf("PHP use %d + %f sec",
+		$stop_time[0]-$start_time[0],
+		$stop_time[1]-$start_time[1]);
+}
 ?>
 	</body>
 </html>

@@ -1,30 +1,35 @@
 <?php
 include_once("php/getDir.php");
-include_once("php/isValidArticlePathName.php");
+include_once("php/isValidPath.php");
+include_once("php/transPath.php");
 
-function getRecentArticlePath($path, $numLimit, $level=3, &$aRes=null) {
+/*
+$flag["realpath"] := (bool) return real path array
+*/
+function getRecentArticlePath($limit=-1, $flag=null, $vpath="data", &$aRes=null) {
 	if ($aRes == null)
 		$aRes = array();
-	if ((count($aRes) >= $numLimit) && ($numLimit >= 0))
-		return $aRes;
-	if (!is_dir($path))
+	if ((count($aRes) >= $limit) && ($limit >= 0))
 		return $aRes;
 
-	$aBuf = getDir($path);
+	$dpath = transPathV2R($vpath);
+	$aBuf = getDir($dpath);
 
 	while ($f = array_pop($aBuf)) {
-		if ($level <= 1) {
-			if (!isValidArticlePathName($f))
-				continue;
-			array_push($aRes, "$path/$f");
-			if ((count($aRes) >= $numLimit) && ($numLimit >= 0))
-				return $aRes;
+		if (is_dir("$dpath/$f")) {
+			getRecentArticlePath($limit, $flag, "$vpath/$f", $aRes);
 		} else {
-			getRecentArticlePath("$path/$f", $numLimit, $level-1, $aRes);
+			if (!isValidArticlePath("$vpath/$f"))
+				continue;
+			if ($flag["realpath"])
+				array_push($aRes, "$dpath/$f");
+			else
+				array_push($aRes, "$vpath/$f");
+			if ((count($aRes) >= $limit) && ($limit >= 0))
+				return $aRes;
 		}
 	}
 
 	return $aRes;
 }
-
 ?>

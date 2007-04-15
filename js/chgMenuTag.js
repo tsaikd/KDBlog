@@ -1,14 +1,57 @@
 /*
+obj can be ignore
+*/
+function getTagsNode(tagName, obj) {
+	if (!obj)
+		obj = document.getElementById("menutabContents");
+
+	var i;
+	var node;
+	var buf = getElementsByClass("menutext", obj);
+	for (i=0 ; i<buf.length ; i++) {
+		node = buf[i];
+		if (node.innerHTML == tagName)
+			return node;
+	}
+
+	return null;
+}
+
+function expandMenuTag(tagPath) {
+	var i;
+	var chkName;
+	var nameList = tagPath.split("/");
+	var node = document.getElementById("menutabContents");
+
+	for (i=1 ; i<nameList.length ; i++) {
+		node = getTagsNode(nameList[i], node);
+		if (!node)
+			return;
+		if (node.attr_Loaded) {
+			node.nextSibling.style.display = "block";
+		} else {
+			showMenuTabDir(node, nameList.slice(0, i+1).join("/"),
+				nameList.slice(i+1, nameList.length));
+			return;
+		}
+		node = node.nextSibling;
+	}
+}
+
+/*
 childName can be ignore
 */
 function chgMenuTag(tagId, childName) {
+	var buf;
 	var node;
 	var showObj = document.getElementById("menutabContents");
 	if (showObj.attr_CurMenuTag == undefined)
 		showObj.attr_CurMenuTag = null;
 	if (tagId == showObj.attr_CurMenuTag) {
-		if (childName && tagId == "menutab_Tags")
-			showMenuTabAll('menutags_'+childName, 'menutab_Tags_forceTag', 'tags/'+childName, 0x01);
+		if (childName) {
+//			if (tagId == "menutab_Tags")
+			expandMenuTag(childName);
+		}
 		return;
 	}
 
@@ -25,12 +68,9 @@ function chgMenuTag(tagId, childName) {
 				showObj.attr_CurMenuTag = tagId;
 				showObj.innerHTML = ajax.responseText;
 
-				if (tagId == "menutab_Tags") {
-					if (childName)
-						showMenuTabAll('menutags_'+childName, 'menutab_Tags_forceTag', 'tags/'+childName, 0x01);
-				} else if (tagId == "menutab_All" && showObj.childNodes[1]) {
-					node = showObj.childNodes[1];
-					node.attr_Loaded = true;
+				if (childName) {
+//					if (tagId == "menutab_Tags")
+					expandMenuTag(childName);
 				}
 			} else {
 				alert('There was a problem with the request.');

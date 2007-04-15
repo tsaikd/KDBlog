@@ -147,16 +147,22 @@ function showArticleItem($fpath, $type) {
 			logecho("<div class='tagsmenu'>");
 			logecho($BLOGLANG["article"]["tags"].":<br />");
 			foreach ($index[$xmlkey] as $i) {
-				logecho("<a class='tags' onfocus='javascript:this.blur()' href=\"javascript:chgMenuTag('menutab_Tags', '".$vals[$i]["value"]."')\">");
-				logecho($vals[$i]["value"]."</a><br />");
+				logecho("<a class='tags'");
+				logecho(" onfocus='javascript:this.blur()'");
+				logecho(" href=\"javascript:chgMenuTag('menutab_Tags', 'tags/".$vals[$i]["value"]."/".dirname(substr($vpath, 5))."')\">");
+				logecho($vals[$i]["value"]."</a>");
 			}
 			logecho("</div>");
 		}
 
 		// show date
 		$buf = transPathVData2Date($vpath);
-		if ($buf)
-			logecho("<div class='articledate'>".$buf."</div>");
+		if ($buf) {
+			logecho("<a class='articledate'");
+			logecho(" onfocus='javascript:this.blur()'");
+			logecho(" href='javascript:chgMenuTag(\"menutab_All\", \"data/$buf\")'");
+			logecho(">".$buf."</a>");
+		}
 		logecho("</span>");
 	}
 

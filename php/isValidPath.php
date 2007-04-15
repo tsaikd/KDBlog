@@ -24,7 +24,8 @@ function isValidPath($fpath) {
 }
 
 function isValidArticlePath($vpath) {
-	if (substr($vpath, 0, 5) != "data/")
+	if ((substr($vpath, 0, 5) != "data/")
+		&& (substr($vpath, 0, 8) != "special/"))
 		return false;
 	if (substr($vpath, -4) != ".xml")
 		return false;

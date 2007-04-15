@@ -4,121 +4,6 @@ include_once("php/isValidPath.php");
 include_once("php/isValidArticlePathName.php");
 include_once("php/transPath.php");
 
-$ftype = $_REQUEST["ftype"];
-if ($_REQUEST["firstmonth"] == "true")
-	$firstmonth = true;
-else
-	$firstmonth = false;
-
-function listDataDir($type, $vpath, $parentType) {
-	global $BLOGCONF;
-	global $BLOGLANG;
-	global $firstmonth;
-
-	$path = transPathV2R($vpath);
-
-	if (!file_exists($path))
-		return;
-
-	$darray = array();
-	$d = dir($path);
-	while ($f = $d->read()) {
-		if($f[0] == ".")
-			continue;
-		array_push($darray, $f);
-	}
-	$d->close();
-	sort($darray);
-
-	switch ($type) {
-	case "menutags";
-		while ($f = array_pop($darray)) {
-			$id = "$parentType$type"."_$f";
-			$pid = $id."_";
-			logecho("<a onfocus='this.blur()' class='tagstext' href=\"javascript:showMenuTabAll('$id', 'menutab_Tags_forceTag', '$vpath/$f')\">$f</a>");
-			logecho("<div class='$type' id='$id' style='display: none; margin-left: 1em;'>");
-			logecho("</div>");
-		}
-		break;
-	case "menuyear":
-		while ($f = array_pop($darray)) {
-			$id = "$parentType$type"."_$f";
-			$pid = $id."_";
-			logecho("<a onfocus='this.blur()' class='yeartext' href=\"javascript:showMenuTabAll('$id', 'menutab_All_forceYear', '$vpath/$f')\">$f</a>");
-			if ($firstmonth) {
-				logecho("<div class='$type' id='$id' style='display: block;'>");
-				listDataDir("menumonth", "$vpath/$f", $pid);
-			} else {
-				logecho("<div class='$type' id='$id' style='display: none;'>");
-			}
-			logecho("</div>");
-		}
-		break;
-	case "menumonth":
-		while ($f = array_pop($darray)) {
-			$id = "$parentType$type"."_$f";
-			$pid = $id."_";
-			logecho("<a onfocus='this.blur()' class='monthtext' href=\"javascript:showMenuTabAll('$id', 'menutab_All_forceMonth', '$vpath/$f')\">$f</a>");
-			if ($firstmonth) {
-				$firstmonth = false;
-				logecho("<div class='$type' id='$id' style='display: block;'>");
-				listDataDir("menuday", "$vpath/$f", $pid);
-			} else {
-				logecho("<div class='$type' id='$id' style='display: none;'>");
-			}
-			logecho("</div>");
-		}
-		break;
-	case "menuday":
-		while ($f = array_pop($darray)) {
-			if (!isValidArticlePathName($f))
-				continue;
-			if (!file_exists("$path/$f")) {
-				// some file path(link) is not valid anymore
-				touch($BLOGCONF["state"]["rebuildTags"]);
-				continue;
-			}
-
-			$xml = xml_parser_create("UTF-8");
-			xml_parser_set_option($xml, XML_OPTION_CASE_FOLDING, 0);
-			xml_parse_into_struct($xml, file_get_contents("$path/$f"), $vals, $index);
-			xml_parser_free($xml);
-
-			$title = $vals[$index["title"][0]]["value"];
-
-			if (substr($vpath, 0, 5) == "tags/")
-				$dataVPath = transPathVTag2VData("$vpath/$f");
-			else
-				$dataVPath = "$vpath/$f";
-			logecho("<a onfocus='this.blur()' class='$type' href='javascript:showArticle(\"$dataVPath\", 1)'>".$f[0].$f[1]);
-			if ($title)
-				logecho(" - ".$title);
-			logecho("</a>\n");
-		}
-		break;
-	case "menuspec":
-		if (count($darray) == 0) {
-			logecho($BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Spec_Msg"]["nospec"]);
-		} else {
-			foreach ($darray as $f) {
-				if (!isValidArticlePathName($f))
-					continue;
-
-				$xml = xml_parser_create("UTF-8");
-				xml_parse_into_struct($xml, file_get_contents("$path/$f"), $vals, $index);
-				xml_parser_free($xml);
-
-				$title = $vals[$index["TITLE"][0]]["value"];
-				if (!$title)
-					$title = $BLOGLANG["message"]["warn"].": '$f' ".$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Spec_Msg"]["notitle"];
-
-				logecho("<a onfocus='this.blur()' class='$type' href='javascript:showArticle(\"$vpath/$f\", 1)'>$title</a>");
-			}
-		}
-		break;
-	}
-}
-
 function runSpecFile($fpath) {
 	global $BLOGLANG;
 
@@ -164,12 +49,13 @@ function getCacheMenuTab($name) {
 	$cInfo = array();
 	$cInfo["enable"] = $BLOGCONF["cache"][$name]["enable"];
 	$cInfo["cachePath"] = $BLOGCONF["cachpath"]."/".$name.".cache";
+
 	switch ($name) {
+	case "menutab_Recent":
+		$cInfo["limit"] = $BLOGCONF["numRecent"];
 	case "menutab_All":
 	case "menutab_Tags":
 		$cInfo["isValidCacheProc"] = "isValidCache_".$name;
-		$cInfo["showDataProc"] = "showData_".$name;
-		break;
 	case "menutab_Spec":
 		$cInfo["showDataProc"] = "showData_".$name;
 		break;
@@ -180,10 +66,27 @@ function getCacheMenuTab($name) {
 	return getGenCache($cInfo);
 }
 
-function isValidCache_menutab_All($cInfo) {
+function getCacheMenuTabShowDir() {
+	include_once("php/transPath.php");
 	global $BLOGCONF;
+
+	$name = "menutab_showDir";
+	$cInfo = array();
+	$cInfo["enable"] = $BLOGCONF["cache"][$name]["enable"];
+	$cInfo["vpath"] = $_REQUEST["fpath"];
+	$cInfo["dpath"] = transPathV2R($cInfo["vpath"]);
+	$cInfo["id"] = transPathV2Id($cInfo["vpath"]);
+	$cInfo["cachePath"] = $BLOGCONF["cachpath"]."/".$cInfo["id"].".cache";
+	$cInfo["isValidCacheProc"] = "isValidCache_".$name;
+	$cInfo["showDataProc"] = "showData_".$name;
+
+	return getGenCache($cInfo);
+}
+
+function isValidCache_menutab_Recent($cInfo) {
 	include_once("php/getRecentArticlePath.php");
-	$farray = getRecentArticlePath($BLOGCONF["datapath"], 2);
+	$flag["realpath"] = true;
+	$farray = getRecentArticlePath(2, $flag);
 	$statetime = filectime($cInfo["cachePath"]);
 	foreach ($farray as $path) {
 		if (filectime($path) > $statetime)
@@ -192,14 +95,17 @@ function isValidCache_menutab_All($cInfo) {
 	return true;
 }
 
-function isValidCache_menutab_Tags($cInfo) {
-	global $BLOGCONF;
+function isValidCache_menutab_All($cInfo) {
+	return isValidCache_menutab_Recent($cInfo);
+}
 
+function isValidCache_menutab_Tags($cInfo) {
 	if (is_state_old("rebuildTags") || is_state_old("scanTags"))
 		return false;
 
 	include_once("php/getRecentArticlePath.php");
-	$farray = getRecentArticlePath($BLOGCONF["datapath"], 2);
+	$flag["realpath"] = true;
+	$farray = getRecentArticlePath(2, $flag);
 	$statetime = filectime($cInfo["cachePath"]);
 	foreach ($farray as $path) {
 		if (filectime($path) > $statetime) {
@@ -211,13 +117,60 @@ function isValidCache_menutab_Tags($cInfo) {
 	return true;
 }
 
+function isValidCache_menutab_showDir($cInfo) {
+	include_once("php/getDir.php");
+
+	$ctime = filectime($cInfo["cachePath"]);
+	$farray = getDir($cInfo["dpath"]);
+	foreach ($farray as $f) {
+		$ftime = filectime($cInfo["dpath"]."/".$f);
+		if ($ftime > $ctime)
+			return false;
+	}
+
+	return true;
+}
+
+function showData_menutab_Recent($cInfo) {
+	include_once("php/transPath.php");
+	include_once("php/getRecentArticlePath.php");
+	include_once("php/getArticleTitle.php");
+
+	$limit = $cInfo["limit"];
+	$farray = getRecentArticlePath($limit);
+	$odate = null;
+	logecho("<html><div>");
+	foreach ($farray as $vpath) {
+		$fdate = transPath2Date($vpath);
+		if ($fdate != $odate) {
+			logecho("</div>\n");
+			logecho("<div class='menutext'>$fdate</div>\n");
+			logecho("<div class='menudir'>\n");
+		}
+
+		logecho("<a class='menuRecentFile'");
+		logecho(" onfocus='javascript:this.blur()'");
+		logecho(" href='javascript:showArticle(\"$vpath\", 0x01)'>");
+		$title = getArticleTitle($vpath);
+		logecho($title);
+		logecho("</a>\n");
+
+		if ($fdate != $odate) {
+			$odate = $fdate;
+		}
+	}
+	logecho("</div></html>");
+}
+
 function showData_menutab_All($cInfo) {
+	include_once("php/showDataDir.php");
 	logecho("<html>");
-	listDataDir("menuyear", "data", "");
+	showDataDir("data");
 	logecho("</html>");
 }
 
 function showData_menutab_Tags($cInfo) {
+	include_once("php/showDataDir.php");
 	global $BLOGCONF;
 
 	if (is_state_old("rebuildTags")) {
@@ -225,31 +178,44 @@ function showData_menutab_Tags($cInfo) {
 		include_once("php/cleanDir.php");
 		include_once("php/rebuildTags.php");
 		cleanDir($BLOGCONF["tagspath"]);
-		rebuildTags($BLOGCONF["datapath"], $BLOGCONF["tagspath"]);
+		rebuildTags();
 		touch_state_file("rebuildTags");
 		touch_state_file("scanTags");
 	} else if (is_state_old("scanTags")) {
 		include_once("php/rebuildTags.php");
-		rebuildTags($BLOGCONF["datapath"], $BLOGCONF["tagspath"]);
+		rebuildTags();
 		touch_state_file("scanTags");
 	}
 
 	logecho("<html>");
-	listDataDir("menutags", "tags", "");
+	showDataDir("tags");
 	logecho("</html>");
 }
 
 function showData_menutab_Spec($cInfo) {
+	include_once("php/showDataDir.php");
 	logecho("<html>");
-	listDataDir("menuspec", "special", "");
+	$flag = array();
+	$flag["hideArticleNum"] = true;
+	$flag["reverse"] = true;
+	showDataDir("special", $flag);
 	logecho("</html>");
 }
 
+function showData_menutab_showDir($cInfo) {
+	include_once("php/showDataDir.php");
+	logecho("<html>");
+	showDataDir($cInfo["vpath"]);
+	logecho("</html>");
+}
+
+$ftype = $_REQUEST["ftype"];
 switch ($ftype) {
 case "article":
 	$vpath = $_REQUEST["fpath"];
 	$fpath = transPathV2R($vpath);
-	if (!isValidPath($vpath) || !isValidArticlePathName($vpath)
+	if (!isValidPath($vpath)
+		|| !isValidArticlePath($vpath)
 		|| !file_exists($fpath)) {
 		showDataError($ftype, $_REQUEST["fpath"], $BLOGLANG["message"]["invalidPath"]);
 		break;
@@ -257,53 +223,18 @@ case "article":
 
 	header('Content-type: text/html; charset=utf-8');
 	include_once("php/showArticle.php");
-	getCacheArticle($_REQUEST["fpath"], "html");
+	getCacheArticle($vpath, "html");
 	break;
+case "menutab_Recent":
 case "menutab_All":
-	header('Content-type: text/html; charset=utf-8');
-	$firstmonth = true;
-	getCacheMenuTab($ftype);
-	break;
-case "menutab_All_forceYear":
-	$vpath = $_REQUEST["fpath"];
-	if (isValidPath($vpath)) {
-		header('Content-type: text/html; charset=utf-8');
-		echo "<html>";
-		listDataDir("menumonth", $vpath, $_REQUEST["parentType"]);
-		echo "</html>";
-	} else {
-		showDataError($ftype, $_REQUEST["fpath"], $BLOGLANG["message"]["invalidPath"]);
-	}
-	break;
-case "menutab_All_forceMonth":
-	$vpath = $_REQUEST["fpath"];
-	if (isValidPath($vpath)) {
-		header('Content-type: text/html; charset=utf-8');
-		echo "<html>";
-		listDataDir("menuday", $vpath, $_REQUEST["parentType"]);
-		echo "</html>";
-	} else {
-		showDataError($ftype, $_REQUEST["fpath"], $BLOGLANG["message"]["invalidPath"]);
-	}
-	break;
 case "menutab_Tags":
-	header('Content-type: text/html; charset=utf-8');
-	getCacheMenuTab($ftype);
-	break;
-case "menutab_Tags_forceTag":
-	$vpath = $_REQUEST["fpath"];
-	if (isValidPath($vpath)) {
-		header('Content-type: text/html; charset=utf-8');
-		echo "<html>";
-		listDataDir("menuyear", $vpath, $_REQUEST["parentType"]);
-		echo "</html>";
-	} else {
-		showDataError($ftype, $_REQUEST["fpath"], $BLOGLANG["message"]["invalidPath"]);
-	}
-	break;
 case "menutab_Spec":
 	header('Content-type: text/html; charset=utf-8');
 	getCacheMenuTab($ftype);
+	break;
+case "menutab_showDir":
+	header('Content-type: text/html; charset=utf-8');
+	getCacheMenuTabShowDir();
 	break;
 case "runspec":
 	$vpath = $_REQUEST["fpath"];
@@ -360,22 +291,17 @@ case "comment":
 	echo '</root>';
 	break;
 case "searchbot":
-	header('Content-type: text/html; charset=utf-8');
-	echo "<html>";
-
-	if (!$BLOGCONF["func"]["searchbot"]["enable"]) {
+	if (!$BLOGCONF["func"]["sitemap"]["enable"]) {
+		header('Content-type: text/html; charset=utf-8');
+		echo '<html>';
 		echo "<error type='$ftype' ename='funcOff'>".$BLOGLANG["message"]["funcOff"]."</error>";
 		echo '</html>';
 		break;
 	}
 
-	include_once("php/getRecentArticlePath.php");
-	$farray = getRecentArticlePath($BLOGCONF["datapath"], -1);
-	foreach ($farray as $fpath) {
-		$vpath = transPathR2V($fpath, "data");
-		echo "<a href='".$BLOGCONF["link"]."index.php?fpath=".$vpath."'>$vpath</a><br />\n";
-	}
-	echo "</html>";
+	include_once("php/searchbot.php");
+	header('Content-type: text/html; charset=utf-8');
+	searchbot();
 	break;
 case "sitemap":
 	if (!$BLOGCONF["func"]["sitemap"]["enable"]) {
@@ -386,32 +312,13 @@ case "sitemap":
 		break;
 	}
 
+	include_once("php/searchbot.php");
 	header("Content-Type: text/xml");
-	echo '<?xml version="1.0" encoding="utf-8" ?>';
-	echo '<urlset xmlns="http://www.google.com/schemas/sitemap/0.84">';
-
-	echo '<url>';
-	echo '<loc>'.$BLOGCONF["link"].'</loc>';
-	$ftime = filectime("index.php");
-	echo '<lastmod>'.strftime("%Y-%m-%d", $ftime).'</lastmod>';
-	echo '</url>';
-
-	include_once("php/getRecentArticlePath.php");
-	$farray = getRecentArticlePath($BLOGCONF["datapath"], -1);
-	foreach ($farray as $fpath) {
-		$vpath = transPathR2V($fpath, "data");
-		echo '<url>';
-		echo '<loc>'.$BLOGCONF["link"]."index.php?fpath=".$vpath.'</loc>';
-		$ftime = filectime($fpath);
-		echo '<lastmod>'.strftime("%Y-%m-%d", $ftime).'</lastmod>';
-		echo '</url>';
-	}
-
-	echo '</urlset>';
+	sitemap();
 	break;
 default:
 	header('Content-type: text/html; charset=utf-8');
-	echo "<html>$ftype: Not implement</html>";
+	echo "<html>type('$ftype'): Not implement</html>";
 	break;
 }
 

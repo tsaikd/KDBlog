@@ -3,7 +3,7 @@
 # 以下設定為 KDBlog 網頁程式所使用
 ############################################################
 # (int) 設定檔的版本，當升級時版本有更動會產生訊息
-$BLOGCONF["version"] = 12;
+$BLOGCONF["version"] = 13;
 
 # (string) Blog 的標題
 $BLOGCONF["title"] = "KD's Blog";
@@ -18,6 +18,9 @@ $BLOGCONF["description"] = "KD 的生活點滴";
 
 # (int) 一開始顯示的文章數
 $BLOGCONF["numAtStart"] = 3;
+
+# (int) 最近文章列表顯示的文章數
+$BLOGCONF["numRecent"] = 10;
 
 # (int) rss 中預設顯示的文章數
 $BLOGCONF["rssDefNum"] = 20;
@@ -96,12 +99,16 @@ $BLOGCONF["cache"]["enable"] = true;
 $BLOGCONF["cache"]["cssInside"]["enable"] = true;
 # (bool) 將 javascript 檔在 index 中展開
 $BLOGCONF["cache"]["jsInside"]["enable"] = true;
+# (bool) 快取 menutab_Recent
+$BLOGCONF["cache"]["menutab_Recent"]["enable"] = true;
 # (bool) 快取 menutab_All
 $BLOGCONF["cache"]["menutab_All"]["enable"] = true;
 # (bool) 快取 menutab_Tags
 $BLOGCONF["cache"]["menutab_Tags"]["enable"] = true;
 # (bool) 快取 menutab_Spec
 $BLOGCONF["cache"]["menutab_Spec"]["enable"] = true;
+# (bool) 快取 menutab_showDir
+$BLOGCONF["cache"]["menutab_showDir"]["enable"] = true;
 # (bool) 快取文章顯示結果
 $BLOGCONF["cache"]["articleHtml"]["enable"] = true;
 # (bool) 快取 rss 文章顯示結果

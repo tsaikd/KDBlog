@@ -33,9 +33,8 @@ if ($_REQUEST["limit"]) {
 switch($_REQUEST["feed"]) {
 default: // all
 	include_once("php/getRecentArticlePath.php");
-	$farray = getRecentArticlePath($BLOGCONF["datapath"], $limit);
-	foreach ($farray as $fpath) {
-		$vpath = transPathR2V($fpath, "data");
+	$farray = getRecentArticlePath($limit);
+	foreach ($farray as $vpath) {
 		getCacheArticle($vpath, "rss");
 	}
 	break;

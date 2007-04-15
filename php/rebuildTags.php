@@ -1,31 +1,27 @@
 <?php
 include_once("php/getRecentArticlePath.php");
+include_once("php/transPath.php");
+include_once("php/parseXml.php");
 include_once("php/smartSymLink.php");
 
-function rebuildTags($frompath, $topath, $level=3) {
-	$darray = getRecentArticlePath($frompath, -1);
+function rebuildTags() {
+	$farray = getRecentArticlePath(-1);
 
-	foreach ($darray as $fpath) {
-		$xml = xml_parser_create("UTF-8");
-		xml_parser_set_option($xml, XML_OPTION_CASE_FOLDING, 0);
-		xml_parse_into_struct($xml, file_get_contents($fpath), $vals, $index);
-		xml_parser_free($xml);
+	foreach ($farray as $vpath) {
+		$fpath = transPathV2R($vpath);
+		$xml = parseXml($fpath);
+		$index = $xml["index"];
+		$vals = $xml["vals"];
 
 		if (!$index["tag"])
 			continue;
 
 		foreach ($index["tag"] as $iTag) {
 			$tag = $vals[$iTag]["value"];
-
-			if (!file_exists("$topath/$tag"))
-				mkdir("$topath/$tag");
-
-			$iSkip = strlen($frompath);
-			if (substr($frompath, -1) != "/")
-				$iSkip++;
-			$tagpath = "$topath/$tag/".substr($fpath, $iSkip);
-			if (!file_exists($tagpath))
-				smartSymLink($fpath, $tagpath);
+			$vtag = "tags/$tag";
+			$tagvpath = $vtag.substr($vpath, 4);
+			$tagfpath = transPathV2R($tagvpath);
+			smartSymLink($fpath, $tagfpath);
 		}
 	}
 }

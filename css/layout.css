@@ -61,39 +61,24 @@ ul, li {
 	border-top: solid 1px #888;
 }
 
-#menutabContents .tagstext {
-	display: list-item;
-	list-style: none;
+#menutabContents .menutext {
+	display: block;
 }
 
-#menutabContents .yeartext {
-	display: list-item;
-	list-style: none;
-}
-
-#menutabContents .menuyear {
+#menutabContents .menudir {
 	margin-left: 0.5em;
 }
 
-#menutabContents .menuyear .monthtext {
-	display: list-item;
-	list-style: none;
-}
-
-#menutabContents .menuyear .menumonth {
-	margin-left: 0.5em;
-}
-
-#menutabContents .menuyear .menumonth .menuday {
-	display: list-item;
-	list-style: none;
+#menutabContents .menufile {
+	display: block;
 	text-indent: -2em;
 	padding-left: 2em;
 }
 
-#menutabContents .menuspec {
+#menutabContents .menudir .menuRecentFile {
 	display: list-item;
-	list-style: none;
+	list-style-position: outside;
+	margin-left: 1em;
 }
 
 #menures {
@@ -166,10 +151,12 @@ ul, li {
 }
 
 #displayArea .article .articlemenu .tagsmenu .tags {
+	display: block;
 	margin-left: 1em;
 }
 
 #displayArea .article .articlemenu .articledate {
+	display: block;
 	font-size: 0.95em;
 }
 

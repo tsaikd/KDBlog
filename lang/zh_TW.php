@@ -18,6 +18,7 @@ $BLOGLANG["server"]["movehtaccess"] = "由於權限不足，請自行將 '%s' �
 $BLOGLANG["mainmenu"]["menuOpt"]["googleOpt"] = "只尋找站內文章";
 $BLOGLANG["mainmenu"]["menuOpt"]["closeAll"] = "關閉所有文章";
 
+$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Recent"] = "最近";
 $BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_All"] = "全部";
 $BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Tags"] = "分類";
 $BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Spec"] = "功能";

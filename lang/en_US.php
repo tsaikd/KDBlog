@@ -18,6 +18,7 @@ $BLOGLANG["server"]["movehtaccess"] = "Because of permission deny, please move f
 $BLOGLANG["mainmenu"]["menuOpt"]["googleOpt"] = "only search this site";
 $BLOGLANG["mainmenu"]["menuOpt"]["closeAll"] = "CloseAll";
 
+$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Recent"] = "Recent";
 $BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_All"] = "All";
 $BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Tags"] = "Tags";
 $BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Spec"] = "Spec";
