@@ -31,8 +31,9 @@ function macro_alink($node, $type) {
 	} else { // $type == "html"
 		$res  = "<a class='macro_alink'";
 		$res .= " onfocus='javascript:this.blur()'";
-		$res .= " onclick='javascript:showArticle(\"$vpath\", 0x01)'";
-		$res .= " href='javascript:;'>$title</a>";
+		$res .= " href='javascript:showArticle(\"$vpath\", 0x01)'>";
+		$res .= $title;
+		$res .= "</a>";
 	}
 
 	return $res;

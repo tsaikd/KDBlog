@@ -4,9 +4,32 @@ function macro_quote($node, $type) {
 		return "";
 
 	if ($type == "rss") {
-		$style = " style='color: #206; background-color: #ffc; border: dotted 1px #888;'";
+		$bstyle  = " style='color: #206;";
+		$bstyle .= " background-color: #ffc;";
+		$bstyle .= " border: dotted 1px #888;'";
+
+		if ($node["attributes"]["header"]) {
+			$hval  = "<div style='color: green; background-color: white;'>";
+			$hval .= $node["attributes"]["header"];
+			$hval .= "</div>";
+		} else {
+			$hval = "";
+		}
+
+		$cstyle = "";
 	} else { // $type == "html"
-		$style = " class='macro_quote'";
+		$bstyle = " class='macro_quote'";
+
+		if ($node["attributes"]["header"]) {
+			$hval  = "<div class='macro_quote_header'";
+			$hval .= " onclick='javascript:toggleNextSibling(this)'>";
+			$hval .= $node["attributes"]["header"];
+			$hval .= "</div>";
+		} else {
+			$hval = "";
+		}
+
+		$cstyle = " class='macro_quote_contents'";
 	}
 
 	$value = $node["value"];
@@ -19,13 +42,13 @@ function macro_quote($node, $type) {
 
 	switch ($node["type"]) {
 	case "open":
-		$res = "<div$style>".$value;
+		$res = "<div$bstyle>$hval<div$cstyle>$value";
 		break;
 	case "close":
-		$res = "</div>";
+		$res = "</div></div>";
 		break;
 	case "complete":
-		$res = "<div$style>".$value."</div>";
+		$res = "<div$bstyle>$hval<div$cstyle>$value</div></div>";
 		break;
 	default: // "cdata"
 		$res = $value;

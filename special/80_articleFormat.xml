@@ -102,10 +102,12 @@ macro quote 的使用方式:
 <![CDATA[
 然後在文章內容裡就可以使用
 &lt;quote&gt;引述文章內容&lt;/quote&gt;
+&lt;quote header="標題"&gt;引述文章內容&lt;/quote&gt;
 ]]>
-
 看起來就會像這樣
 <quote>引述文章內容</quote>
+<quote header="標題">引述文章內容</quote>
+在標題上點一下滑鼠還可以把內容隱藏起來
 
 macro quote 裡常會使用 <![CDATA[&lt;![CDATA[  ]]&gt;]]> 來避免 xml 格式錯誤
 
