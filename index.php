@@ -12,7 +12,7 @@ if (!file_exists("config.php")) {
 	exit;
 }
 include_once("config.php");
-if ($BLOGCONF["version"] < 13) {
+if ($BLOGCONF["version"] < 14) {
 	echo $BLOGLANG["message"]["confTooOld"];
 	exit;
 }
@@ -168,18 +168,27 @@ if (!$_REQUEST["fpath"]) {
 include_once("php/getRecentCommentPath.php");
 $farray = getRecentCommentPath($BLOGCONF["func"]["comment"]["showNum"]);
 if (count($farray)) {
-	echo $BLOGLANG["mainmenu"]["menures"]["cmntidx"].":<br />";
+	echo "<div class='menublock'>";
+	echo "<div class='menuitem'>".$BLOGLANG["mainmenu"]["menures"]["cmntidx"].":</div>";
 	foreach ($farray as $f) {
 		$fdir = dirname($f);
 		$fname = basename($f);
 		$buf = explode("_", $fname);
 		$dataVPath = "data/$fdir/".$buf[0]."_".$buf[1].".xml";
-		echo "<a onfocus='javascript:this.blur()' class='menuday' href='javascript:showArticle(\"$dataVPath\", 1)'>".substr($dataVPath, 5, -4)." (".(int)$buf[2].")</a><br />";
+		echo "<a class='menuitem'";
+		echo " onfocus='javascript:this.blur()'";
+		echo " href='javascript:showArticle(\"$dataVPath\", 1)'>";
+		echo substr($dataVPath, 5, -4)." (".(int)$buf[2].")";
+		echo "</a><br />";
 	}
-	echo "<hr />";
+	echo "</div>";
 }
+
+if ($BLOGCONF["extraMenures"])
+	foreach ($BLOGCONF["extraMenures"] as $f)
+		include($f);
 ?>
-				<a onfocus='javascript:this.blur()' href="rss2.php?feed=all"><?php
+				<a class='menuitem' onfocus='javascript:this.blur()' href="rss2.php?feed=all"><?php
 if (file_exists($BLOGCONF["rss2AllImg"]))
 	echo "<img alt='".$BLOGLANG["mainmenu"]["menures"]["rss2All"]."' src='".$BLOGCONF["rss2AllImg"]."' />";
 else

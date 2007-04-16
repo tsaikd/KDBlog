@@ -3,7 +3,7 @@
 # 以下設定為 KDBlog 網頁程式所使用
 ############################################################
 # (int) 設定檔的版本，當升級時版本有更動會產生訊息
-$BLOGCONF["version"] = 13;
+$BLOGCONF["version"] = 14;
 
 # (string) Blog 的標題
 $BLOGCONF["title"] = "KD's Blog";
@@ -38,8 +38,11 @@ $BLOGCONF["email"] = "tsaikd@gmail.com";
 # (string Path) RSS 圖示的路徑，若找不到檔案則用文字代替
 $BLOGCONF["rss2AllImg"] = "rss2.png";
 
-# (string Path) RSS 額外的自定 footer，需使用 php 語言
+# (string Path) 額外的自定 footer，需使用 php 語言
 #$BLOGCONF["extraFooter"][0] = "php/google_analytics.php";
+
+# (string Path) 額外的自定 menu resource，需使用 php 語言
+#$BLOGCONF["extraMenures"][0] = "php/google_shared_items.php";
 
 ############################################################
 # 路徑設定
