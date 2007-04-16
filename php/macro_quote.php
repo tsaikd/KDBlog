@@ -4,12 +4,14 @@ function macro_quote($node, $type) {
 		return "";
 
 	if ($type == "rss") {
-		$bstyle  = " style='color: #206;";
-		$bstyle .= " background-color: #ffc;";
+		$bstyle  = " style='color: #104;";
+		$bstyle .= " background-color: #eef;";
 		$bstyle .= " border: dotted 1px #888;'";
 
 		if ($node["attributes"]["header"]) {
-			$hval  = "<div style='color: green; background-color: white;'>";
+			$hval  = "<div style='color: white;";
+			$hval .= " background-color: #64d;";
+			$hval .= " font-weight: bold;'>";
 			$hval .= $node["attributes"]["header"];
 			$hval .= "</div>";
 		} else {
