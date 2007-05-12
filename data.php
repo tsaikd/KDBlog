@@ -35,6 +35,20 @@ function runSpecFile($fpath) {
 	echo "</root>";
 }
 
+function showMsgHtml($msg) {
+	echo "<html>";
+	echo "<h1>".$BLOGLANG["message"]["success"]."</h1>";
+	echo "<h2>".$msg."</h2>";
+	echo "</html>";
+}
+
+function showErrorHtml($msg) {
+	echo "<html>";
+	echo "<h1>".$BLOGLANG["message"]["error"]."</h1>";
+	echo "<h2>".$msg."</h2>";
+	echo "</html>";
+}
+
 function showDataError($ftype, $fpath, $msg) {
 	header("Content-Type: text/xml");
 	echo '<?xml version="1.0" encoding="utf-8" ?>';
@@ -281,14 +295,49 @@ case "comment":
 		break;
 	}
 
+	$info = null;
 	if (strlen($_REQUEST["user"]))
-		$user = strSafeHtml($_REQUEST["user"]);
-	else
-		$user = null;
+		$info["user"] = strSafeHtml($_REQUEST["user"]);
+	if (strlen($_REQUEST["email"]))
+		$info["email"] = strSafeHtml($_REQUEST["email"]);
+	if ($_REQUEST["notify"] == "y")
+		$info["notify"] = true;
 
 	include_once("php/writeArticleComment.php");
-	writeArticleComment($_REQUEST["fpath"], $comment, $user);
+	writeArticleComment($_REQUEST["fpath"], $comment, $info);
 	echo '</root>';
+	break;
+case "commentUnNotify":
+	header('Content-type: text/html; charset=utf-8');
+	$vpath = $_REQUEST["fpath"];
+	$fpath = transPathV2R($vpath);
+	if (!isValidPath($vpath)
+		|| !isValidArticlePath($vpath)
+		|| !file_exists($fpath)) {
+		showErrorHtml($BLOGLANG["message"]["invalidPath"]);
+		break;
+	}
+
+	unset($info);
+	$info["action"] = "unnotify";
+	$info["cname"] = $_REQUEST["cname"];
+	$info["ip"] = $_REQUEST["ip"];
+	$info["time"] = $_REQUEST["time"];
+
+	include_once("php/modifyArticleComment.php");
+	if (modifyArticleComment($vpath, $info))
+		showMsgHtml($BLOGLANG["comment"]["msg"]["unNotifyOk"]);
+	else
+		showErrorHtml($BLOGLANG["comment"]["errmsg"]["unNotifyFailed"]);
+	break;
+case "cssInside":
+case "jsInside":
+	include_once("php/indexHeader.php");
+	if ($ftype == "cssInside")
+		header('Content-type: text/css');
+	else
+		header('Content-type: text/javascript');
+	getCacheIndex($ftype);
 	break;
 case "searchbot":
 	if (!$BLOGCONF["func"]["sitemap"]["enable"]) {

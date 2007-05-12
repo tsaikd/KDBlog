@@ -47,13 +47,18 @@ function logecho($text, $flag=0x03) {
 }
 
 /*
+return false if regenerate cache file, else true
 $cInfo (array) include:
+input:
 	"enable"			=> bool
 	"cachePath"			=> string path
 	"isValidCacheProc"	=> function callback with param $cInfo (option)
+	"preShowProc"		=> function callback with param $cInfo (option)
 	"showDataProc"		=> function callback with param $cInfo
+addition:
+	"doCache"			=> bool regenerate cache file or not
 */
-function getGenCache($cInfo) {
+function getGenCache(&$cInfo) {
 	global $BLOGCONF;
 	global $logfp;
 
@@ -66,6 +71,10 @@ function getGenCache($cInfo) {
 		$doCache = true;
 	else
 		$doCache = false;
+	$cInfo["doCache"] = $doCache;
+
+	if ($cInfo["preShowProc"])
+		$cInfo["preShowProc"]($cInfo);
 
 	if ($doCache) {
 		$tmpfname = tempnam($BLOGCONF["cachpath"], "_cache_tmp_");
@@ -83,6 +92,8 @@ function getGenCache($cInfo) {
 	} else {
 		readfile($cInfo["cachePath"]);
 	}
+
+	return !$doCache;
 }
 
 function cleanCache() {

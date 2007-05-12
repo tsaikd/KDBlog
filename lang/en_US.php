@@ -2,6 +2,7 @@
 
 $BLOGLANG["button"]["submit"] = "Submit";
 
+$BLOGLANG["message"]["success"] = "SUCCESS";
 $BLOGLANG["message"]["warn"] = "WARN";
 $BLOGLANG["message"]["error"] = "ERROR";
 $BLOGLANG["message"]["cannotread"] = "it's not readable in the server";
@@ -47,6 +48,11 @@ $BLOGLANG["special"]["badSpecType"] = "Invalid specType";
 $BLOGLANG["special"]["noSpecContents"] = "No contents found in specFile";
 $BLOGLANG["special"]["noSpecCode"] = "No code found in specFile";
 
+$BLOGLANG["comment"]["email"]["fSubject"] = $BLOGCONF["title"]." -- New Comment '%s'";
+$BLOGLANG["comment"]["email"]["fBodyTail"] = "<br /><hr /><br />If you don't want to get any notification, please click <a href='%s'>this link</a>";
+$BLOGLANG["comment"]["write"]["notify"] = "Notify me when getting new comments"
+$BLOGLANG["comment"]["msg"]["unNotifyOk"] = "You will not get any new comments by email";
+$BLOGLANG["comment"]["errmsg"]["unNotifyFailed"] = "Some error occured when disable email notification. You can try to contact to ".$BLOGCONF["email"];
 $BLOGLANG["comment"]["errmsg"]["reg_num_check"] = "Invalid check number";
 $BLOGLANG["comment"]["errmsg"]["multiComment"] = "You cannot comment more than 1 article at the same time";
 $BLOGLANG["comment"]["errmsg"]["emptyComment"] = "Empty comment";

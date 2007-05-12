@@ -2,6 +2,7 @@
 
 $BLOGLANG["button"]["submit"] = "確定";
 
+$BLOGLANG["message"]["success"] = "成功";
 $BLOGLANG["message"]["warn"] = "警告";
 $BLOGLANG["message"]["error"] = "錯誤";
 $BLOGLANG["message"]["cannotread"] = "檔案無法讀取";
@@ -47,6 +48,11 @@ $BLOGLANG["special"]["badSpecType"] = "程式檔案格式錯誤";
 $BLOGLANG["special"]["noSpecContents"] = "程式檔案沒有說明";
 $BLOGLANG["special"]["noSpecCode"] = "程式檔案沒有程式碼";
 
+$BLOGLANG["comment"]["email"]["fSubject"] = $BLOGCONF["title"]." -- 新評論通知 '%s'";
+$BLOGLANG["comment"]["email"]["fBodyTail"] = "<br /><hr /><br />如果不想繼續收到通知請按<a href='%s'>此連結</a>";
+$BLOGLANG["comment"]["write"]["notify"] = "當有新評論時通知我";
+$BLOGLANG["comment"]["msg"]["unNotifyOk"] = "您已經成功取消'新評論通知'功能";
+$BLOGLANG["comment"]["errmsg"]["unNotifyFailed"] = "取消'新評論通知'功能時發生錯誤, 如有需要請聯絡 ".$BLOGCONF["email"];
 $BLOGLANG["comment"]["errmsg"]["reg_num_check"] = "驗證碼輸入錯誤";
 $BLOGLANG["comment"]["errmsg"]["multiComment"] = "不能同時評論兩篇文章";
 $BLOGLANG["comment"]["errmsg"]["emptyComment"] = "空的評論內容";

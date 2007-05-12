@@ -156,7 +156,7 @@ function showArticleItem($fpath, $type) {
 		}
 
 		// show date
-		$buf = transPathVData2Date($vpath);
+		$buf = transPath2Date($vpath);
 		if ($buf) {
 			logecho("<a class='articledate'");
 			logecho(" onfocus='javascript:this.blur()'");

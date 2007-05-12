@@ -19,6 +19,8 @@ KDBlog 是以檔案系統為基礎的閱讀介面
 <to>&lt;![CDATA[<a href="http://blog.tsaikd.org/">KDBlog</a>]]&gt;</to>
 </macro>
 <contents>
+<alink src="" />
+<quote header=""></quote>
 </contents>
 </article>
 ]]></quote>

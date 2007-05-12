@@ -10,6 +10,7 @@ function getCacheIndex($name) {
 	$cInfo = array();
 	$cInfo["enable"] = $BLOGCONF["cache"][$name]["enable"];
 	$cInfo["cachePath"] = $BLOGCONF["cachpath"]."/".$name.".cache";
+	$cInfo["preShowProc"] = "preShowData";
 	if ($name == "cssInside")
 		$cInfo["showDataProc"] = "showCssData";
 	else if ($name == "jsInside")
@@ -20,10 +21,26 @@ function getCacheIndex($name) {
 	return getGenCache($cInfo);
 }
 
-function showCssData() {
-	include_once("php/getDir.php");
+function preShowData($cInfo) {
+	global $BLOGCONF;
 
-	logecho("<style type=\"text/css\">");
+	if ($BLOGCONF["func"]["debug"]["enable"]) {
+		header('Cache-Control: no-cache');
+		header('Pragma: no-cache');
+		header('Expires: 0');
+		return;
+	}
+
+	if ($cInfo["doCache"])
+		$ftime = time();
+	else
+		$ftime = filectime($cInfo["cachePath"]) - 5;
+	header('Last-Modified: '.date(DATE_RFC2822, $ftime));
+	header('Expires: '.date(DATE_RFC2822, $ftime+86400));
+}
+
+function showCssData($cInfo) {
+	include_once("php/getDir.php");
 
 	$path = "css";
 	$farray = getDir($path);
@@ -32,14 +49,10 @@ function showCssData() {
 			continue;
 		logecho(file_get_contents("$path/$f"));
 	}
-
-	logecho("</style>");
 }
 
-function showJsData() {
+function showJsData($cInfo) {
 	include_once("php/getDir.php");
-
-	logecho("<script type=\"text/javascript\">");
 
 	$path = "js";
 	$farray = getDir($path);
@@ -48,8 +61,6 @@ function showJsData() {
 			continue;
 		logecho(file_get_contents("$path/$f"));
 	}
-
-	logecho("</script>");
 }
 
 ?>

@@ -84,13 +84,14 @@ function transPathId2V($id) {
 
 function transPathVTag2VData($path) {
 	$pinfo = explode("/", $path);
-	$f = array_shift($pinfo);
-	if ($f != "tags")
+	if ($pinfo[0] != "tags")
 		return "";
 
-	array_shift($pinfo);
-	$res = "data/".implode("/", $pinfo);
-	return $res;
+	$len = count($pinfo);
+	if ($len < 5)
+		return "";
+
+	return "data/".$pinfo[$len-3]."/".$pinfo[$len-2]."/".$pinfo[$len-1];
 }
 
 function transPath2Date($path) {
@@ -99,13 +100,6 @@ function transPath2Date($path) {
 	if ($len < 3)
 		return "";
 	return $buf[$len-3]."/".$buf[$len-2]."/".substr($buf[$len-1], 0, 2);
-}
-
-function transPathVData2Date($path) {
-	if (substr($path, 0, 5) != "data/")
-		return "";
-	$buf = explode("/", $path);
-	return $buf[1]."/".$buf[2]."/".substr($buf[3], 0, 2);
 }
 
 ?>

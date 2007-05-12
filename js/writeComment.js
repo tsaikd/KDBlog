@@ -14,10 +14,14 @@ function reload_security(obj) {
 
 function send_comment() {
 	var obj = document.getElementById("comment_form");
-	var user = URLencode(obj.elements[0].value);
-	var comment = URLencode(obj.elements[1].value);
-	var reg_num_check = URLencode(obj.elements[2].value);
-	var submit = obj.elements[3];
+
+	var user = "&user="+URLencode(obj.elements[0].value);
+	var email = "&email="+URLencode(obj.elements[1].value);
+	var notify = obj.elements[2].checked ? "&notify=y" : "";
+	var comment = "&comment="+URLencode(obj.elements[3].value);
+	var reg_num_check = "&reg_num_check="+URLencode(obj.elements[4].value);
+	var submit = obj.elements[5];
+
 	var id = getNodeId(obj.parentNode);
 	var path = getPathFromId(id);
 
@@ -52,7 +56,7 @@ function send_comment() {
 	ajax.open("POST", "data.php", true);
 	ajax.setRequestHeader("Content-Type", 
 		"application/x-www-form-urlencoded; charset=utf-8");
-	ajax.send("ftype=comment&user="+user+"&comment="+comment+"&reg_num_check="+reg_num_check+"&fpath="+path);
+	ajax.send("ftype=comment"+user+email+notify+comment+reg_num_check+"&fpath="+path);
 }
 
 // in Opera 9, modify article contents with innerHTML will destroy javascript
@@ -84,16 +88,27 @@ function commentArticle(id) {
 
 		var showText = "";
 
-		showText += "ID: <input name='user' type='text' /><br />";
+		showText += "<table><tr>";
+		showText += "<td>ID:<\/td>";
+		showText += "<td><input name='user' type='text' size='20' /><\/td>";
+		showText += "<\/tr><tr>";
+		showText += "<td>E-Mail:<\/td>";
+		showText += "<td><input name='email' type='text' size='50' /><\/td>";
+		showText += "<\/tr><\/table>";
+		if (blog.conf.func.comment.notify)
+			showText += "<input type='checkbox' name='notify' value='y' />"+blog.lang.comment.write.notify+"<br />";
+		else
+			showText += "<input type='checkbox' name='notify' value='y' style='display: none' />";
 		showText += "<textarea name='comment' rows='8' cols='60'><\/textarea><br />";
-		showText += "<img id='comment_img' src='security.php' onclick='javascript:reload_security()' />";
-		showText += "<input name='reg_num_check' type='text' size='4' maxlength='4' />";
-		showText += "<input type='submit' value='"+blog.lang.button.submit+"' />";
+		showText += "<table><tr>";
+		showText += "<td><img id='comment_img' src='security.php' onclick='javascript:reload_security()' /><\/td>";
+		showText += "<td><input name='reg_num_check' type='text' size='4' maxlength='4' /><\/td>";
+		showText += "<td><input type='submit' value='"+blog.lang.button.submit+"' /><\/td>";
+		showText += "<\/tr><\/table>";
 		node.innerHTML = showText;
 
 		scrollToArticle(node);
 		reload_security();
-		findChildByName(node, "user").focus();
 	}
 }
 

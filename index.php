@@ -12,7 +12,7 @@ if (!file_exists("config.php")) {
 	exit;
 }
 include_once("config.php");
-if ($BLOGCONF["version"] < 14) {
+if ($BLOGCONF["version"] < 15) {
 	echo $BLOGLANG["message"]["confTooOld"];
 	exit;
 }
@@ -25,30 +25,6 @@ check_necessary_dir("tagspath", 0x07);
 check_necessary_dir("cmntpath", 0x07);
 check_necessary_dir("specpath", 0x01);
 check_necessary_dir($BLOGCONF["func"]["comment"]["indexByTime"], 0x0F);
-
-# Check .htaccess to rewrite url
-/*
-if (!file_exists(".htaccess")) {
-	include_once("php/logHtaccess.php");
-	if (is_writeable(".")) {
-		$logfp = fopen(".htaccess", "w");
-		logHtaccess();
-		fclose($logfp);
-		unset($logfp);
-	} else {
-		$fpath = $BLOGCONF["cachpath"]."/htaccess.cache";
-		$logfp = fopen($fpath, "w");
-		printf($BLOGLANG["message"]["error"].": ".$BLOGLANG["server"]["movehtaccess"]
-			, $fpath
-			, dirname($_SERVER["SCRIPT_FILENAME"])."/.htaccess"
-		);
-		logHtaccess();
-		fclose($logfp);
-		unset($logfp);
-		exit();
-	}
-}
-*/
 
 # Check need to clean cache or not
 $name = "cleanCache";
@@ -64,7 +40,12 @@ if (is_state_old($name)) {
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title><?=$BLOGCONF["title"]?></title>
 		<base href="<?=$BLOGCONF["link"]?>">
+<?php if (file_exists("favicon.ico")) : ?>
+		<link rel="SHORTCUT ICON" type="image/x-icon" href="favicon.ico">
+<?php endif ?>
 		<link rel="alternate" type="application/rss+xml" title="<?=$BLOGCONF["title"]?>" href="rss2.php?feed=all">
+		<link rel="stylesheet" type="text/css" href="data.php?ftype=cssInside">
+		<script type="text/javascript" src="data.php?ftype=jsInside"></script>
 		<script type="text/javascript">
 blog = {};
 blog.lang = {};
@@ -89,6 +70,8 @@ blog.lang.special.runSpecOk = "<?=$BLOGLANG["special"]["runSpecOk"]?>";
 blog.lang.special.runSpecError = "<?=$BLOGLANG["special"]["runSpecError"]?>";
 
 blog.lang.comment = {};
+blog.lang.comment.write = {};
+blog.lang.comment.write.notify = "<?=$BLOGLANG["comment"]["write"]["notify"]?>";
 blog.lang.comment.errmsg = {};
 blog.lang.comment.errmsg.multiComment = "<?=$BLOGLANG["comment"]["errmsg"]["multiComment"]?>";
 
@@ -101,6 +84,7 @@ blog.conf.init = null;
 
 blog.conf.func.comment = {};
 blog.conf.func.comment.enable = <?=$BLOGCONF["func"]["comment"]["enable"]?"true":"false"?>;
+blog.conf.func.comment.notify = <?=$BLOGCONF["func"]["commentNotify"]["enable"]?"true":"false"?>;
 blog.conf.func.comment.img_num = 0;
 
 if (!Array.prototype.indexOf) { // for IE6
@@ -111,17 +95,7 @@ if (!Array.prototype.indexOf) { // for IE6
 		return -1;
 	}
 }
-		</script>
-<?php
-include_once("php/indexHeader.php");
 
-if (file_exists("favicon.ico"))
-	echo '<link rel="SHORTCUT ICON" href="favicon.ico" type="image/x-icon">'."\n";
-
-getCacheIndex("cssInside");
-getCacheIndex("jsInside");
-?>
-		<script type="text/javascript">
 blog.conf.init = function () {
 	chgMenuTag("menutab_Recent");
 

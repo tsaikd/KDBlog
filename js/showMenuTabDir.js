@@ -25,6 +25,12 @@ function showMenuTabDir(obj, fpath, plist) {
 					if (obj)
 						return showMenuTabDir(obj, fpath+"/"+buf, plist);
 				}
+
+				obj = showObj.firstChild;
+				if (obj.className != "menutext")
+					return;
+				if (obj.nextSibling.className == "menudir")
+					return showMenuTabDir(obj, fpath+"/"+obj.innerHTML);
 			} else {
 				alert('There was a problem with the request.');
 			}
