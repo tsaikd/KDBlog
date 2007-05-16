@@ -127,13 +127,6 @@ Browser (Client) 端使用 AJAX 來產生使用者所看到的網頁
 我覺得 Windows 還是乖乖的當 desktop 就好了
 server 還是交給 Unix 系統吧
 
-mod_rewrite(apache) 的部份
-其實現在還在實驗中
-雖然可以讓網址看起來比較漂亮
-不過其實我不太想用
-要是 Google 的 GSiteMap 沒問題的話
-應該可以把 mod_rewrite 的部份拿掉
-
 <hr /><h2>"KDBlog" 的優缺點</h2>
 "KDBlog" 沒有使用額外的資料庫
 這個其實是有好有壞的
@@ -165,6 +158,7 @@ mod_rewrite(apache) 的部份
 	RSS 2.0
 	Comment
 	tag
+	sub-tags
 	(多國語言)
 	(theme)
 	(search)
@@ -180,12 +174,21 @@ Comment
 tag
 每篇文章可以有一個或一個以上的類別
 
+sub-tags
+支援多重 tag
+簡單來說就是可以把 tag 放在 tag 裡面
+ex) tag: Linux/Gentoo 的意思就是
+在 Linux 這個 tag 之下
+有 Gentoo 這個 tag
+然後才是文章
+
 (多國語言)
 都已經 21 世紀了
 不支援一下怎麼行哩...XD
 只不過我只在 server 端有選項可以設定
 而且目前只有繁中跟英文兩種"介面"
 注意喔...只有"介面"...^_^
+像本文目前就只有繁中版
 
 (theme)
 這個其實應該不太完整
