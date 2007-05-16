@@ -38,7 +38,16 @@ if (is_state_old($name)) {
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title><?=$BLOGCONF["title"]?></title>
+		<title><?php
+echo $BLOGCONF["title"];
+if ($_REQUEST["fpath"]) {
+	$darray = explode(",", $_REQUEST["fpath"]);
+	$darray = array_unique($darray);
+
+	include_once("php/getArticleTitle.php");
+	echo " - ".getArticleTitle($darray[0]);
+}
+?></title>
 		<base href="<?=$BLOGCONF["link"]?>">
 <?php if (file_exists("favicon.ico")) : ?>
 		<link rel="SHORTCUT ICON" type="image/x-icon" href="favicon.ico">
