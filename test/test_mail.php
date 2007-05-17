@@ -1,8 +1,9 @@
 <?php
 if (!isset($_SERVER["SHELL"]))
 	die("Please run this script at shell\n");
+chdir(dirname(dirname(__FILE__)));
 if (!file_exists("config.php"))
-	die("Please chdir to KDBlog root dir, and run 'php test/test_mail.php'\n");
+	die("Please put test directory to KDBlog root dir.\n");
 
 include_once("config.php");
 
