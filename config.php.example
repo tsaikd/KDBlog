@@ -76,7 +76,7 @@ $BLOGCONF["specpath"] = "special";
 $BLOGCONF["func"]["version"]["enable"] = true;
 
 # (bool) 是否啟用 mail 功能 (需要使用 mail() 函數)
-# 可先執行 php test/test_mail.php 來確認是否支援
+# 可先執行 php util/test_mail.php 來確認是否支援
 $BLOGCONF["func"]["mail"]["enable"] = false;
 
 # (bool) 是否啟用評論功能

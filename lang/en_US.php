@@ -14,8 +14,6 @@ $BLOGLANG["message"]["confTooOld"] = "Your config file is out of date, please up
 $BLOGLANG["message"]["funcOff"] = "This function is closed. Please contact to administrator.";
 $BLOGLANG["message"]["runNewWin"] = "Run in a new window";
 
-$BLOGLANG["server"]["movehtaccess"] = "Because of permission deny, please move from '%s' to '%s' by yourself";
-
 $BLOGLANG["mainmenu"]["menuOpt"]["googleOpt"] = "only search this site";
 $BLOGLANG["mainmenu"]["menuOpt"]["closeAll"] = "CloseAll";
 
@@ -23,9 +21,6 @@ $BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Recent"] = "Recent";
 $BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_All"] = "All";
 $BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Tags"] = "Tags";
 $BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Spec"] = "Spec";
-
-$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Spec_Msg"]["nospec"] = "No special file found";
-$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Spec_Msg"]["notitle"] = "No title in the file";
 
 $BLOGLANG["mainmenu"]["menures"]["cmntidx"] = "Recent comments";
 $BLOGLANG["mainmenu"]["menures"]["rss2All"] = "RSS2 Feed";

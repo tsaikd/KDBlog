@@ -12,10 +12,8 @@ if (!file_exists("config.php")) {
 	exit;
 }
 include_once("config.php");
-if ($BLOGCONF["version"] < 15) {
-	echo $BLOGLANG["message"]["confTooOld"];
-	exit;
-}
+if ($BLOGCONF["version"] < 15)
+	die($BLOGLANG["message"]["confTooOld"]);
 
 # Check server state
 include_once("php/check_necessary_dir.php");
@@ -205,10 +203,6 @@ if ($_REQUEST["fpath"]) {
 		getCacheArticle($val, "html");
 }
 ?></div>
-		<script type="text/javascript">
-			if (blog.conf.init)
-				blog.conf.init();
-		</script>
 <?php
 if ($BLOGCONF["extraFooter"])
 	foreach ($BLOGCONF["extraFooter"] as $f)
@@ -222,5 +216,9 @@ if ($BLOGCONF["func"]["debug"]["enable"]) {
 		$stop_time[1]-$start_time[1]);
 }
 ?>
+		<script type="text/javascript">
+			if (blog.conf.init)
+				blog.conf.init();
+		</script>
 	</body>
 </html>
