@@ -84,9 +84,7 @@ function showArticleItem($fpath, $type) {
 		return;
 
 	include_once("php/parseXml.php");
-	$xml = parseXml($fpath);
-	$index = $xml["index"];
-	$vals = $xml["vals"];
+	list($index, $vals) = parseXml($fpath);
 
 	if (!$index["contents"]) {
 		if ($type == "html") {
@@ -254,11 +252,7 @@ function showArticleItem($fpath, $type) {
 			logecho("<div name='comments' class='comments'>");
 
 			foreach ($aCommentPath as $v) {
-				$xml = xml_parser_create("UTF-8");
-				xml_parser_set_option($xml, XML_OPTION_CASE_FOLDING, 0);
-				xml_parse_into_struct($xml, file_get_contents($v), $vals, $index);
-				xml_parser_free($xml);
-
+				list($index, $vals) = parseXml($v);
 				if (!$index["comment"])
 					continue;
 
@@ -283,9 +277,9 @@ function showArticleItem($fpath, $type) {
 				logecho("</div>");
 
 				// comment Data
-				logecho("<div class='commentData'><pre>");
+				logecho("<div class='commentData'>");
 				logecho(substr($data["value"], 1, -1));
-				logecho("</pre></div>");
+				logecho("</div>");
 
 				// comment End
 				logecho("</div>");

@@ -11,10 +11,7 @@ function modifyArticleComment($vArticlePath, $info) {
 	if (!file_exists($fCommentPath))
 		return false;
 
-	$xml = parseXml($fCommentPath);
-	$index = $xml["index"];
-	$vals = $xml["vals"];
-
+	list($index, $vals) = parseXml($fCommentPath);
 	$i = $index["comment"][0];
 
 	switch($info["action"]) {

@@ -15,11 +15,7 @@ function macro_alink($node, $type) {
 		return "";
 
 	include_once("php/parseXml.php");
-
-	$xml = parseXml($fpath);
-	$index = $xml["index"];
-	$vals = $xml["vals"];
-
+	list($index, $vals) = parseXml($fpath);
 	$title = $vals[$index["title"][0]]["value"];
 	if (!$title)
 		return "";

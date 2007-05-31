@@ -6,6 +6,10 @@ a {
 	text-decoration: none;
 }
 
+a:focus {
+	outline: none;
+}
+
 ul, li {
 	margin: 0;
 }
@@ -209,5 +213,9 @@ ul, li {
 #displayArea .article .comments .comment .commentHeader .commentTime {
 	float: right;
 	clear: left;
+}
+
+#displayArea .article .comments .comment .commentData {
+	padding-top: 1.4em;
 }
 

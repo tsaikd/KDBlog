@@ -13,7 +13,12 @@ function parseXml($fpath) {
 	xml_parse_into_struct($xml, file_get_contents($fpath), $vals, $index);
 	xml_parser_free($xml);
 
-	return array("index" => $index, "vals" => $vals);
+	return array(
+		  0 => $index
+		, 1 => $vals
+		, "index" => $index
+		, "vals" => $vals
+	);
 }
 
 ?>

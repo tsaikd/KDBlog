@@ -9,10 +9,7 @@ function rebuildTags() {
 
 	foreach ($farray as $vpath) {
 		$fpath = transPathV2R($vpath);
-		$xml = parseXml($fpath);
-		$index = $xml["index"];
-		$vals = $xml["vals"];
-
+		list($index, $vals) = parseXml($fpath);
 		if (!$index["tag"])
 			continue;
 

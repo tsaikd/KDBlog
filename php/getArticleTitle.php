@@ -6,9 +6,7 @@ function getArticleTitle($vpath) {
 	global $BLOGLANG;
 
 	$fpath = transPathV2R($vpath);
-	$xml = parseXml($fpath);
-	$index = $xml["index"];
-	$vals = $xml["vals"];
+	list($index, $vals) = parseXml($fpath);
 	$title = $vals[$index["title"][0]]["value"];
 
 	if (!$title)

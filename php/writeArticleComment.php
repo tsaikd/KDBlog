@@ -12,6 +12,7 @@ function writeArticleComment($vArticlePath, $comment, $info=null) {
 	global $BLOGCONF;
 
 	$comment = str_replace("\r\n", "\n", $comment);
+	$comment = nl2br($comment);
 
 	$aPath = getArticleCommentPath($vArticlePath, 0x01);
 	$fCommentPath = array_pop($aPath);
@@ -75,9 +76,7 @@ function writeArticleComment($vArticlePath, $comment, $info=null) {
 	if (!$BLOGCONF["func"]["commentNotify"]["enable"])
 		return;
 	foreach($aPath as $f) {
-		$xml = parseXml($f);
-		$index = $xml["index"];
-		$vals = $xml["vals"];
+		list($index, $vals) = parseXml($f);
 
 		$i = $index["comment"][0];
 		if ($i === null)
