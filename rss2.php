@@ -3,7 +3,7 @@
 include_once("config.php");
 include_once("php/showArticle.php");
 
-if ($BLOGCONF["func"]["debug"]["enable"])
+if ($CONF["func"]["debug"]["enable"])
 	header("Content-Type: text/xml");
 else
 	header("Content-Type: application/rss+xml");
@@ -12,22 +12,22 @@ header("Expires: 0");
 echo '<?xml version="1.0" encoding="utf-8" ?>';
 echo '<rss version="2.0">';
 echo '<channel>';
-echo '<title>'.$BLOGCONF["title"].'</title>';
-echo '<description>'.$BLOGCONF["description"].'</description>';
-echo '<link>'.$BLOGCONF["link"].'</link>';
-$lang = $BLOGCONF["language"];
+echo '<title>'.$CONF["title"].'</title>';
+echo '<description>'.$CONF["description"].'</description>';
+echo '<link>'.$CONF["link"].'</link>';
+$lang = $CONF["language"];
 $lang = strtolower($lang);
 $lang = str_replace("_", "-", $lang);
 echo "<language>$lang</language>";
-echo '<managingEditor>'.$BLOGCONF["email"].'</managingEditor>';
-echo '<docs>'.$BLOGCONF["link"].'rss2.php?feed='.$_REQUEST["feed"].'</docs>';
+echo '<managingEditor>'.$CONF["email"].'</managingEditor>';
+echo '<docs>'.$CONF["link"].'rss2.php?feed='.$_REQUEST["feed"].'</docs>';
 
 if ($_REQUEST["limit"]) {
 	$limit = (int)$_REQUEST["limit"];
-	if ($limit > $BLOGCONF["rssMaxNum"])
-		$limit = $BLOGCONF["rssMaxNum"];
+	if ($limit > $CONF["rssMaxNum"])
+		$limit = $CONF["rssMaxNum"];
 } else {
-	$limit = $BLOGCONF["rssDefNum"];
+	$limit = $CONF["rssDefNum"];
 }
 
 switch($_REQUEST["feed"]) {

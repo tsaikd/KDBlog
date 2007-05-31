@@ -59,7 +59,7 @@ function chgMenuTag(tagId, childName) {
 	ajax.onreadystatechange = function() {
 		if (ajax.readyState == 1) {
 			document.getElementById(tagId).className += " selecting";
-			showObj.innerHTML = "<div class='loading'>"+blog.lang.article.loading+"<\/div>";
+			showObj.innerHTML = "<div class='loading'>"+lang.article.loading+"<\/div>";
 		} else if (ajax.readyState == 4) {
 			if (ajax.status == 200) {
 				if (showObj.attr_CurMenuTag)

@@ -2,8 +2,8 @@ function reload_security(obj) {
 	// because some browser will cache the src url
 	if (obj == undefined)
 		obj = document.getElementById("comment_img");
-	blog.conf.func.comment.img_num++;
-	obj.src = "security.php?num="+blog.conf.func.comment.img_num;
+	conf.func.comment.img_num++;
+	obj.src = "security.php?num="+conf.func.comment.img_num;
 
 	obj = findChildByName(obj.parentNode, "reg_num_check");
 	if (obj) {
@@ -15,8 +15,12 @@ function reload_security(obj) {
 function send_comment() {
 	var obj = document.getElementById("comment_form");
 
-	var user = "&user="+URLencode(obj.elements[0].value);
-	var email = "&email="+URLencode(obj.elements[1].value);
+	var user = obj.elements[0].value;
+	SetCookie("user", user);
+	user = "&user="+URLencode(user);
+	var email = obj.elements[1].value;
+	SetCookie("email", email);
+	email = "&email="+URLencode(email);
 	var notify = obj.elements[2].checked ? "&notify=y" : "";
 	var comment = "&comment="+URLencode(obj.elements[3].value);
 	var reg_num_check = "&reg_num_check="+URLencode(obj.elements[4].value);
@@ -67,7 +71,7 @@ function commentArticle(id) {
 	var node;
 	node = document.getElementById("comment_form");
 	if (node && (node.parentNode != obj)) {
-		alert(blog.lang.comment.errmsg.multiComment);
+		alert(lang.comment.errmsg.multiComment);
 		return;
 	}
 
@@ -90,20 +94,20 @@ function commentArticle(id) {
 
 		showText += "<table><tr>";
 		showText += "<td>ID:<\/td>";
-		showText += "<td><input name='user' type='text' size='20' /><\/td>";
+		showText += "<td><input name='user' type='text' size='20' value='"+GetCookie("user")+"' /><\/td>";
 		showText += "<\/tr><tr>";
 		showText += "<td>E-Mail:<\/td>";
-		showText += "<td><input name='email' type='text' size='50' /><\/td>";
+		showText += "<td><input name='email' type='text' size='50' value='"+GetCookie("email")+"' /><\/td>";
 		showText += "<\/tr><\/table>";
-		if (blog.conf.func.comment.notify)
-			showText += "<input type='checkbox' name='notify' value='y' />"+blog.lang.comment.write.notify+"<br />";
+		if (conf.func.comment.notify)
+			showText += "<input type='checkbox' name='notify' value='y' />"+lang.comment.write.notify+"<br />";
 		else
 			showText += "<input type='checkbox' name='notify' value='y' style='display: none' />";
 		showText += "<textarea name='comment' rows='8' cols='60'><\/textarea><br />";
 		showText += "<table><tr>";
 		showText += "<td><img id='comment_img' src='security.php' onclick='javascript:reload_security()' /><\/td>";
 		showText += "<td><input name='reg_num_check' type='text' size='4' maxlength='4' /><\/td>";
-		showText += "<td><input type='submit' value='"+blog.lang.button.submit+"' /><\/td>";
+		showText += "<td><input type='submit' value='"+lang.button.submit+"' /><\/td>";
 		showText += "<\/tr><\/table>";
 		node.innerHTML = showText;
 

@@ -3,46 +3,46 @@
 # 以下設定為 KDBlog 網頁程式所使用
 ############################################################
 # (int) 設定檔的版本，當升級時版本有更動會產生訊息
-$BLOGCONF["version"] = 15;
+$CONF["version"] = 16;
 
 # (string) Blog 的標題
-$BLOGCONF["title"] = "KD's Blog";
+$CONF["title"] = "KD's Blog";
 # (string) Blog 的描述
-$BLOGCONF["description"] = "KD 的生活點滴";
+$CONF["description"] = "KD 的生活點滴";
 
 # (string URL) Blog 的網址，請用 '/' 結尾
 # 或是保持空白，讓程式自動偵測 (建議)
 # 若偵測結果有問題，請與 tsaikd@gmail.com 聯繫
 # ps: 察看偵測結果，清先清除快取，再檢視 rss feed 的 rss/channel/link 欄位
-#$BLOGCONF["link"] = "http://blog.tsaikd.org/";
+#$CONF["link"] = "http://blog.tsaikd.org/";
 
 # (int) 一開始顯示的文章數
-$BLOGCONF["numAtStart"] = 3;
+$CONF["numAtStart"] = 3;
 
 # (int) 最近文章列表顯示的文章數
-$BLOGCONF["numRecent"] = 10;
+$CONF["numRecent"] = 10;
 
 # (int) rss 中預設顯示的文章數
-$BLOGCONF["rssDefNum"] = 20;
+$CONF["rssDefNum"] = 20;
 
 # (int) rss 中最大顯示的文章數
-$BLOGCONF["rssMaxNum"] = 50;
+$CONF["rssMaxNum"] = 50;
 
 # (string Lang) 使用的語言檔
 # 可用的語言檔請參考目錄 'lang'
-$BLOGCONF["language"] = "zh_TW";
+$CONF["language"] = "zh_TW";
 
 # (string EMail) Blog 作者的電子郵件信箱
-$BLOGCONF["email"] = "tsaikd@gmail.com";
+$CONF["email"] = "tsaikd@gmail.com";
 
 # (string Path) RSS 圖示的路徑，若找不到檔案則用文字代替
-$BLOGCONF["rss2AllImg"] = "rss2.png";
+$CONF["rss2AllImg"] = "rss2.png";
 
 # (string Path) 額外的自定 footer，需使用 php 語言
-#$BLOGCONF["extraFooter"][0] = "php/google_analytics.php";
+#$CONF["extraFooter"][0] = "php/google_analytics.php";
 
 # (string Path) 額外的自定 menu resource，需使用 php 語言
-#$BLOGCONF["extraMenures"][0] = "php/google_shared_items.php";
+#$CONF["extraMenures"][0] = "php/google_shared_items.php";
 
 ############################################################
 # 路徑設定
@@ -56,76 +56,82 @@ $BLOGCONF["rss2AllImg"] = "rss2.png";
 # 則可以考慮將快取路徑設置在其中 (ex: "/tmp/kdblog/cache")
 # 若此目錄不存在，系統將會嘗試建立
 # IMPORTANT: 即使不啟用快取，系統仍然需要此目錄
-$BLOGCONF["cachpath"] = "cache";
+$CONF["path"]["cache"] = "cache";
 # (string Path) 資料的路徑 (http server 需可讀取)
-$BLOGCONF["datapath"] = "data";
+$CONF["path"]["data"] = "data";
 # (string Path) 標簽的路徑 (http server 需可讀寫)
 # 建議將標簽路徑設在 tmpfs 中，以加快速度 (ex: "/tmp/kdblog/tags")
 # 若此目錄不存在，系統將會嘗試建立
-$BLOGCONF["tagspath"] = "tags";
+$CONF["path"]["tags"] = "tags";
 # (string Path) 評論的路徑 (http server 需可讀寫)
 # 若此目錄不存在，系統將會嘗試建立
-$BLOGCONF["cmntpath"] = "comment";
+$CONF["path"]["comment"] = "comment";
 # (string Path) 功能檔的路徑 (http server 需可讀取)
-$BLOGCONF["specpath"] = "special";
+$CONF["path"]["spec"] = "special";
 
 ############################################################
 # 功能設定
 ############################################################
 # (bool) 是否顯示 KDBlog 版本訊息
-$BLOGCONF["func"]["version"]["enable"] = true;
+$CONF["func"]["version"]["enable"] = true;
 
 # (bool) 是否啟用 mail 功能 (需要使用 mail() 函數)
 # 可先執行 php util/test_mail.php 來確認是否支援
-$BLOGCONF["func"]["mail"]["enable"] = false;
+$CONF["func"]["mail"]["enable"] = false;
 
 # (bool) 是否啟用評論功能
-$BLOGCONF["func"]["comment"]["enable"] = true;
+$CONF["func"]["comment"]["enable"] = true;
 # (bool) 是否啟用通知新評論功能
-# 需要先啟用 $BLOGCONF["func"]["mail"]["enable"], 否則無效
-$BLOGCONF["func"]["commentNotify"]["enable"] = true;
+# 需要先啟用 $CONF["func"]["mail"]["enable"], 否則無效
+$CONF["func"]["commentNotify"]["enable"] = true;
 # (bool) 是否要把所有的新評論寄回你的信箱
-# 需要先啟用 $BLOGCONF["func"]["mail"]["enable"], 否則無效
-$BLOGCONF["func"]["commentTrack"]["enable"] = true;
+# 需要先啟用 $CONF["func"]["mail"]["enable"], 否則無效
+$CONF["func"]["commentTrack"]["enable"] = true;
 # (int) 要保留幾份最近的 comment index
-$BLOGCONF["func"]["comment"]["indexNum"] = 100;
+$CONF["func"]["comment"]["indexNum"] = 100;
 # (int) 在主選單顯示幾篇最近的 comment (不可超過 index 數)
 # 0 表示不顯示
-$BLOGCONF["func"]["comment"]["showNum"] = 5;
+$CONF["func"]["comment"]["showNum"] = 5;
 
 # (bool) 是否顯示 Google 搜尋列
-$BLOGCONF["func"]["google"]["enable"] = true;
+$CONF["func"]["google"]["enable"] = true;
 
 # (bool) 是否提供文章列表給搜尋引擎
-$BLOGCONF["func"]["searchbot"]["enable"] = true;
-$BLOGCONF["func"]["sitemap"]["enable"] = true;
+$CONF["func"]["searchbot"]["enable"] = true;
+$CONF["func"]["sitemap"]["enable"] = true;
 
 # (bool) 是否在首頁顯示最新文章日期 (可以看看搜尋引擎最後 cache 到的日期)
-$BLOGCONF["func"]["showLastDate"]["enable"] = true;
+$CONF["func"]["showLastDate"]["enable"] = true;
 
 ############################################################
 # 快取設定
 ############################################################
 # (bool) 快取控制總開關，若要啟用任一快取，請將此選項啟動
-$BLOGCONF["cache"]["enable"] = true;
+$CONF["cache"]["enable"] = true;
 # (bool) 將 css 檔在 index 中展開
-$BLOGCONF["cache"]["cssInside"]["enable"] = true;
+$CONF["cache"]["cssInside"]["enable"] = true;
 # (bool) 將 javascript 檔在 index 中展開
-$BLOGCONF["cache"]["jsInside"]["enable"] = true;
+$CONF["cache"]["jsInside"]["enable"] = true;
 # (bool) 快取 menutab_Recent
-$BLOGCONF["cache"]["menutab_Recent"]["enable"] = true;
+$CONF["cache"]["menutab_Recent"]["enable"] = true;
 # (bool) 快取 menutab_All
-$BLOGCONF["cache"]["menutab_All"]["enable"] = true;
+$CONF["cache"]["menutab_All"]["enable"] = true;
 # (bool) 快取 menutab_Tags
-$BLOGCONF["cache"]["menutab_Tags"]["enable"] = true;
+$CONF["cache"]["menutab_Tags"]["enable"] = true;
 # (bool) 快取 menutab_Spec
-$BLOGCONF["cache"]["menutab_Spec"]["enable"] = true;
+$CONF["cache"]["menutab_Spec"]["enable"] = true;
 # (bool) 快取 menutab_showDir
-$BLOGCONF["cache"]["menutab_showDir"]["enable"] = true;
+$CONF["cache"]["menutab_showDir"]["enable"] = true;
 # (bool) 快取文章顯示結果
-$BLOGCONF["cache"]["articleHtml"]["enable"] = true;
+$CONF["cache"]["articleHtml"]["enable"] = true;
 # (bool) 快取 rss 文章顯示結果
-$BLOGCONF["cache"]["articleRss"]["enable"] = true;
+$CONF["cache"]["articleRss"]["enable"] = true;
+
+############################################################
+# 其他設定
+############################################################
+# (int >= 0) 最大快取大小 (Bytes) (0: 無限制)
+$CONF["func"]["cache"]["maxSize"] = 8*1024*1024;
 
 ############################################################
 # 以下設定不建議修改，除非你知道你在做什麼
@@ -133,47 +139,47 @@ $BLOGCONF["cache"]["articleRss"]["enable"] = true;
 
 # (string) Blog 主機的 domain
 # (ex: www.tsaikd.org)
-$BLOGCONF["blogurl"]["domain"] = $_SERVER["HTTP_HOST"];
+$CONF["blogurl"]["domain"] = $_SERVER["HTTP_HOST"];
 # (string URL) Blog 主機的網址，用 '/' 結尾
 # (ex: http://www.tsaikd.org/)
-$BLOGCONF["blogurl"]["server"] = "http://".$BLOGCONF["blogurl"]["domain"]."/";
+$CONF["blogurl"]["server"] = "http://".$CONF["blogurl"]["domain"]."/";
 # (string URL) Blog 首頁的網址，相對於主機網址，用 '/' 開頭 '/' 結尾
 # (ex: /~tsaikd/blog/)
-$BLOGCONF["blogurl"]["blog"] = dirname($_SERVER["PHP_SELF"])."/";
-if ($BLOGCONF["blogurl"]["blog"] == "//")
-	$BLOGCONF["blogurl"]["blog"] = "/";
+$CONF["blogurl"]["blog"] = dirname($_SERVER["PHP_SELF"])."/";
+if ($CONF["blogurl"]["blog"] == "//")
+	$CONF["blogurl"]["blog"] = "/";
 
 # 自動偵測 Blog 的網址
-if (!$BLOGCONF["link"])
-	$BLOGCONF["link"] = $BLOGCONF["blogurl"]["server"].substr($BLOGCONF["blogurl"]["blog"], 1);
+if (!$CONF["link"])
+	$CONF["link"] = $CONF["blogurl"]["server"].substr($CONF["blogurl"]["blog"], 1);
 
 # (string) Google sitesearch
-$BLOGCONF["blogurl"]["sitesearch"] = $BLOGCONF["link"];
+$CONF["blogurl"]["sitesearch"] = $CONF["link"];
 
 # (string Path) 檢查是否需要清除快取
-$BLOGCONF["state"]["cleanCache"] = $BLOGCONF["cachpath"]."/cleanCache.state";
+$CONF["state"]["cleanCache"] = $CONF["path"]["cache"]."/cleanCache.state";
 # (string Path) 檢查是否需要掃瞄分類
-$BLOGCONF["state"]["scanTags"] = $BLOGCONF["cachpath"]."/scanTags.state";
+$CONF["state"]["scanTags"] = $CONF["path"]["cache"]."/scanTags.state";
 # (string Path) 檢查是否需要重建分類
-$BLOGCONF["state"]["rebuildTags"] = $BLOGCONF["cachpath"]."/rebuildTags.state";
+$CONF["state"]["rebuildTags"] = $CONF["path"]["cache"]."/rebuildTags.state";
 
 # (string Path) comment index by time directory path
-$BLOGCONF["func"]["comment"]["indexByTime"] = $BLOGCONF["cmntpath"]."/.indexByTime";
+$CONF["func"]["comment"]["indexByTime"] = $CONF["path"]["comment"]."/.indexByTime";
 
 # 功能相衣性
-if (!$BLOGCONF["func"]["mail"]["enable"]) {
-	$BLOGCONF["func"]["commentNotify"]["enable"] = false;
-	$BLOGCONF["func"]["commentTrack"]["enable"] = false;
+if (!$CONF["func"]["mail"]["enable"]) {
+	$CONF["func"]["commentNotify"]["enable"] = false;
+	$CONF["func"]["commentTrack"]["enable"] = false;
 }
 
 # (bool) 啟用 debug 模式
-$BLOGCONF["func"]["debug"]["enable"] = false;
+$CONF["func"]["debug"]["enable"] = false;
 
 # 設定寫入檔案的權限
 umask(0002);
 
 # 載入語言檔
-include_once("lang/".$BLOGCONF["language"].".php");
+include_once("lang/".$CONF["language"].".php");
 
 # 載入快取函數
 include_once("php/cache.php");

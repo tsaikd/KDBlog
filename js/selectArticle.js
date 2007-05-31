@@ -1,17 +1,17 @@
 function selectArticle(obj) {
-	if (obj == blog.conf.currentArticle)
+	if (obj == conf.currentArticle)
 		return;
 	unSelectAllArticle();
 	if (obj) {
-		blog.conf.currentArticle = obj;
-		blog.conf.currentArticle.className = "article selected";
+		conf.currentArticle = obj;
+		conf.currentArticle.className = "article selected";
 	}
 }
 
 function unSelectAllArticle() {
-	if (blog.conf.currentArticle) {
-		blog.conf.currentArticle.className = "article";
-		blog.conf.currentArticle = null;
+	if (conf.currentArticle) {
+		conf.currentArticle.className = "article";
+		conf.currentArticle = null;
 	}
 }
 

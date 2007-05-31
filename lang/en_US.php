@@ -1,55 +1,54 @@
 <?php
 
-$BLOGLANG["button"]["submit"] = "Submit";
+$LANG["button"]["submit"] = "Submit";
 
-$BLOGLANG["message"]["success"] = "SUCCESS";
-$BLOGLANG["message"]["warn"] = "WARN";
-$BLOGLANG["message"]["error"] = "ERROR";
-$BLOGLANG["message"]["cannotread"] = "it's not readable in the server";
-$BLOGLANG["message"]["cannotwrite"] = "it's not writable in the server";
-$BLOGLANG["message"]["cannotmake"] = "make file failed in the server";
-$BLOGLANG["message"]["checkconf"] = "please check your config file";
-$BLOGLANG["message"]["invalidPath"] = "Invalid path";
-$BLOGLANG["message"]["confTooOld"] = "Your config file is out of date, please update";
-$BLOGLANG["message"]["funcOff"] = "This function is closed. Please contact to administrator.";
-$BLOGLANG["message"]["runNewWin"] = "Run in a new window";
+$LANG["message"]["success"] = "SUCCESS";
+$LANG["message"]["error"] = "ERROR";
+$LANG["message"]["cannotread"] = "it's not readable in the server";
+$LANG["message"]["cannotwrite"] = "it's not writable in the server";
+$LANG["message"]["cannotmake"] = "make file failed in the server";
+$LANG["message"]["checkconf"] = "please check your config file";
+$LANG["message"]["invalidPath"] = "Invalid path";
+$LANG["message"]["confTooOld"] = "Your config file is out of date, please update";
+$LANG["message"]["funcOff"] = "This function is closed. Please contact to administrator.";
+$LANG["message"]["runNewWin"] = "Run in a new window";
 
-$BLOGLANG["mainmenu"]["menuOpt"]["googleOpt"] = "only search this site";
-$BLOGLANG["mainmenu"]["menuOpt"]["closeAll"] = "CloseAll";
+$LANG["mainmenu"]["menuOpt"]["googleOpt"] = "only search this site";
+$LANG["mainmenu"]["menuOpt"]["closeAll"] = "CloseAll";
 
-$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Recent"] = "Recent";
-$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_All"] = "All";
-$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Tags"] = "Tags";
-$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Spec"] = "Spec";
+$LANG["mainmenu"]["mainmenuTabs"]["menutab_Recent"] = "Recent";
+$LANG["mainmenu"]["mainmenuTabs"]["menutab_All"] = "All";
+$LANG["mainmenu"]["mainmenuTabs"]["menutab_Tags"] = "Tags";
+$LANG["mainmenu"]["mainmenuTabs"]["menutab_Spec"] = "Spec";
 
-$BLOGLANG["mainmenu"]["menures"]["cmntidx"] = "Recent comments";
-$BLOGLANG["mainmenu"]["menures"]["rss2All"] = "RSS2 Feed";
-$BLOGLANG["mainmenu"]["menures"]["lastDate"] = "Update";
+$LANG["mainmenu"]["menures"]["cmntidx"] = "Recent comments";
+$LANG["mainmenu"]["menures"]["rss2All"] = "RSS2 Feed";
+$LANG["mainmenu"]["menures"]["lastDate"] = "Update";
 
-$BLOGLANG["article"]["toolbar"]["close"] = "Close";
-$BLOGLANG["article"]["toolbar"]["fold"] = "fold";
-$BLOGLANG["article"]["toolbar"]["unfold"] = "unfold";
-$BLOGLANG["article"]["toolbar"]["permalink"] = "permalink";
-$BLOGLANG["article"]["toolbar"]["comment"] = "comment";
+$LANG["article"]["toolbar"]["close"] = "Close";
+$LANG["article"]["toolbar"]["fold"] = "fold";
+$LANG["article"]["toolbar"]["unfold"] = "unfold";
+$LANG["article"]["toolbar"]["permalink"] = "permalink";
+$LANG["article"]["toolbar"]["comment"] = "comment";
 
-$BLOGLANG["article"]["tags"] = "tags";
-$BLOGLANG["article"]["loading"] = "Loading ...";
-$BLOGLANG["article"]["invalidData"] = "Invalid data type in the path:";
-$BLOGLANG["article"]["notitle"] = "No title";
+$LANG["article"]["tags"] = "tags";
+$LANG["article"]["loading"] = "Loading ...";
+$LANG["article"]["invalidData"] = "Invalid data type in the path:";
+$LANG["article"]["notitle"] = "No title";
 
-$BLOGLANG["special"]["runSpecOk"] = "Run specFile successfully";
-$BLOGLANG["special"]["runSpecError"] = "Run specFile error";
-$BLOGLANG["special"]["badSpecType"] = "Invalid specType";
-$BLOGLANG["special"]["noSpecContents"] = "No contents found in specFile";
-$BLOGLANG["special"]["noSpecCode"] = "No code found in specFile";
+$LANG["special"]["runSpecOk"] = "Run specFile successfully";
+$LANG["special"]["runSpecError"] = "Run specFile error";
+$LANG["special"]["badSpecType"] = "Invalid specType";
+$LANG["special"]["noSpecContents"] = "No contents found in specFile";
+$LANG["special"]["noSpecCode"] = "No code found in specFile";
 
-$BLOGLANG["comment"]["email"]["fSubject"] = $BLOGCONF["title"]." -- New Comment '%s'";
-$BLOGLANG["comment"]["email"]["fBodyTail"] = "<br /><hr /><br />If you don't want to get any notification, please click <a href='%s'>this link</a>";
-$BLOGLANG["comment"]["write"]["notify"] = "Notify me when getting new comments"
-$BLOGLANG["comment"]["msg"]["unNotifyOk"] = "You will not get any new comments by email";
-$BLOGLANG["comment"]["errmsg"]["unNotifyFailed"] = "Some error occured when disable email notification. You can try to contact to ".$BLOGCONF["email"];
-$BLOGLANG["comment"]["errmsg"]["reg_num_check"] = "Invalid check number";
-$BLOGLANG["comment"]["errmsg"]["multiComment"] = "You cannot comment more than 1 article at the same time";
-$BLOGLANG["comment"]["errmsg"]["emptyComment"] = "Empty comment";
+$LANG["comment"]["email"]["fSubject"] = $CONF["title"]." -- New Comment '%s'";
+$LANG["comment"]["email"]["fBodyTail"] = "<br /><hr /><br />If you don't want to get any notification, please click <a href='%s'>this link</a>";
+$LANG["comment"]["write"]["notify"] = "Notify me when getting new comments"
+$LANG["comment"]["msg"]["unNotifyOk"] = "You will not get any new comments by email";
+$LANG["comment"]["errmsg"]["unNotifyFailed"] = "Some error occured when disable email notification. You can try to contact to ".$CONF["email"];
+$LANG["comment"]["errmsg"]["reg_num_check"] = "Invalid check number";
+$LANG["comment"]["errmsg"]["multiComment"] = "You cannot comment more than 1 article at the same time";
+$LANG["comment"]["errmsg"]["emptyComment"] = "Empty comment";
 
 ?>

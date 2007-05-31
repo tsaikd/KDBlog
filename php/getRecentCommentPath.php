@@ -1,15 +1,15 @@
 <?php
 function getRecentCommentPath($numLimit) {
 	include_once("php/getDir.php");
-	global $BLOGCONF;
+	global $CONF;
 	$res = array();
 
 	if (!$numLimit)
 		return $res;
 
-	$cpath = realpath($BLOGCONF["cmntpath"]);
+	$cpath = realpath($CONF["path"]["comment"]);
 	$cplen = strlen($cpath);
-	$dpath = $BLOGCONF["func"]["comment"]["indexByTime"];
+	$dpath = $CONF["func"]["comment"]["indexByTime"];
 	$darray = getDir($dpath);
 	rsort($darray);
 	foreach($darray as $f) {

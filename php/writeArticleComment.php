@@ -9,7 +9,7 @@ $info := (array) or null
 	$info["notify"] := (bool) notify user if new comment
 */
 function writeArticleComment($vArticlePath, $comment, $info=null) {
-	global $BLOGCONF;
+	global $CONF;
 
 	$comment = str_replace("\r\n", "\n", $comment);
 	$comment = nl2br($comment);
@@ -45,35 +45,35 @@ function writeArticleComment($vArticlePath, $comment, $info=null) {
 
 	// Set index
 	include_once("php/smartSymLink.php");
-	$indexPath = $BLOGCONF["func"]["comment"]["indexByTime"]."/".$_SERVER["REQUEST_TIME"];
+	$indexPath = $CONF["func"]["comment"]["indexByTime"]."/".$_SERVER["REQUEST_TIME"];
 	smartSymLink($fCommentPath, $indexPath);
 
 	// Check index number
 	include_once("php/rm_ex.php");
 	include_once("php/getDir.php");
-	$dpath = $BLOGCONF["func"]["comment"]["indexByTime"];
+	$dpath = $CONF["func"]["comment"]["indexByTime"];
 	$buf = getDir($dpath);
-	$iCount = count($buf) - $BLOGCONF["func"]["comment"]["indexNum"];
+	$iCount = count($buf) - $CONF["func"]["comment"]["indexNum"];
 	for ($i=0 ; $i<$iCount ; $i++)
 		rm_ex($dpath."/".$buf[$i]);
 
 	// Check notify email list
 	include_once("php/getArticleTitle.php");
-	global $BLOGLANG;
+	global $LANG;
 	$title = getArticleTitle($vArticlePath);
-	$subject = sprintf($BLOGLANG["comment"]["email"]["fSubject"], $title);
+	$subject = sprintf($LANG["comment"]["email"]["fSubject"], $title);
 	$header = "Content-type: text/html; charset=utf-8\n";
-	$rmurl  = $BLOGCONF["link"]."data.php?ftype=commentUnNotify";
+	$rmurl  = $CONF["link"]."data.php?ftype=commentUnNotify";
 	$rmurl .= "&fpath=".$vArticlePath;
-	$body = "<a href='".$BLOGCONF["link"]."index.php?fpath=".$vArticlePath."'>".$title."</a><br />";
+	$body = "<a href='".$CONF["link"]."index.php?fpath=".$vArticlePath."'>".$title."</a><br />";
 	if ($info["user"])
 		$body .= $info["user"].":<br />";
 	$body .= "<pre style='background-color: #eef; margin-left: 2em;'>".$comment."</pre>";
 
-	if ($BLOGCONF["func"]["commentTrack"]["enable"])
-		mail($BLOGCONF["email"], $subject, $body, $header);
+	if ($CONF["func"]["commentTrack"]["enable"])
+		mail($CONF["email"], $subject, $body, $header);
 
-	if (!$BLOGCONF["func"]["commentNotify"]["enable"])
+	if (!$CONF["func"]["commentNotify"]["enable"])
 		return;
 	foreach($aPath as $f) {
 		list($index, $vals) = parseXml($f);
@@ -91,7 +91,7 @@ function writeArticleComment($vArticlePath, $comment, $info=null) {
 		$buf .= "&cname=".basename($f);
 		$buf .= "&ip=".$vals[$i]["attributes"]["ip"];
 		$buf .= "&time=".$vals[$i]["attributes"]["time"];
-		$ebody = $body.sprintf($BLOGLANG["comment"]["email"]["fBodyTail"], $buf);
+		$ebody = $body.sprintf($LANG["comment"]["email"]["fBodyTail"], $buf);
 
 		mail($email, $subject, $ebody, $header);
 	}

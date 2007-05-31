@@ -1,5 +1,5 @@
 <?php
-if ($BLOGCONF["func"]["debug"]["enable"]) {
+if ($CONF["func"]["debug"]["enable"]) {
 	$start_time[0] = time();
 	$start_time[1] = (double)microtime();
 }
@@ -12,17 +12,17 @@ if (!file_exists("config.php")) {
 	exit;
 }
 include_once("config.php");
-if ($BLOGCONF["version"] < 15)
-	die($BLOGLANG["message"]["confTooOld"]);
+if ($CONF["version"] < 16)
+	die($LANG["message"]["confTooOld"]);
 
 # Check server state
 include_once("php/check_necessary_dir.php");
-check_necessary_dir("cachpath", 0x07);
-check_necessary_dir("datapath", 0x01);
-check_necessary_dir("tagspath", 0x07);
-check_necessary_dir("cmntpath", 0x07);
-check_necessary_dir("specpath", 0x01);
-check_necessary_dir($BLOGCONF["func"]["comment"]["indexByTime"], 0x0F);
+check_necessary_dir("cache", 0x07);
+check_necessary_dir("data", 0x01);
+check_necessary_dir("tags", 0x07);
+check_necessary_dir("comment", 0x07);
+check_necessary_dir("spec", 0x01);
+check_necessary_dir($CONF["func"]["comment"]["indexByTime"], 0x0F);
 
 # Check need to clean cache or not
 $name = "cleanCache";
@@ -37,7 +37,7 @@ if (is_state_old($name)) {
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title><?php
-echo $BLOGCONF["title"];
+echo $CONF["title"];
 if ($_REQUEST["fpath"]) {
 	$darray = explode(",", $_REQUEST["fpath"]);
 	$darray = array_unique($darray);
@@ -46,53 +46,52 @@ if ($_REQUEST["fpath"]) {
 	echo " - ".getArticleTitle($darray[0]);
 }
 ?></title>
-		<base href="<?=$BLOGCONF["link"]?>">
+		<base href="<?=$CONF["link"]?>">
 <?php if (file_exists("favicon.ico")) : ?>
 		<link rel="SHORTCUT ICON" type="image/x-icon" href="favicon.ico">
 <?php endif ?>
-		<link rel="alternate" type="application/rss+xml" title="<?=$BLOGCONF["title"]?>" href="rss2.php?feed=all">
+		<link rel="alternate" type="application/rss+xml" title="<?=$CONF["title"]?>" href="rss2.php?feed=all">
 		<link rel="stylesheet" type="text/css" href="data.php?ftype=cssInside">
 		<script type="text/javascript" src="data.php?ftype=jsInside"></script>
 		<script type="text/javascript">
-blog = {};
-blog.lang = {};
+lang = {};
 
-blog.lang.button = {};
-blog.lang.button.submit = "<?=$BLOGLANG["button"]["submit"]?>";
+lang.button = {};
+lang.button.submit = "<?=$LANG["button"]["submit"]?>";
 
-blog.lang.article = {};
-blog.lang.article.toolbar = {};
-blog.lang.article.toolbar.close = "<?=$BLOGLANG["article"]["toolbar"]["close"]?>";
-blog.lang.article.toolbar.fold = "<?=$BLOGLANG["article"]["toolbar"]["fold"]?>";
-blog.lang.article.toolbar.unfold = "<?=$BLOGLANG["article"]["toolbar"]["unfold"]?>";
-blog.lang.article.toolbar.permalink = "<?=$BLOGLANG["article"]["toolbar"]["permalink"]?>";
-blog.lang.article.toolbar.comment = "<?=$BLOGLANG["article"]["toolbar"]["comment"]?>";
+lang.article = {};
+lang.article.toolbar = {};
+lang.article.toolbar.close = "<?=$LANG["article"]["toolbar"]["close"]?>";
+lang.article.toolbar.fold = "<?=$LANG["article"]["toolbar"]["fold"]?>";
+lang.article.toolbar.unfold = "<?=$LANG["article"]["toolbar"]["unfold"]?>";
+lang.article.toolbar.permalink = "<?=$LANG["article"]["toolbar"]["permalink"]?>";
+lang.article.toolbar.comment = "<?=$LANG["article"]["toolbar"]["comment"]?>";
 
-blog.lang.article.tags = "<?=$BLOGLANG["article"]["tags"]?>";
-blog.lang.article.loading = "<?=$BLOGLANG["article"]["loading"]?>";
-blog.lang.article.notitle = "<?=$BLOGLANG["article"]["notitle"]?>";
+lang.article.tags = "<?=$LANG["article"]["tags"]?>";
+lang.article.loading = "<?=$LANG["article"]["loading"]?>";
+lang.article.notitle = "<?=$LANG["article"]["notitle"]?>";
 
-blog.lang.special = {};
-blog.lang.special.runSpecOk = "<?=$BLOGLANG["special"]["runSpecOk"]?>";
-blog.lang.special.runSpecError = "<?=$BLOGLANG["special"]["runSpecError"]?>";
+lang.special = {};
+lang.special.runSpecOk = "<?=$LANG["special"]["runSpecOk"]?>";
+lang.special.runSpecError = "<?=$LANG["special"]["runSpecError"]?>";
 
-blog.lang.comment = {};
-blog.lang.comment.write = {};
-blog.lang.comment.write.notify = "<?=$BLOGLANG["comment"]["write"]["notify"]?>";
-blog.lang.comment.errmsg = {};
-blog.lang.comment.errmsg.multiComment = "<?=$BLOGLANG["comment"]["errmsg"]["multiComment"]?>";
+lang.comment = {};
+lang.comment.write = {};
+lang.comment.write.notify = "<?=$LANG["comment"]["write"]["notify"]?>";
+lang.comment.errmsg = {};
+lang.comment.errmsg.multiComment = "<?=$LANG["comment"]["errmsg"]["multiComment"]?>";
 
-blog.conf = {};
-blog.conf.link = "<?=$BLOGCONF["link"]?>";
-blog.conf.currentArticle = null;
+conf = {};
+conf.link = "<?=$CONF["link"]?>";
+conf.currentArticle = null;
 
-blog.conf.func = {};
-blog.conf.init = null;
+conf.func = {};
+conf.init = null;
 
-blog.conf.func.comment = {};
-blog.conf.func.comment.enable = <?=$BLOGCONF["func"]["comment"]["enable"]?"true":"false"?>;
-blog.conf.func.comment.notify = <?=$BLOGCONF["func"]["commentNotify"]["enable"]?"true":"false"?>;
-blog.conf.func.comment.img_num = 0;
+conf.func.comment = {};
+conf.func.comment.enable = <?=$CONF["func"]["comment"]["enable"]?"true":"false"?>;
+conf.func.comment.notify = <?=$CONF["func"]["commentNotify"]["enable"]?"true":"false"?>;
+conf.func.comment.img_num = 0;
 
 if (!Array.prototype.indexOf) { // for IE6
 	Array.prototype.indexOf = function(val, fromIndex) {
@@ -103,7 +102,7 @@ if (!Array.prototype.indexOf) { // for IE6
 	}
 }
 
-blog.conf.init = function () {
+conf.init = function () {
 	chgMenuTag("menutab_Recent");
 
 	var showText = "";
@@ -113,7 +112,7 @@ blog.conf.init = function () {
 <?php
 if (!$_REQUEST["fpath"]) {
 	include_once("php/getRecentArticlePath.php");
-	$farray = getRecentArticlePath($BLOGCONF["numAtStart"]);
+	$farray = getRecentArticlePath($CONF["numAtStart"]);
 	foreach ($farray as $vpath)
 		echo "showText += \"<div class='article' id='\"+getIdFromPath(\"$vpath\")+\"' onmouseover='javascript:selectArticle(this)'><\\/div>\";\n";
 	echo "showObj.innerHTML = showText;\n";
@@ -125,32 +124,32 @@ if (!$_REQUEST["fpath"]) {
 		</script>
 	</head>
 	<body>
-		<div id="header"><a onfocus='this.blur()' class='title' href="<?=$BLOGCONF["link"]?>"><?=$BLOGCONF["title"]?></a><span class="subtitle"><?=$BLOGCONF["description"]?></span></div>
+		<div id="header"><a onfocus='this.blur()' class='title' href="<?=$CONF["link"]?>"><?=$CONF["title"]?></a><span class="subtitle"><?=$CONF["description"]?></span></div>
 		<div id="mainmenu">
 			<div id="menuOpt">
-<?php if ($BLOGCONF["func"]["google"]["enable"]) : ?>
+<?php if ($CONF["func"]["google"]["enable"]) : ?>
 <form class="googleForm" target="_blank" method="get" action="http://www.google.com/search">
-<input class="googleOpt" type="checkbox" name="sitesearch" value="<?=$BLOGCONF["blogurl"]["sitesearch"]?>" checked /><?=$BLOGLANG["mainmenu"]["menuOpt"]["googleOpt"]?><br />
+<input class="googleOpt" type="checkbox" name="sitesearch" value="<?=$CONF["blogurl"]["sitesearch"]?>" checked /><?=$LANG["mainmenu"]["menuOpt"]["googleOpt"]?><br />
 <input class="googleInput" type="text" name="q" />
-<input class="googleSubmit" type="submit" value="Google" title="<?=$BLOGLANG["message"]["runNewWin"]?>" onfocus="javascript:this.blur()" />
+<input class="googleSubmit" type="submit" value="Google" title="<?=$LANG["message"]["runNewWin"]?>" onfocus="javascript:this.blur()" />
 </form>
 <?php endif ?>
-				<a onfocus='javascript:this.blur()' href="javascript:closeArticle('displayArea')"><?=$BLOGLANG["mainmenu"]["menuOpt"]["closeAll"]?></a>
+				<a onfocus='javascript:this.blur()' href="javascript:closeArticle('displayArea')"><?=$LANG["mainmenu"]["menuOpt"]["closeAll"]?></a>
 			</div>
 			<div id="mainmenuTabs">
-				<a onfocus='javascript:this.blur()' id="menutab_Recent" class="menutab" href="javascript:chgMenuTag('menutab_Recent')"><?=$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Recent"]?></a>
-				<a onfocus='javascript:this.blur()' id="menutab_All" class="menutab" href="javascript:chgMenuTag('menutab_All')"><?=$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_All"]?></a>
-				<a onfocus='javascript:this.blur()' id="menutab_Tags" class="menutab" href="javascript:chgMenuTag('menutab_Tags')"><?=$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Tags"]?></a>
-				<a onfocus='javascript:this.blur()' id="menutab_Spec" class="menutab" href="javascript:chgMenuTag('menutab_Spec')"><?=$BLOGLANG["mainmenu"]["mainmenuTabs"]["menutab_Spec"]?></a>
+				<a onfocus='javascript:this.blur()' id="menutab_Recent" class="menutab" href="javascript:chgMenuTag('menutab_Recent')"><?=$LANG["mainmenu"]["mainmenuTabs"]["menutab_Recent"]?></a>
+				<a onfocus='javascript:this.blur()' id="menutab_All" class="menutab" href="javascript:chgMenuTag('menutab_All')"><?=$LANG["mainmenu"]["mainmenuTabs"]["menutab_All"]?></a>
+				<a onfocus='javascript:this.blur()' id="menutab_Tags" class="menutab" href="javascript:chgMenuTag('menutab_Tags')"><?=$LANG["mainmenu"]["mainmenuTabs"]["menutab_Tags"]?></a>
+				<a onfocus='javascript:this.blur()' id="menutab_Spec" class="menutab" href="javascript:chgMenuTag('menutab_Spec')"><?=$LANG["mainmenu"]["mainmenuTabs"]["menutab_Spec"]?></a>
 			</div>
 			<div id="menutabContents"></div>
 			<div id="menures">
 <?php
 include_once("php/getRecentCommentPath.php");
-$farray = getRecentCommentPath($BLOGCONF["func"]["comment"]["showNum"]);
+$farray = getRecentCommentPath($CONF["func"]["comment"]["showNum"]);
 if (count($farray)) {
 	echo "<div class='menublock'>";
-	echo "<div class='menuitem'>".$BLOGLANG["mainmenu"]["menures"]["cmntidx"].":</div>";
+	echo "<div class='menuitem'>".$LANG["mainmenu"]["menures"]["cmntidx"].":</div>";
 	foreach ($farray as $f) {
 		$fdir = dirname($f);
 		$fname = basename($f);
@@ -165,30 +164,30 @@ if (count($farray)) {
 	echo "</div>";
 }
 
-if ($BLOGCONF["extraMenures"])
-	foreach ($BLOGCONF["extraMenures"] as $f)
+if ($CONF["extraMenures"])
+	foreach ($CONF["extraMenures"] as $f)
 		include($f);
 ?>
 				<a class='menuitem' onfocus='javascript:this.blur()' href="rss2.php?feed=all"><?php
-if (file_exists($BLOGCONF["rss2AllImg"]))
-	echo "<img alt='".$BLOGLANG["mainmenu"]["menures"]["rss2All"]."' src='".$BLOGCONF["rss2AllImg"]."' />";
+if (file_exists($CONF["rss2AllImg"]))
+	echo "<img alt='".$LANG["mainmenu"]["menures"]["rss2All"]."' src='".$CONF["rss2AllImg"]."' />";
 else
-	echo $BLOGLANG["mainmenu"]["menures"]["rss2All"];
+	echo $LANG["mainmenu"]["menures"]["rss2All"];
 ?></a><br /><br /><?php
-if ($BLOGCONF["func"]["showLastDate"]["enable"]) {
+if ($CONF["func"]["showLastDate"]["enable"]) {
 	include_once("php/getRecentArticlePath.php");
 	$farray = getRecentArticlePath(1);
 	if (count($farray)) {
 		include_once("php/transPath.php");
 		$lastDate = transPath2Date($farray[0]);
 		echo "<span class='lastDate'>";
-		echo $BLOGLANG["mainmenu"]["menures"]["lastDate"].": ".$lastDate;
+		echo $LANG["mainmenu"]["menures"]["lastDate"].": ".$lastDate;
 		echo "</span><br />";
 	}
 }
-if ($BLOGCONF["func"]["version"]["enable"])
-	echo "<span class='version'>KDBlog rev".$BLOGCONF["version"]."</span><br />";
-if ($BLOGCONF["func"]["searchbot"]["enable"])
+if ($CONF["func"]["version"]["enable"])
+	echo "<span class='version'>KDBlog rev".$CONF["version"]."</span><br />";
+if ($CONF["func"]["searchbot"]["enable"])
 	echo "<a href='data.php?ftype=searchbot' style='display: none;'>search bot only</a>";
 ?>
 			</div>
@@ -204,11 +203,11 @@ if ($_REQUEST["fpath"]) {
 }
 ?></div>
 <?php
-if ($BLOGCONF["extraFooter"])
-	foreach ($BLOGCONF["extraFooter"] as $f)
+if ($CONF["extraFooter"])
+	foreach ($CONF["extraFooter"] as $f)
 		include($f);
 
-if ($BLOGCONF["func"]["debug"]["enable"]) {
+if ($CONF["func"]["debug"]["enable"]) {
 	$stop_time[0] = time();
 	$stop_time[1] = (double)microtime();
 	printf("PHP use %d + %f sec",
@@ -217,8 +216,8 @@ if ($BLOGCONF["func"]["debug"]["enable"]) {
 }
 ?>
 		<script type="text/javascript">
-			if (blog.conf.init)
-				blog.conf.init();
+			if (conf.init)
+				conf.init();
 		</script>
 	</body>
 </html>

@@ -77,8 +77,8 @@ type:
 	"html"
 */
 function showArticleItem($fpath, $type) {
-	global $BLOGCONF;
-	global $BLOGLANG;
+	global $CONF;
+	global $LANG;
 
 	if (!is_file($fpath))
 		return;
@@ -89,7 +89,7 @@ function showArticleItem($fpath, $type) {
 	if (!$index["contents"]) {
 		if ($type == "html") {
 			$vpath = transPathR2V($fpath, "auto");
-			echo "<div class='errorMsg'>".$BLOGLANG["article"]["invalidData"];
+			echo "<div class='errorMsg'>".$LANG["article"]["invalidData"];
 			echo "<br />".$vpath."</div>";
 		}
 		return;
@@ -99,7 +99,7 @@ function showArticleItem($fpath, $type) {
 	$amacroReplace = array();
 	$xmlkey = "macro";
 	if ($index[$xmlkey]) {
-		$rtoday = $BLOGCONF["link"]."misc/".transPath2Date($fpath);
+		$rtoday = $CONF["link"]."misc/".transPath2Date($fpath);
 		// macro define must be complete type, exclude "replace"
 		foreach ($index[$xmlkey] as $i) {
 			$macroName = $vals[$i]["attributes"]["name"];
@@ -143,7 +143,7 @@ function showArticleItem($fpath, $type) {
 		$xmlkey = "tag";
 		if ($index[$xmlkey]) {
 			logecho("<div class='tagsmenu'>");
-			logecho($BLOGLANG["article"]["tags"].":<br />");
+			logecho($LANG["article"]["tags"].":<br />");
 			foreach ($index[$xmlkey] as $i) {
 				logecho("<a class='tags'");
 				logecho(" onfocus='javascript:this.blur()'");
@@ -181,8 +181,8 @@ function showArticleItem($fpath, $type) {
 	}
 
 	if ($type == "rss") {
-		logecho("<link>".$BLOGCONF["link"]."?fpath=".$vpath."</link>");
-		logecho("<guid>".$BLOGCONF["link"]."?fpath=".$vpath."</guid>");
+		logecho("<link>".$CONF["link"]."?fpath=".$vpath."</link>");
+		logecho("<guid>".$CONF["link"]."?fpath=".$vpath."</guid>");
 
 		$ftime = filectime($fpath);
 		if ($ftime)
@@ -313,19 +313,19 @@ function showData_Article($cInfo) {
 }
 
 function getCacheArticle($vpath, $type) {
-	global $BLOGCONF;
+	global $CONF;
 
 	$id = transPathV2Id($vpath);
 	$fpath = transPathV2R($vpath);
 
 	$cInfo = array();
 	if ($type == "rss")
-		$cInfo["enable"] = $BLOGCONF["cache"]["articleRss"]["enable"];
+		$cInfo["enable"] = $CONF["cache"]["articleRss"]["enable"];
 	else if ($type == "html")
-		$cInfo["enable"] = $BLOGCONF["cache"]["articleHtml"]["enable"];
+		$cInfo["enable"] = $CONF["cache"]["articleHtml"]["enable"];
 	else
 		return;
-	$cInfo["cachePath"] = $BLOGCONF["cachpath"]."/".$id.".".$type.".cache";
+	$cInfo["cachePath"] = $CONF["path"]["cache"]."/".$id.".".$type.".cache";
 	$cInfo["isValidCacheProc"] = "isValidCache_Article";
 	$cInfo["showDataProc"] = "showData_Article";
 	$cInfo["articleType"] = $type;

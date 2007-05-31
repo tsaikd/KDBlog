@@ -49,9 +49,9 @@ function showArticle(fpath, position) {
 	ajax.onreadystatechange = function() {
 		if (ajax.readyState == 1) {
 			buf = "<div name='toolbar' class='toolbar'>";
-			buf += "<a name='close' onfocus='this.blur()' class='button' href='javascript:closeArticle(\""+id+"\")'>"+blog.lang.article.toolbar.close+"<\/a>";
+			buf += "<a name='close' onfocus='this.blur()' class='button' href='javascript:closeArticle(\""+id+"\")'>"+lang.article.toolbar.close+"<\/a>";
 			buf += "<\/div>";
-			buf += "<div class='loading'>"+blog.lang.article.loading+"<\/div>";
+			buf += "<div class='loading'>"+lang.article.loading+"<\/div>";
 			showObj.innerHTML = buf;
 		} else if (ajax.readyState == 4) {
 			if (ajax.status == 200) {

@@ -2,23 +2,23 @@
 include_once("config.php");
 
 function transPathV2R($path) {
-	global $BLOGCONF;
+	global $CONF;
 
 	$pinfo = explode("/", $path);
 	$f = array_shift($pinfo);
 
 	switch ($f) {
 	case "data":
-		$res = $BLOGCONF["datapath"];
+		$res = $CONF["path"]["data"];
 		break;
 	case "tags":
-		$res = $BLOGCONF["tagspath"];
+		$res = $CONF["path"]["tags"];
 		break;
 	case "comment":
-		$res = $BLOGCONF["cmntpath"];
+		$res = $CONF["path"]["comment"];
 		break;
 	case "special":
-		$res = $BLOGCONF["specpath"];
+		$res = $CONF["path"]["spec"];
 		break;
 	default:
 		return "";
@@ -31,7 +31,7 @@ function transPathV2R($path) {
 }
 
 function transPathR2V($path, $type) {
-	global $BLOGCONF;
+	global $CONF;
 
 	switch ($type) {
 	case "auto":
@@ -46,15 +46,15 @@ function transPathR2V($path, $type) {
 			return $res;
 		return "";
 	case "data":
-		$chkpath = $BLOGCONF["datapath"];
+		$chkpath = $CONF["path"]["data"];
 		$vpath = "data";
 		break;
 	case "tags":
-		$chkpath = $BLOGCONF["tagspath"];
+		$chkpath = $CONF["path"]["tags"];
 		$vpath = "tags";
 		break;
 	case "special":
-		$chkpath = $BLOGCONF["specpath"];
+		$chkpath = $CONF["path"]["spec"];
 		$vpath = "special";
 		break;
 	default:

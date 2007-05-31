@@ -5,11 +5,11 @@ $name:
 	"jsInside"
 */
 function getCacheIndex($name) {
-	global $BLOGCONF;
+	global $CONF;
 
 	$cInfo = array();
-	$cInfo["enable"] = $BLOGCONF["cache"][$name]["enable"];
-	$cInfo["cachePath"] = $BLOGCONF["cachpath"]."/".$name.".cache";
+	$cInfo["enable"] = $CONF["cache"][$name]["enable"];
+	$cInfo["cachePath"] = $CONF["path"]["cache"]."/".$name.".cache";
 	$cInfo["preShowProc"] = "preShowData";
 	if ($name == "cssInside")
 		$cInfo["showDataProc"] = "showCssData";
@@ -22,9 +22,9 @@ function getCacheIndex($name) {
 }
 
 function preShowData($cInfo) {
-	global $BLOGCONF;
+	global $CONF;
 
-	if ($BLOGCONF["func"]["debug"]["enable"]) {
+	if ($CONF["func"]["debug"]["enable"]) {
 		header('Cache-Control: no-cache');
 		header('Pragma: no-cache');
 		header('Expires: 0');

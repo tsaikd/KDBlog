@@ -10,7 +10,7 @@ phplist="$(find -maxdepth 2 -type f \
 
 for langfile in ./lang/* ; do
 	while read fbuf ; do
-		[ -z "$(grep '$BLOGLANG' <<<"${fbuf}")" ] && continue
+		[ -z "$(grep '$LANG' <<<"${fbuf}")" ] && continue
 
 		langbuf="$(cut -d' ' -f1 <<<"${fbuf}")"
 		grepexp="$(echo "${langbuf}" | sed 's/\[/\\\[/g' | sed 's/\]/\\\]/g')"

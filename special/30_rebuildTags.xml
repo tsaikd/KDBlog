@@ -18,8 +18,8 @@
 </ul>
 </contents>
 <code><![CDATA[
-global $BLOGCONF;
+global $CONF;
 set_state_old("rebuildTags");
-rm_ex($BLOGCONF["cache"]["menutab_All"]["cachePath"]);
+rm_ex($CONF["cache"]["menutab_All"]["cachePath"]);
 ]]></code>
 </article>

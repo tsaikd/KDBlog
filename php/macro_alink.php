@@ -20,10 +20,10 @@ function macro_alink($node, $type) {
 	if (!$title)
 		return "";
 
-	global $BLOGCONF;
+	global $CONF;
 
 	if ($type == "rss") {
-		$res = "<a href='".$BLOGCONF["link"]."?fpath=".$vpath."'>$title</a>";
+		$res = "<a href='".$CONF["link"]."?fpath=".$vpath."'>$title</a>";
 	} else { // $type == "html"
 		$res  = "<a class='macro_alink'";
 		$res .= " onfocus='javascript:this.blur()'";

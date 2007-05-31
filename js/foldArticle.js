@@ -9,7 +9,7 @@ function foldArticle(id) {
 		// change toolbar to unfold
 		node = obj.getElementsByTagName("div")[0];
 		node = findChildByName(node, "fold");
-		node.innerHTML = blog.lang.article.toolbar.unfold;
+		node.innerHTML = lang.article.toolbar.unfold;
 
 		// fold article
 		// article menu
@@ -27,7 +27,7 @@ function foldArticle(id) {
 		// change toolbar to fold
 		node = obj.getElementsByTagName("div")[0];
 		node = findChildByName(node, "fold");
-		node.innerHTML = blog.lang.article.toolbar.fold;
+		node.innerHTML = lang.article.toolbar.fold;
 
 		// unfold article
 		// article menu

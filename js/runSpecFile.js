@@ -8,9 +8,9 @@ function runSpecFile(fpath) {
 
 				node = xmldoc.getElementsByTagName('error')[0];
 				if (node) {
-					alert(blog.lang.special.runSpecError+": "+fpath+"\n"+getNodeText(node));
+					alert(lang.special.runSpecError+": "+fpath+"\n"+getNodeText(node));
 				} else {
-					alert(blog.lang.special.runSpecOk);
+					alert(lang.special.runSpecOk);
 				}
 			} else {
 				alert('There was a problem with the request.');

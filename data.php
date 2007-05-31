@@ -5,7 +5,7 @@ include_once("php/isValidArticlePathName.php");
 include_once("php/transPath.php");
 
 function runSpecFile($fpath) {
-	global $BLOGLANG;
+	global $LANG;
 
 	$xml = xml_parser_create("UTF-8");
 	xml_parse_into_struct($xml, file_get_contents($fpath), $vals, $index);
@@ -14,19 +14,19 @@ function runSpecFile($fpath) {
 	echo '<?xml version="1.0" encoding="utf-8" ?>';
 
 	if ($vals[$index["SPECTYPE"][0]]["value"] != "php") {
-		echo "<root><error>".$BLOGLANG["special"]["badSpecType"]."</error></root>";
+		echo "<root><error>".$LANG["special"]["badSpecType"]."</error></root>";
 		return;
 	}
 
 	$contents = $vals[$index["CONTENTS"][0]]["value"];
 	if (!$contents) {
-		echo "<root><error>".$BLOGLANG["special"]["noSpecContents"]."</error></root>";
+		echo "<root><error>".$LANG["special"]["noSpecContents"]."</error></root>";
 		return;
 	}
 
 	$code = $vals[$index["CODE"][0]]["value"];
 	if (!$code) {
-		echo "<root><error>".$BLOGLANG["special"]["noSpecCode"]."</error></root>";
+		echo "<root><error>".$LANG["special"]["noSpecCode"]."</error></root>";
 		return;
 	}
 
@@ -37,14 +37,14 @@ function runSpecFile($fpath) {
 
 function showMsgHtml($msg) {
 	echo "<html>";
-	echo "<h1>".$BLOGLANG["message"]["success"]."</h1>";
+	echo "<h1>".$LANG["message"]["success"]."</h1>";
 	echo "<h2>".$msg."</h2>";
 	echo "</html>";
 }
 
 function showErrorHtml($msg) {
 	echo "<html>";
-	echo "<h1>".$BLOGLANG["message"]["error"]."</h1>";
+	echo "<h1>".$LANG["message"]["error"]."</h1>";
 	echo "<h2>".$msg."</h2>";
 	echo "</html>";
 }
@@ -58,15 +58,15 @@ function showDataError($ftype, $fpath, $msg) {
 }
 
 function getCacheMenuTab($name) {
-	global $BLOGCONF;
+	global $CONF;
 
 	$cInfo = array();
-	$cInfo["enable"] = $BLOGCONF["cache"][$name]["enable"];
-	$cInfo["cachePath"] = $BLOGCONF["cachpath"]."/".$name.".cache";
+	$cInfo["enable"] = $CONF["cache"][$name]["enable"];
+	$cInfo["cachePath"] = $CONF["path"]["cache"]."/".$name.".cache";
 
 	switch ($name) {
 	case "menutab_Recent":
-		$cInfo["limit"] = $BLOGCONF["numRecent"];
+		$cInfo["limit"] = $CONF["numRecent"];
 	case "menutab_All":
 	case "menutab_Tags":
 		$cInfo["isValidCacheProc"] = "isValidCache_".$name;
@@ -82,15 +82,15 @@ function getCacheMenuTab($name) {
 
 function getCacheMenuTabShowDir() {
 	include_once("php/transPath.php");
-	global $BLOGCONF;
+	global $CONF;
 
 	$name = "menutab_showDir";
 	$cInfo = array();
-	$cInfo["enable"] = $BLOGCONF["cache"][$name]["enable"];
+	$cInfo["enable"] = $CONF["cache"][$name]["enable"];
 	$cInfo["vpath"] = $_REQUEST["fpath"];
 	$cInfo["dpath"] = transPathV2R($cInfo["vpath"]);
 	$cInfo["id"] = transPathV2Id($cInfo["vpath"]);
-	$cInfo["cachePath"] = $BLOGCONF["cachpath"]."/".$cInfo["id"].".cache";
+	$cInfo["cachePath"] = $CONF["path"]["cache"]."/".$cInfo["id"].".cache";
 	$cInfo["isValidCacheProc"] = "isValidCache_".$name;
 	$cInfo["showDataProc"] = "showData_".$name;
 
@@ -185,13 +185,13 @@ function showData_menutab_All($cInfo) {
 
 function showData_menutab_Tags($cInfo) {
 	include_once("php/showDataDir.php");
-	global $BLOGCONF;
+	global $CONF;
 
 	if (is_state_old("rebuildTags")) {
 		include_once("php/rm_ex.php");
 		include_once("php/cleanDir.php");
 		include_once("php/rebuildTags.php");
-		cleanDir($BLOGCONF["tagspath"]);
+		cleanDir($CONF["path"]["tags"]);
 		rebuildTags();
 		touch_state_file("rebuildTags");
 		touch_state_file("scanTags");
@@ -231,7 +231,7 @@ case "article":
 	if (!isValidPath($vpath)
 		|| !isValidArticlePath($vpath)
 		|| !file_exists($fpath)) {
-		showDataError($ftype, $_REQUEST["fpath"], $BLOGLANG["message"]["invalidPath"]);
+		showDataError($ftype, $_REQUEST["fpath"], $LANG["message"]["invalidPath"]);
 		break;
 	}
 
@@ -257,7 +257,7 @@ case "runspec":
 		header("Content-Type: text/xml");
 		runSpecFile($fpath);
 	} else {
-		showDataError($ftype, $_REQUEST["fpath"], $BLOGLANG["message"]["invalidPath"]);
+		showDataError($ftype, $_REQUEST["fpath"], $LANG["message"]["invalidPath"]);
 	}
 	break;
 case "comment":
@@ -266,14 +266,14 @@ case "comment":
 	echo '<?xml version="1.0" encoding="utf-8" ?>';
 	echo '<root>';
 
-	if (!$BLOGCONF["func"]["comment"]["enable"]) {
-		echo "<error type='$ftype' ename='funcOff'>".$BLOGLANG["message"]["funcOff"]."</error>";
+	if (!$CONF["func"]["comment"]["enable"]) {
+		echo "<error type='$ftype' ename='funcOff'>".$LANG["message"]["funcOff"]."</error>";
 		echo '</root>';
 		break;
 	}
 
 	if ($_SESSION["reg_num_check"] != $_REQUEST["reg_num_check"]) {
-		echo "<error type='$ftype' ename='reg_num_check'>".$BLOGLANG["comment"]["errmsg"]["reg_num_check"]."</error>";
+		echo "<error type='$ftype' ename='reg_num_check'>".$LANG["comment"]["errmsg"]["reg_num_check"]."</error>";
 		echo '</root>';
 		break;
 	}
@@ -282,7 +282,7 @@ case "comment":
 	$fpath = transPathV2R($_REQUEST["fpath"]);
 	if (!isValidArticlePath($_REQUEST["fpath"])
 		|| !file_exists($fpath)) {
-		echo "<error type='$ftype' ename='invalidPath'>".$BLOGLANG["message"]["invalidPath"]."</error>";
+		echo "<error type='$ftype' ename='invalidPath'>".$LANG["message"]["invalidPath"]."</error>";
 		echo '</root>';
 		break;
 	}
@@ -290,7 +290,7 @@ case "comment":
 	include_once("php/strSafeHtml.php");
 	$comment = strSafeHtml($_REQUEST["comment"]);
 	if (strlen($comment) == 0) {
-		echo "<error type='$ftype' ename='emptyComment'>".$BLOGLANG["comment"]["errmsg"]["emptyComment"]."</error>";
+		echo "<error type='$ftype' ename='emptyComment'>".$LANG["comment"]["errmsg"]["emptyComment"]."</error>";
 		echo '</root>';
 		break;
 	}
@@ -314,7 +314,7 @@ case "commentUnNotify":
 	if (!isValidPath($vpath)
 		|| !isValidArticlePath($vpath)
 		|| !file_exists($fpath)) {
-		showErrorHtml($BLOGLANG["message"]["invalidPath"]);
+		showErrorHtml($LANG["message"]["invalidPath"]);
 		break;
 	}
 
@@ -326,9 +326,9 @@ case "commentUnNotify":
 
 	include_once("php/modifyArticleComment.php");
 	if (modifyArticleComment($vpath, $info))
-		showMsgHtml($BLOGLANG["comment"]["msg"]["unNotifyOk"]);
+		showMsgHtml($LANG["comment"]["msg"]["unNotifyOk"]);
 	else
-		showErrorHtml($BLOGLANG["comment"]["errmsg"]["unNotifyFailed"]);
+		showErrorHtml($LANG["comment"]["errmsg"]["unNotifyFailed"]);
 	break;
 case "cssInside":
 case "jsInside":
@@ -340,10 +340,10 @@ case "jsInside":
 	getCacheIndex($ftype);
 	break;
 case "searchbot":
-	if (!$BLOGCONF["func"]["sitemap"]["enable"]) {
+	if (!$CONF["func"]["sitemap"]["enable"]) {
 		header('Content-type: text/html; charset=utf-8');
 		echo '<html>';
-		echo "<error type='$ftype' ename='funcOff'>".$BLOGLANG["message"]["funcOff"]."</error>";
+		echo "<error type='$ftype' ename='funcOff'>".$LANG["message"]["funcOff"]."</error>";
 		echo '</html>';
 		break;
 	}
@@ -353,10 +353,10 @@ case "searchbot":
 	searchbot();
 	break;
 case "sitemap":
-	if (!$BLOGCONF["func"]["sitemap"]["enable"]) {
+	if (!$CONF["func"]["sitemap"]["enable"]) {
 		header('Content-type: text/html; charset=utf-8');
 		echo '<html>';
-		echo "<error type='$ftype' ename='funcOff'>".$BLOGLANG["message"]["funcOff"]."</error>";
+		echo "<error type='$ftype' ename='funcOff'>".$LANG["message"]["funcOff"]."</error>";
 		echo '</html>';
 		break;
 	}
