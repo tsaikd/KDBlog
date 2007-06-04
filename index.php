@@ -12,7 +12,7 @@ if (!file_exists("config.php")) {
 	exit;
 }
 include_once("config.php");
-if ($CONF["version"] < 16)
+if ($CONF["version"] < 17)
 	die($LANG["message"]["confTooOld"]);
 
 # Check server state

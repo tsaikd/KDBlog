@@ -11,6 +11,7 @@ $LANG["message"]["checkconf"] = "請檢查設定檔是否正確";
 $LANG["message"]["invalidPath"] = "無效的路徑";
 $LANG["message"]["confTooOld"] = "設定檔版本太舊，請更新設定檔";
 $LANG["message"]["funcOff"] = "此功能已經關閉，請聯繫管理人員";
+$LANG["message"]["funcNotConf"] = "尚未設定此功能，請檢查設定檔";
 $LANG["message"]["runNewWin"] = "此動作將會在新視窗中執行";
 
 $LANG["mainmenu"]["menuOpt"]["googleOpt"] = "只尋找站內文章";

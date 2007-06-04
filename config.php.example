@@ -3,7 +3,7 @@
 # 以下設定為 KDBlog 網頁程式所使用
 ############################################################
 # (int) 設定檔的版本，當升級時版本有更動會產生訊息
-$CONF["version"] = 16;
+$CONF["version"] = 17;
 
 # (string) Blog 的標題
 $CONF["title"] = "KD's Blog";
@@ -103,9 +103,15 @@ $CONF["func"]["sitemap"]["enable"] = true;
 # (bool) 是否在首頁顯示最新文章日期 (可以看看搜尋引擎最後 cache 到的日期)
 $CONF["func"]["showLastDate"]["enable"] = true;
 
+# (string URL) 預設 KDGallery 的網址
+# 亦可以在 macro kdgallery 中單獨設定
+#$CONF["func"]["kdgallery"]["url"] = "http://pic.tsaikd.org/";
+
 ############################################################
 # 快取設定
 ############################################################
+# (int >= 0) 最大快取大小 (Bytes) (0: 無限制)
+$CONF["func"]["cache"]["maxSize"] = 8*1024*1024;
 # (bool) 快取控制總開關，若要啟用任一快取，請將此選項啟動
 $CONF["cache"]["enable"] = true;
 # (bool) 將 css 檔在 index 中展開
@@ -126,12 +132,6 @@ $CONF["cache"]["menutab_showDir"]["enable"] = true;
 $CONF["cache"]["articleHtml"]["enable"] = true;
 # (bool) 快取 rss 文章顯示結果
 $CONF["cache"]["articleRss"]["enable"] = true;
-
-############################################################
-# 其他設定
-############################################################
-# (int >= 0) 最大快取大小 (Bytes) (0: 無限制)
-$CONF["func"]["cache"]["maxSize"] = 8*1024*1024;
 
 ############################################################
 # 以下設定不建議修改，除非你知道你在做什麼

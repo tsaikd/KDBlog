@@ -11,6 +11,7 @@ $LANG["message"]["checkconf"] = "please check your config file";
 $LANG["message"]["invalidPath"] = "Invalid path";
 $LANG["message"]["confTooOld"] = "Your config file is out of date, please update";
 $LANG["message"]["funcOff"] = "This function is closed. Please contact to administrator.";
+$LANG["message"]["funcNotConf"] = "This function is not configured. Please check config file.";
 $LANG["message"]["runNewWin"] = "Run in a new window";
 
 $LANG["mainmenu"]["menuOpt"]["googleOpt"] = "only search this site";

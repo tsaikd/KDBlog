@@ -13,6 +13,7 @@ KDBlog 是以檔案系統為基礎的閱讀介面
 <title></title>
 <tag></tag>
 <macro name="alink" />
+<macro name="kdgallery" />
 <macro name="quote" />
 <macro name="replace">
 <from>&lt;![CDATA[KDBlog]]&gt;</from>
@@ -20,6 +21,7 @@ KDBlog 是以檔案系統為基礎的閱讀介面
 </macro>
 <contents>
 <alink src="" />
+<kdgallery host="" src="" w="" h="" />
 <quote header=""></quote>
 </contents>
 </article>
@@ -71,8 +73,8 @@ KDBlog 是以檔案系統為基礎的閱讀介面
 每篇文章可以有數個標籤
 <hr />
 最後是介紹內建的 macro 功能
-目前有三個 macro 可以使用
   * alink
+  * kdgallery
   * quote
   * replace
 <hr />
@@ -95,6 +97,22 @@ ex2) &lt;alink src="data/2007/03/31_1.xml" /&gt;
 如果你的主機上沒有 data/2007/03/31_1.xml 這篇文章
 或是該文章格式有問題
 你將只會看到一個連結
+<hr />
+macro kdgallery 的使用方式:
+宣告文章有使用 macro kdgallery
+<quote><![CDATA[
+<macro name="kdgallery" />
+]]></quote>
+<![CDATA[
+然後在文章內容裡就可以使用
+&lt;kdgallery host="KDGALLERY的網址" src="連結文章路徑" w="圖片寬度" h="圖片高度" /&gt;
+
+如果在 config.php 有設定 $CONF["func"]["kdgallery"]["url"] 則 host 可省略
+
+w, h 可省略 (預設 640x480)
+
+ex) &lt;kdgallery host="http://pic.tsaikd.org/" src="data/example.jpg" w="640" h="480" /&gt;
+]]>
 <hr />
 macro quote 的使用方式:
 宣告文章有使用 macro quote
