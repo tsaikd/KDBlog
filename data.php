@@ -288,7 +288,7 @@ case "comment":
 	}
 
 	include_once("php/strSafeHtml.php");
-	$comment = strSafeHtml($_REQUEST["comment"]);
+	$comment = strCommentHtml($_REQUEST["comment"]);
 	if (strlen($comment) == 0) {
 		echo "<error type='$ftype' ename='emptyComment'>".$LANG["comment"]["errmsg"]["emptyComment"]."</error>";
 		echo '</root>';

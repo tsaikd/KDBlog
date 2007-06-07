@@ -78,6 +78,7 @@ lang.special.runSpecError = "<?=$LANG["special"]["runSpecError"]?>";
 lang.comment = {};
 lang.comment.write = {};
 lang.comment.write.notify = "<?=$LANG["comment"]["write"]["notify"]?>";
+lang.comment.write.validTags = "<?=$LANG["comment"]["write"]["validTags"]?>";
 lang.comment.errmsg = {};
 lang.comment.errmsg.multiComment = "<?=$LANG["comment"]["errmsg"]["multiComment"]?>";
 

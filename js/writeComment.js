@@ -103,6 +103,7 @@ function commentArticle(id) {
 			showText += "<input type='checkbox' name='notify' value='y' />"+lang.comment.write.notify+"<br />";
 		else
 			showText += "<input type='checkbox' name='notify' value='y' style='display: none' />";
+		showText += "<div><a href='javascript:;' onclick='javascript: toggleObj(this.nextSibling, \"block\");'>"+lang.comment.write.validTags+": <\/a><div style='display: none;'>&lt;a href=\"\" title=\"\"&gt;</div><\/div>";
 		showText += "<textarea name='comment' rows='8' cols='60'><\/textarea><br />";
 		showText += "<table><tr>";
 		showText += "<td><img id='comment_img' src='security.php' onclick='javascript:reload_security()' /><\/td>";

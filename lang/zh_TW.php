@@ -46,6 +46,7 @@ $LANG["special"]["noSpecCode"] = "程式檔案沒有程式碼";
 $LANG["comment"]["email"]["fSubject"] = $CONF["title"]." -- 新評論通知 '%s'";
 $LANG["comment"]["email"]["fBodyTail"] = "<br /><hr /><br />如果不想繼續收到通知請按<a href='%s'>此連結</a>";
 $LANG["comment"]["write"]["notify"] = "當有新評論時通知我";
+$LANG["comment"]["write"]["validTags"] = "顯示有效的網頁標籤";
 $LANG["comment"]["msg"]["unNotifyOk"] = "您已經成功取消'新評論通知'功能";
 $LANG["comment"]["errmsg"]["unNotifyFailed"] = "取消'新評論通知'功能時發生錯誤, 如有需要請聯絡 ".$CONF["email"];
 $LANG["comment"]["errmsg"]["reg_num_check"] = "驗證碼輸入錯誤";
