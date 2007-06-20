@@ -58,8 +58,8 @@ input:
 	"enable"			=> bool
 	"cachePath"			=> string path
 	"bSendHeader"		=> bool send cache header (option)
+							default: false
 	"isValidCacheProc"	=> function callback with param $cInfo (option)
-	"preShowProc"		=> function callback with param $cInfo (option)
 	"showDataProc"		=> function callback with param $cInfo
 addition:
 	"doCache"			=> bool regenerate cache file or not
@@ -85,16 +85,13 @@ function getGenCache(&$cInfo) {
 		$doCache = false;
 	$cInfo["doCache"] = $doCache;
 
-	if ($cInfo["preShowProc"])
-		$cInfo["preShowProc"]($cInfo);
-
 	if ($cInfo["bSendHeader"]) {
 		if ($doCache)
 			$ftime = time();
 		else
-			$ftime = filectime($cInfo["cachepath"]);
+			$ftime = filectime($cInfo["cachePath"]);
 		header('Last-Modified: '.date(DATE_RFC2822, $ftime));
-		header('Expires: '.date(DATE_RFC2822, $ftime+86400));
+		header('Expires: '.date(DATE_RFC2822, time()+86400));
 	}
 
 	if ($doCache) {

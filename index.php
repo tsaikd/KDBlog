@@ -30,6 +30,21 @@ if (is_state_old($name)) {
 	cleanCache();
 	touch_state_file($name);
 }
+unset($name);
+
+# Get lasr article path
+include_once("php/getRecentArticlePath.php");
+$farray = getRecentArticlePath(1);
+$lastArticlePath = $farray[0];
+unset($farray);
+
+# Send Expires header
+include_once("php/transPath.php");
+if (isset($lastArticlePath))
+	header('Last-Modified: '.date(DATE_RFC2822, filectime(transPathV2R($lastArticlePath))));
+else
+	header('Last-Modified: '.date(DATE_RFC2822, time()));
+header('Expires: '.date(DATE_RFC2822, time()+86400));
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -176,11 +191,8 @@ else
 	echo $LANG["mainmenu"]["menures"]["rss2All"];
 ?></a><br /><br /><?php
 if ($CONF["func"]["showLastDate"]["enable"]) {
-	include_once("php/getRecentArticlePath.php");
-	$farray = getRecentArticlePath(1);
-	if (count($farray)) {
-		include_once("php/transPath.php");
-		$lastDate = transPath2Date($farray[0]);
+	if (isset($lastArticlePath)) {
+		$lastDate = transPath2Date($lastArticlePath);
 		echo "<span class='lastDate'>";
 		echo $LANG["mainmenu"]["menures"]["lastDate"].": ".$lastDate;
 		echo "</span><br />";

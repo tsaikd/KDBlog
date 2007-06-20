@@ -10,7 +10,7 @@ function getCacheIndex($name) {
 	$cInfo = array();
 	$cInfo["enable"] = $CONF["cache"][$name]["enable"];
 	$cInfo["cachePath"] = $CONF["path"]["cache"]."/".$name.".cache";
-	$cInfo["preShowProc"] = "preShowData";
+	$cInfo["bSendHeader"] = true;
 	if ($name == "cssInside")
 		$cInfo["showDataProc"] = "showCssData";
 	else if ($name == "jsInside")
@@ -19,24 +19,6 @@ function getCacheIndex($name) {
 		return;
 
 	return getGenCache($cInfo);
-}
-
-function preShowData($cInfo) {
-	global $CONF;
-
-	if ($CONF["func"]["debug"]["enable"]) {
-		header('Cache-Control: no-cache');
-		header('Pragma: no-cache');
-		header('Expires: 0');
-		return;
-	}
-
-	if ($cInfo["doCache"])
-		$ftime = time();
-	else
-		$ftime = filectime($cInfo["cachePath"]) - 5;
-	header('Last-Modified: '.date(DATE_RFC2822, $ftime));
-	header('Expires: '.date(DATE_RFC2822, $ftime+86400));
 }
 
 function showCssData($cInfo) {
