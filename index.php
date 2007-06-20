@@ -44,7 +44,7 @@ if (isset($lastArticlePath))
 	header('Last-Modified: '.date(DATE_RFC2822, filectime(transPathV2R($lastArticlePath))));
 else
 	header('Last-Modified: '.date(DATE_RFC2822, time()));
-header('Expires: '.date(DATE_RFC2822, time()+86400));
+header('Expires: '.date(DATE_RFC2822, time()+600));
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
