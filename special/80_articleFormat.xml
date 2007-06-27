@@ -2,6 +2,8 @@
 <article>
 <title>標準文章格式</title>
 <macro name="alink" />
+<macro name="block" />
+<macro name="kdgallery" />
 <macro name="quote" />
 <contents>
 KDBlog 是以檔案系統為基礎的閱讀介面
@@ -13,6 +15,7 @@ KDBlog 是以檔案系統為基礎的閱讀介面
 <title></title>
 <tag></tag>
 <macro name="alink" />
+<macro name="block" />
 <macro name="kdgallery" />
 <macro name="quote" />
 <macro name="replace">
@@ -74,6 +77,7 @@ KDBlog 是以檔案系統為基礎的閱讀介面
 <hr />
 最後是介紹內建的 macro 功能
   * alink
+  * block
   * kdgallery
   * quote
   * replace
@@ -97,6 +101,21 @@ ex2) &lt;alink src="data/2007/03/31_1.xml" /&gt;
 如果你的主機上沒有 data/2007/03/31_1.xml 這篇文章
 或是該文章格式有問題
 你將只會看到一個連結
+
+<hr />
+macro block 的使用方式:
+宣告文章有使用 macro block
+<quote><![CDATA[
+<macro name="block" />
+]]></quote>
+<![CDATA[
+然後在文章內容裡就可以使用
+&lt;block&gt;文章內容區塊&lt;/block&gt;
+]]>
+看起來就會像這樣
+<block>文章內容區塊</block>
+macro block 裡常會使用 <![CDATA[&lt;![CDATA[  ]]&gt;]]> 來避免 xml 格式錯誤
+
 <hr />
 macro kdgallery 的使用方式:
 宣告文章有使用 macro kdgallery
@@ -113,6 +132,9 @@ w, h 可省略 (預設 640x480)
 
 ex) &lt;kdgallery host="http://pic.tsaikd.org/" src="data/example.jpg" w="640" h="480" /&gt;
 ]]>
+看起來就會像這樣
+<kdgallery host="http://pic.tsaikd.org/" src="data/example.jpg" w="640" h="480" />
+
 <hr />
 macro quote 的使用方式:
 宣告文章有使用 macro quote
@@ -188,6 +210,5 @@ to 欄位也要跟著改
 <to>&lt;![CDATA[<img src="KDBlog/TODAY/KDBlog/image1.jpg" />]]&gt;</to>
 </macro>
 ]]></quote>
-
 </contents>
 </article>
