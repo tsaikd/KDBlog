@@ -2,6 +2,12 @@
 	color: purple;
 }
 
+#displayArea .article .contents .macro_block {
+	white-space: normal;
+	text-indent: 2em;
+	width: 100%; /* for IE6 */
+}
+
 #displayArea .article .contents .macro_quote {
 	margin-left: 2em;
 	color: #104;

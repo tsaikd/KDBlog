@@ -4,9 +4,11 @@ function macro_quote($node, $type) {
 		return "";
 
 	if ($type == "rss") {
-		$bstyle  = " style='color: #104;";
+		$bstyle  = " style='";
+		$bstyle .= " color: #104;";
 		$bstyle .= " background-color: #eef;";
-		$bstyle .= " border: dotted 1px #888;'";
+		$bstyle .= " border: dotted 1px #888;";
+		$bstyle .= "'";
 
 		if ($node["attributes"]["header"]) {
 			$hval  = "<div style='color: white;";
