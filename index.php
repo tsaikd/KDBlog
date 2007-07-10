@@ -39,7 +39,6 @@ $lastArticlePath = $farray[0];
 unset($farray);
 
 # Send Expires header
-/*
 include_once("php/transPath.php");
 if ($_REQUEST["fpath"]) {
 	$fpath = transPathV2R($_REQUEST["fpath"]);
@@ -51,7 +50,6 @@ if ($_REQUEST["fpath"]) {
 	else
 		sendModHeader(__FILE__, 600);
 }
-//*/
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
