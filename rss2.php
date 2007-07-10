@@ -9,19 +9,19 @@ else
 	header("Content-Type: application/rss+xml");
 header("Pragma: no-cache");
 header("Expires: 0");
-echo '<?xml version="1.0" encoding="utf-8" ?>';
-echo '<rss version="2.0">';
-echo '<channel>';
-echo '<title>'.$CONF["title"].'</title>';
-echo '<description>'.$CONF["description"].'</description>';
-echo '<link>'.$CONF["link"].'</link>';
-$lang = $CONF["language"];
-$lang = strtolower($lang);
-$lang = str_replace("_", "-", $lang);
-echo "<language>$lang</language>";
-echo '<managingEditor>'.$CONF["email"].'</managingEditor>';
-echo '<docs>'.$CONF["link"].'rss2.php?feed='.$_REQUEST["feed"].'</docs>';
 
+echo '<?xml version="1.0" encoding="utf-8" ?>';
+?>
+<rss version="2.0">
+<channel>
+<title><?=$CONF["title"]?></title>
+<description><?=$CONF["description"]?></description>
+<link><?=$CONF["link"]?></link>
+<language><?=$CONF["langtype"]["rss2"]?></language>
+<managingEditor><?=$CONF["email"]?></managingEditor>
+<docs><?=$CONF["link"]?>rss2.php?feed=<?=$_REQUEST["feed"]?></docs>
+
+<?php
 if ($_REQUEST["limit"]) {
 	$limit = (int)$_REQUEST["limit"];
 	if ($limit > $CONF["rssMaxNum"])
@@ -40,7 +40,7 @@ default: // all
 	break;
 }
 
-echo '</channel>';
-echo '</rss>';
-
 ?>
+</channel>
+</rss>
+

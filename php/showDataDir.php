@@ -25,7 +25,6 @@ function showDataDir($vpath, $flag=null) {
 				continue;
 
 			logecho("<a class='menufile'");
-			logecho(" onfocus='javascript:this.blur()'");
 			logecho(" href='javascript:showArticle(\"$vfpath\", 0x01)'>");
 			if (!$flag["hideArticleNum"])
 				logecho($f[0].$f[1]." - ");
@@ -35,7 +34,6 @@ function showDataDir($vpath, $flag=null) {
 		}
 
 		logecho("<a class='menutext'");
-		logecho(" onfocus='javascript:this.blur()'");
 		logecho(" onclick='javascript:showMenuTabDir(this, \"$vpath/$f\")'");
 		logecho(" href='javascript:;'>");
 		logecho($f);

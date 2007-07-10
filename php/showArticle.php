@@ -146,7 +146,6 @@ function showArticleItem($fpath, $type) {
 			logecho($LANG["article"]["tags"].":<br />");
 			foreach ($index[$xmlkey] as $i) {
 				logecho("<a class='tags'");
-				logecho(" onfocus='javascript:this.blur()'");
 				logecho(" href=\"javascript:chgMenuTag('menutab_Tags', 'tags/".$vals[$i]["value"]."/".dirname(substr($vpath, 5))."')\">");
 				logecho($vals[$i]["value"]."</a>");
 			}
@@ -157,7 +156,6 @@ function showArticleItem($fpath, $type) {
 		$buf = transPath2Date($vpath);
 		if ($buf) {
 			logecho("<a class='articledate'");
-			logecho(" onfocus='javascript:this.blur()'");
 			logecho(" href='javascript:chgMenuTag(\"menutab_All\", \"data/$buf\")'");
 			logecho(">".$buf."</a>");
 		}
@@ -173,7 +171,7 @@ function showArticleItem($fpath, $type) {
 		} else { // $type == "html"
 			logecho("<h1>");
 			// show permalink at title
-//			logecho("<a onfocus='this.blur()' href='index.php?fpath=".$vpath."'>");
+//			logecho("<a href='index.php?fpath=".$vpath."'>");
 			logecho($vals[$i]["value"]);
 //			logecho("</a>");
 			logecho("</h1>");

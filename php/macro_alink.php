@@ -26,7 +26,6 @@ function macro_alink($node, $type) {
 		$res = "<a href='".$CONF["link"]."?fpath=".$vpath."'>$title</a>";
 	} else { // $type == "html"
 		$res  = "<a class='macro_alink'";
-		$res .= " onfocus='javascript:this.blur()'";
 		$res .= " href='javascript:showArticle(\"$vpath\", 0x01)'>";
 		$res .= $title;
 		$res .= "</a>";

@@ -3,7 +3,7 @@
 # 以下設定為 KDBlog 網頁程式所使用
 ############################################################
 # (int) 設定檔的版本，當升級時版本有更動會產生訊息
-$CONF["version"] = 17;
+$CONF["version"] = 18;
 
 # (string) Blog 的標題
 $CONF["title"] = "KD's Blog";
@@ -150,7 +150,7 @@ if ($CONF["blogurl"]["blog"] == "//")
 	$CONF["blogurl"]["blog"] = "/";
 
 # 自動偵測 Blog 的網址
-if (!$CONF["link"])
+if (!isset($CONF["link"]))
 	$CONF["link"] = $CONF["blogurl"]["server"].substr($CONF["blogurl"]["blog"], 1);
 
 # (string) Google sitesearch
@@ -172,6 +172,10 @@ if (!$CONF["func"]["mail"]["enable"]) {
 	$CONF["func"]["commentTrack"]["enable"] = false;
 }
 
+# 不同型式的 Language 寫法
+$CONF["langtype"]["html"] = str_replace("_", "-", $CONF["language"]);
+$CONF["langtype"]["rss2"] = str_replace("_", "-", strtolower($CONF["language"]));
+
 # (bool) 啟用 debug 模式
 $CONF["func"]["debug"]["enable"] = false;
 
@@ -183,5 +187,6 @@ include_once("lang/".$CONF["language"].".php");
 
 # 載入快取函數
 include_once("php/cache.php");
+include_once("php/sendModHeader.php");
 
 ?>

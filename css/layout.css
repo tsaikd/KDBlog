@@ -51,9 +51,9 @@ img {
 	border-right: 1px solid #ccc;
 }
 
-#menuOpt {
-	padding-left: 0.3em;
+#mainmenu .menublock {
 	border-bottom: solid 1px #888;
+	padding: 0.2em 0.2em;
 }
 
 #menuOpt .googleForm .googleInput {
@@ -61,6 +61,7 @@ img {
 }
 
 #mainmenuTabs {
+	border-bottom: solid 1px #888;
 	padding: 0.3em 0.3em;
 }
 
@@ -69,44 +70,33 @@ img {
 }
 
 #menutabContents {
-	padding: 0.1em 0.2em;
-	border-top: solid 1px #888;
+	border-bottom: solid 1px #888;
+	padding: 0.2em 0.3em;
 }
 
-#menutabContents .menutext {
+.menutext {
 	display: block;
 }
 
-#menutabContents .menudir {
+.menudir {
 	margin-left: 0.5em;
 }
 
-#menutabContents .menufile {
+.menufile {
 	display: block;
 	text-indent: -2em;
 	padding-left: 2em;
 }
 
-#menutabContents .menudir .menuRecentFile {
+.menuRecentFile {
 	display: list-item;
 	list-style-position: outside;
 	margin-left: 1em;
 }
 
 #menures {
-	border-top: solid 1px #888;
 	padding-top: 0.3em;
 	padding-bottom: 0.3em;
-}
-
-#menures .menublock {
-	border-bottom: solid 1px #888;
-	padding-top: 0.3em;
-	padding-bottom: 0.3em;
-}
-
-#menures .menuitem {
-	padding-left: 0.2em;
 }
 
 #menures .lastDate {
@@ -121,6 +111,11 @@ img {
 	clear: left;
 	margin-right: 1em;
 	font-size: 0.8em;
+}
+
+#menures .menufootblock {
+	padding-top: 0.3em;
+	padding-left: 0.2em;
 }
 
 #displayArea {

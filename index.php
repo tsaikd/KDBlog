@@ -12,7 +12,7 @@ if (!file_exists("config.php")) {
 	exit;
 }
 include_once("config.php");
-if ($CONF["version"] < 17)
+if ($CONF["version"] < 18)
 	die($LANG["message"]["confTooOld"]);
 
 # Check server state
@@ -39,16 +39,23 @@ $lastArticlePath = $farray[0];
 unset($farray);
 
 # Send Expires header
+/*
 include_once("php/transPath.php");
-if (isset($lastArticlePath))
-	header('Last-Modified: '.date(DATE_RFC2822, filectime(transPathV2R($lastArticlePath))));
-else
-	header('Last-Modified: '.date(DATE_RFC2822, time()));
-header('Expires: '.date(DATE_RFC2822, time()+600));
+if ($_REQUEST["fpath"]) {
+	$fpath = transPathV2R($_REQUEST["fpath"]);
+	if (is_file($fpath))
+		sendModHeader($fpath);
+} else {
+	if (isset($lastArticlePath))
+		sendModHeader(transPathV2R($lastArticlePath), 600);
+	else
+		sendModHeader(__FILE__, 600);
+}
+//*/
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<html lang="<?=$CONF["langtype"]["html"]?>">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title><?php
@@ -69,6 +76,8 @@ if ($_REQUEST["fpath"]) {
 		<link rel="stylesheet" type="text/css" href="data.php?ftype=cssInside">
 		<script type="text/javascript" src="data.php?ftype=jsInside"></script>
 		<script type="text/javascript">
+isMSIE = /*@cc_on!@*/false;
+
 lang = {};
 
 lang.button = {};
@@ -121,17 +130,23 @@ if (!Array.prototype.indexOf) { // for IE6
 conf.init = function () {
 	chgMenuTag("menutab_Recent");
 
-	var showText = "";
-	var showObj;
-	showObj = document.getElementById("displayArea");
+	var buf = "";
+	var obj;
 
+	if (isMSIE) {
+		// a strange bug in IE6
+		obj = document.getElementById("menuOpt");
+		obj.style.paddingTop = "0";
+	}
+
+	obj = document.getElementById("displayArea");
 <?php
 if (!$_REQUEST["fpath"]) {
 	include_once("php/getRecentArticlePath.php");
 	$farray = getRecentArticlePath($CONF["numAtStart"]);
 	foreach ($farray as $vpath)
-		echo "showText += \"<div class='article' id='\"+getIdFromPath(\"$vpath\")+\"' onmouseover='javascript:selectArticle(this)'><\\/div>\";\n";
-	echo "showObj.innerHTML = showText;\n";
+		echo "buf += \"<div class='article' id='\"+getIdFromPath(\"$vpath\")+\"' onmouseover='javascript:selectArticle(this)'><\\/div>\";\n";
+	echo "obj.innerHTML = buf;\n";
 	foreach ($farray as $vpath)
 		echo "showArticle(\"$vpath\", 0x30);\n";
 }
@@ -140,23 +155,23 @@ if (!$_REQUEST["fpath"]) {
 		</script>
 	</head>
 	<body>
-		<div id="header"><a onfocus='this.blur()' class='title' href="<?=$CONF["link"]?>"><?=$CONF["title"]?></a><span class="subtitle"><?=$CONF["description"]?></span></div>
+		<div id="header"><a class='title' href="<?=$CONF["link"]?>"><?=$CONF["title"]?></a><span class="subtitle"><?=$CONF["description"]?></span></div>
 		<div id="mainmenu">
-			<div id="menuOpt">
+			<div id="menuOpt" class="menublock">
 <?php if ($CONF["func"]["google"]["enable"]) : ?>
 <form class="googleForm" target="_blank" method="get" action="http://www.google.com/search">
 <input class="googleOpt" type="checkbox" name="sitesearch" value="<?=$CONF["blogurl"]["sitesearch"]?>" checked /><?=$LANG["mainmenu"]["menuOpt"]["googleOpt"]?><br />
 <input class="googleInput" type="text" name="q" />
-<input class="googleSubmit" type="submit" value="Google" title="<?=$LANG["message"]["runNewWin"]?>" onfocus="javascript:this.blur()" />
+<input class="googleSubmit" type="submit" value="Google" title="<?=$LANG["message"]["runNewWin"]?>" />
 </form>
 <?php endif ?>
-				<a onfocus='javascript:this.blur()' href="javascript:closeArticle('displayArea')"><?=$LANG["mainmenu"]["menuOpt"]["closeAll"]?></a>
+				<a href="javascript:closeArticle('displayArea')"><?=$LANG["mainmenu"]["menuOpt"]["closeAll"]?></a>
 			</div>
 			<div id="mainmenuTabs">
-				<a onfocus='javascript:this.blur()' id="menutab_Recent" class="menutab" href="javascript:chgMenuTag('menutab_Recent')"><?=$LANG["mainmenu"]["mainmenuTabs"]["menutab_Recent"]?></a>
-				<a onfocus='javascript:this.blur()' id="menutab_All" class="menutab" href="javascript:chgMenuTag('menutab_All')"><?=$LANG["mainmenu"]["mainmenuTabs"]["menutab_All"]?></a>
-				<a onfocus='javascript:this.blur()' id="menutab_Tags" class="menutab" href="javascript:chgMenuTag('menutab_Tags')"><?=$LANG["mainmenu"]["mainmenuTabs"]["menutab_Tags"]?></a>
-				<a onfocus='javascript:this.blur()' id="menutab_Spec" class="menutab" href="javascript:chgMenuTag('menutab_Spec')"><?=$LANG["mainmenu"]["mainmenuTabs"]["menutab_Spec"]?></a>
+				<a id="menutab_Recent" class="menutab" href="javascript:chgMenuTag('menutab_Recent')"><?=$LANG["mainmenu"]["mainmenuTabs"]["menutab_Recent"]?></a>
+				<a id="menutab_All" class="menutab" href="javascript:chgMenuTag('menutab_All')"><?=$LANG["mainmenu"]["mainmenuTabs"]["menutab_All"]?></a>
+				<a id="menutab_Tags" class="menutab" href="javascript:chgMenuTag('menutab_Tags')"><?=$LANG["mainmenu"]["mainmenuTabs"]["menutab_Tags"]?></a>
+				<a id="menutab_Spec" class="menutab" href="javascript:chgMenuTag('menutab_Spec')"><?=$LANG["mainmenu"]["mainmenuTabs"]["menutab_Spec"]?></a>
 			</div>
 			<div id="menutabContents"></div>
 			<div id="menures">
@@ -164,19 +179,21 @@ if (!$_REQUEST["fpath"]) {
 include_once("php/getRecentCommentPath.php");
 $farray = getRecentCommentPath($CONF["func"]["comment"]["showNum"]);
 if (count($farray)) {
+	include_once("php/getArticleTitle.php");
 	echo "<div class='menublock'>";
 	echo "<div class='menuitem'>".$LANG["mainmenu"]["menures"]["cmntidx"].":</div>";
+	echo "<div class='menudir'>";
 	foreach ($farray as $f) {
 		$fdir = dirname($f);
 		$fname = basename($f);
 		$buf = explode("_", $fname);
 		$dataVPath = "data/$fdir/".$buf[0]."_".$buf[1].".xml";
-		echo "<a class='menuitem'";
-		echo " onfocus='javascript:this.blur()'";
+		echo "<a class='menuRecentFile'";
 		echo " href='javascript:showArticle(\"$dataVPath\", 1)'>";
-		echo substr($dataVPath, 5, -4)." (".(int)$buf[2].")";
-		echo "</a><br />";
+		echo "Re: ".getArticleTitle($dataVPath)." (".(int)$buf[2].")";
+		echo "</a>";
 	}
+	echo "</div>";
 	echo "</div>";
 }
 
@@ -184,7 +201,8 @@ if ($CONF["extraMenures"])
 	foreach ($CONF["extraMenures"] as $f)
 		include($f);
 ?>
-				<a class='menuitem' onfocus='javascript:this.blur()' href="rss2.php?feed=all"><?php
+				<div class="menufootblock">
+					<a class="menuitem" href="rss2.php?feed=all"><?php
 if (file_exists($CONF["rss2AllImg"]))
 	echo "<img alt='".$LANG["mainmenu"]["menures"]["rss2All"]."' src='".$CONF["rss2AllImg"]."' />";
 else
@@ -203,6 +221,7 @@ if ($CONF["func"]["version"]["enable"])
 if ($CONF["func"]["searchbot"]["enable"])
 	echo "<a href='data.php?ftype=searchbot' style='display: none;'>search bot only</a>";
 ?>
+				</div>
 			</div>
 		</div>
 		<div id="displayArea"><?

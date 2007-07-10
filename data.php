@@ -163,7 +163,6 @@ function showData_menutab_Recent($cInfo) {
 		}
 
 		logecho("<a class='menuRecentFile'");
-		logecho(" onfocus='javascript:this.blur()'");
 		logecho(" href='javascript:showArticle(\"$vpath\", 0x01)'>");
 		$title = getArticleTitle($vpath);
 		logecho($title);
