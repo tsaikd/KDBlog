@@ -127,7 +127,7 @@ conf.func.comment.img_num = 0;
 
 conf.func.google = {};
 conf.func.google.analytics = {};
-conf.func.google.analytics.enable = <?=$CONF["func"]["google"]["analytics"]["enable"]?"true":"false"?>;
+conf.func.google.analytics.enable = false;
 
 if (!Array.prototype.indexOf) { // for IE6
 	Array.prototype.indexOf = function(val, fromIndex) {
@@ -259,8 +259,10 @@ if ($CONF["func"]["debug"]["enable"]) {
 }
 ?>
 		<script type="text/javascript">
-			if (conf.init)
-				conf.init();
+if (conf.init)
+	conf.init();
+
+conf.func.google.analytics.enable = <?=$CONF["func"]["google"]["analytics"]["enable"]?"true":"false"?>;
 		</script>
 	</body>
 </html>
