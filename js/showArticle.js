@@ -71,6 +71,9 @@ function showArticle(fpath, position) {
 					scrollToArticle(showObj);
 					selectArticle(showObj);
 				}
+
+				if (conf.func.google.analytics.enable)
+					urchinTracker(conf.blogurl.blog+fpath);
 			} else {
 				alert('There was a problem with the request.');
 			}

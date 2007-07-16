@@ -12,7 +12,7 @@ if (!file_exists("config.php")) {
 	exit;
 }
 include_once("config.php");
-if ($CONF["version"] < 18)
+if ($CONF["version"] < 19)
 	die($LANG["message"]["confTooOld"]);
 
 # Check server state
@@ -73,6 +73,13 @@ if ($_REQUEST["fpath"]) {
 		<link rel="alternate" type="application/rss+xml" title="<?=$CONF["title"]?>" href="rss2.php?feed=all">
 		<link rel="stylesheet" type="text/css" href="data.php?ftype=cssInside">
 		<script type="text/javascript" src="data.php?ftype=jsInside"></script>
+<?php if ($CONF["func"]["google"]["analytics"]["enable"]) : ?>
+		<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+		<script type="text/javascript">
+_uacct = "<?=$CONF["func"]["google"]["analytics"]["uacct"]?>";
+urchinTracker();
+		</script>
+<?php endif ?>
 		<script type="text/javascript">
 isMSIE = /*@cc_on!@*/false;
 
@@ -108,13 +115,19 @@ conf = {};
 conf.link = "<?=$CONF["link"]?>";
 conf.currentArticle = null;
 
+conf.blogurl = {};
+conf.blogurl.blog = "<?=$CONF["blogurl"]["blog"]?>";
+
 conf.func = {};
-conf.init = null;
 
 conf.func.comment = {};
 conf.func.comment.enable = <?=$CONF["func"]["comment"]["enable"]?"true":"false"?>;
 conf.func.comment.notify = <?=$CONF["func"]["commentNotify"]["enable"]?"true":"false"?>;
 conf.func.comment.img_num = 0;
+
+conf.func.google = {};
+conf.func.google.analytics = {};
+conf.func.google.analytics.enable = <?=$CONF["func"]["google"]["analytics"]["enable"]?"true":"false"?>;
 
 if (!Array.prototype.indexOf) { // for IE6
 	Array.prototype.indexOf = function(val, fromIndex) {
@@ -156,7 +169,7 @@ if (!$_REQUEST["fpath"]) {
 		<div id="header"><a class='title' href="<?=$CONF["link"]?>"><?=$CONF["title"]?></a><span class="subtitle"><?=$CONF["description"]?></span></div>
 		<div id="mainmenu">
 			<div id="menuOpt" class="menublock">
-<?php if ($CONF["func"]["google"]["enable"]) : ?>
+<?php if ($CONF["func"]["google"]["search"]["enable"]) : ?>
 <form class="googleForm" target="_blank" method="get" action="http://www.google.com/search">
 <input class="googleOpt" type="checkbox" name="sitesearch" value="<?=$CONF["blogurl"]["sitesearch"]?>" checked /><?=$LANG["mainmenu"]["menuOpt"]["googleOpt"]?><br />
 <input class="googleInput" type="text" name="q" />

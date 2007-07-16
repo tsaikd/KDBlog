@@ -72,6 +72,13 @@ function chgMenuTag(tagId, childName) {
 //					if (tagId == "menutab_Tags")
 					expandMenuTag(childName);
 				}
+
+				if (conf.func.google.analytics.enable) {
+					buf = "/" + tagId.replace("_", "/");
+					if (childName)
+						buf += childName.substr(4);
+					urchinTracker(buf);
+				}
 			} else {
 				alert('There was a problem with the request.');
 			}

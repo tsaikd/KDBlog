@@ -3,7 +3,7 @@
 # 以下設定為 KDBlog 網頁程式所使用
 ############################################################
 # (int) 設定檔的版本，當升級時版本有更動會產生訊息
-$CONF["version"] = 18;
+$CONF["version"] = 19;
 
 # (string) Blog 的標題
 $CONF["title"] = "KD's Blog";
@@ -94,7 +94,15 @@ $CONF["func"]["comment"]["indexNum"] = 100;
 $CONF["func"]["comment"]["showNum"] = 5;
 
 # (bool) 是否顯示 Google 搜尋列
-$CONF["func"]["google"]["enable"] = true;
+$CONF["func"]["google"]["search"]["enable"] = true;
+# (bool) 是否支援 Google Analytics
+$CONF["func"]["google"]["analytics"]["enable"] = true;
+# (string) Google Analytics 代號
+# _uacct = "XX-XXXXXX-X";
+$CONF["func"]["google"]["analytics"]["uacct"] = "";
+# 排除內部區域網路
+if (substr($_SERVER["REMOTE_ADDR"], 0, 8) == "192.168.")
+	$CONF["func"]["google"]["analytics"]["enable"] = false;
 
 # (bool) 是否提供文章列表給搜尋引擎
 $CONF["func"]["searchbot"]["enable"] = true;
@@ -170,6 +178,9 @@ $CONF["func"]["comment"]["indexByTime"] = $CONF["path"]["comment"]."/.indexByTim
 if (!$CONF["func"]["mail"]["enable"]) {
 	$CONF["func"]["commentNotify"]["enable"] = false;
 	$CONF["func"]["commentTrack"]["enable"] = false;
+}
+if (strlen($CONF["func"]["google"]["analytics"]["uacct"]) == 0) {
+	$CONF["func"]["google"]["analytics"]["enable"] = false;
 }
 
 # 不同型式的 Language 寫法
