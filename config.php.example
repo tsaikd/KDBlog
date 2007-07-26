@@ -215,6 +215,10 @@ include_once("php/state.php");
 include_once("php/sendModHeader.php");
 
 # 檢查系統狀態
+if (!is_dir($CONF["path"]["cache"])) {
+	include_once("php/check_necessary_dir.php");
+	check_necessary_dir("cache", 0x07);
+}
 if (lock_if_state_old("init")) {
 	# Check server directory permission
 	include_once("php/check_necessary_dir.php");
