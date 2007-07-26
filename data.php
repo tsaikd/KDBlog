@@ -186,18 +186,17 @@ function showData_menutab_Tags($cInfo) {
 	include_once("php/showDataDir.php");
 	global $CONF;
 
-	if (is_state_old("rebuildTags")) {
-		include_once("php/rm_ex.php");
+	if (lock_if_state_old("rebuildTags")) {
 		include_once("php/cleanDir.php");
 		include_once("php/rebuildTags.php");
 		cleanDir($CONF["path"]["tags"]);
 		rebuildTags();
-		touch_state_file("rebuildTags");
 		touch_state_file("scanTags");
-	} else if (is_state_old("scanTags")) {
+		unlock_state_and_touch("rebuildTags");
+	} else if (lock_if_state_old("scanTags")) {
 		include_once("php/rebuildTags.php");
 		rebuildTags();
-		touch_state_file("scanTags");
+		unlock_state_and_touch("scanTags");
 	}
 
 	logecho("<html>");

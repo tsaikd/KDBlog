@@ -3,7 +3,7 @@
 # 以下設定為 KDBlog 網頁程式所使用
 ############################################################
 # (int) 設定檔的版本，當升級時版本有更動會產生訊息
-$CONF["version"] = 19;
+$CONF["version"] = 20;
 
 # (string) Blog 的標題
 $CONF["title"] = "KD's Blog";
@@ -164,6 +164,8 @@ if (!isset($CONF["link"]))
 # (string) Google sitesearch
 $CONF["blogurl"]["sitesearch"] = $CONF["link"];
 
+# (string Path) 檢查是否已經初始化
+$CONF["state"]["init"] = $CONF["path"]["cache"]."/init.state";
 # (string Path) 檢查是否需要清除快取
 $CONF["state"]["cleanCache"] = $CONF["path"]["cache"]."/cleanCache.state";
 # (string Path) 檢查是否需要掃瞄分類
@@ -183,6 +185,17 @@ if (strlen($CONF["func"]["google"]["analytics"]["uacct"]) == 0) {
 	$CONF["func"]["google"]["analytics"]["enable"] = false;
 }
 
+# User 指定語言
+if (isset($_GET["hl"]))
+	$hl = $_GET["hl"];
+else if (isset($_REQUEST["hl"]))
+	$hl = $_REQUEST["hl"];
+else
+	unset($hl);
+if (isset($hl) && file_exists("lang/".$hl.".php"))
+	$CONF["language"] = $hl;
+unset($hl);
+
 # 不同型式的 Language 寫法
 $CONF["langtype"]["html"] = str_replace("_", "-", $CONF["language"]);
 $CONF["langtype"]["rss2"] = str_replace("_", "-", strtolower($CONF["language"]));
@@ -198,6 +211,34 @@ include_once("lang/".$CONF["language"].".php");
 
 # 載入快取函數
 include_once("php/cache.php");
+include_once("php/state.php");
 include_once("php/sendModHeader.php");
+
+# 檢查系統狀態
+if (lock_if_state_old("init")) {
+	# Check server directory permission
+	include_once("php/check_necessary_dir.php");
+	check_necessary_dir("cache", 0x07);
+	check_necessary_dir("data", 0x01);
+	check_necessary_dir("tags", 0x07);
+	check_necessary_dir("comment", 0x07);
+	check_necessary_dir("spec", 0x01);
+	check_necessary_dir($CONF["func"]["comment"]["indexByTime"], 0x0F);
+
+	include_once("php/rebuildTags.php");
+	rebuildTags();
+
+	touch_state_file("cleanCache");
+	touch_state_file("scanTags");
+	touch_state_file("rebuildTags");
+
+	unlock_state_and_touch("init");
+}
+
+# Check need to clean cache or not
+if (lock_if_state_old("cleanCache")) {
+	cleanCache();
+	unlock_state_and_touch("cleanCache");
+}
 
 ?>

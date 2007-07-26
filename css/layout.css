@@ -27,18 +27,39 @@ img {
 }
 
 #header {
-	font-size: 2.5em;
 	text-align: center;
-	padding: 0.3em 0;
+	padding-top: 0.3em;
+	padding-bottom: 0.5em;
 }
 
 #header .title {
-	padding-left: 3em;
+	font-size: 2.5em;
 }
 
 #header .subtitle {
-	font-size: 0.6em;
+	font-size: 1.5em;
 	padding-left: 1em;
+}
+
+#header .lang {
+	color: #aaa;
+	border: solid 1px #888;
+	font-size: 12px;
+	float: right;
+	margin-right: 0.5em;
+	padding: 0 0.1em;
+}
+
+#header .langblock {
+	font-size: 12px;
+	float: right;
+	margin-right: 1em;
+	display: none;
+}
+
+#header .langblock .langbtn {
+	color: #aaa;
+	border: solid 1px #888;
 }
 
 #mainmenu {

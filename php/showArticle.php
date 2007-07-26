@@ -323,7 +323,7 @@ function getCacheArticle($vpath, $type) {
 		$cInfo["enable"] = $CONF["cache"]["articleHtml"]["enable"];
 	else
 		return;
-	$cInfo["cachePath"] = $CONF["path"]["cache"]."/".$id.".".$type.".cache";
+	$cInfo["cachePath"] = $CONF["path"]["cache"]."/".$CONF["language"].".".$id.".".$type.".cache";
 	$cInfo["isValidCacheProc"] = "isValidCache_Article";
 	$cInfo["showDataProc"] = "showData_Article";
 	$cInfo["articleType"] = $type;

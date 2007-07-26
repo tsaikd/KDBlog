@@ -82,6 +82,6 @@ function showArticle(fpath, position) {
 	ajax.open("POST", "data.php", true);
 	ajax.setRequestHeader("Content-Type", 
 		"application/x-www-form-urlencoded; charset=utf-8");
-	ajax.send("ftype=article&fpath="+fpath);
+	ajax.send("hl="+GetCookie("hl")+"&ftype=article&fpath="+fpath);
 }
 

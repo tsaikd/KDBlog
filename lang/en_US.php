@@ -45,7 +45,7 @@ $LANG["special"]["noSpecCode"] = "No code found in specFile";
 
 $LANG["comment"]["email"]["fSubject"] = $CONF["title"]." -- New Comment '%s'";
 $LANG["comment"]["email"]["fBodyTail"] = "<br /><hr /><br />If you don't want to get any notification, please click <a href='%s'>this link</a>";
-$LANG["comment"]["write"]["notify"] = "Notify me when getting new comments"
+$LANG["comment"]["write"]["notify"] = "Notify me when getting new comments";
 $LANG["comment"]["write"]["validTags"] = "Display valid html tags";
 $LANG["comment"]["msg"]["unNotifyOk"] = "You will not get any new comments by email";
 $LANG["comment"]["errmsg"]["unNotifyFailed"] = "Some error occured when disable email notification. You can try to contact to ".$CONF["email"];

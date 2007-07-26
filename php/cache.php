@@ -6,38 +6,6 @@ if (!isset($CONF["path"]["cache"]))
 if (!isset($CONF["func"]["cache"]["maxSize"]))
 	die('$CONF["func"]["cache"]["maxSize"] is not set');
 
-function touch_state_file($name, $offset=2) {
-	global $CONF;
-	$path = $CONF["state"][$name];
-
-	$t = time() + $offset;
-	$fp = fopen($path, "w");
-	fwrite($fp, $t);
-	fclose($fp);
-	touch($path, $t);
-}
-
-function is_state_old($name) {
-	global $CONF;
-	$path = $CONF["state"][$name];
-
-	if (!file_exists($path))
-		return true;
-
-	$stime = (int)file_get_contents($path);
-	$ftime = filectime($path);
-	if ($ftime > $stime)
-		return true;
-	else
-		return false;
-}
-
-function set_state_old($name) {
-	global $CONF;
-	$path = $CONF["state"][$name];
-	touch($path);
-}
-
 /*
 flag:
 	0x01: log

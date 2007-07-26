@@ -1,3 +1,6 @@
+if (typeof(selectArticle) != undefined) {
+	delete selectArticle;
+}
 function selectArticle(obj) {
 	if (obj == conf.currentArticle)
 		return;

@@ -12,27 +12,10 @@ if (!file_exists("config.php")) {
 	exit;
 }
 include_once("config.php");
-if ($CONF["version"] < 19)
+if ($CONF["version"] < 20)
 	die($LANG["message"]["confTooOld"]);
 
-# Check server state
-include_once("php/check_necessary_dir.php");
-check_necessary_dir("cache", 0x07);
-check_necessary_dir("data", 0x01);
-check_necessary_dir("tags", 0x07);
-check_necessary_dir("comment", 0x07);
-check_necessary_dir("spec", 0x01);
-check_necessary_dir($CONF["func"]["comment"]["indexByTime"], 0x0F);
-
-# Check need to clean cache or not
-$name = "cleanCache";
-if (is_state_old($name)) {
-	cleanCache();
-	touch_state_file($name);
-}
-unset($name);
-
-# Get lasr article path
+# Get last article path
 include_once("php/getRecentArticlePath.php");
 $farray = getRecentArticlePath(1);
 $lastArticlePath = $farray[0];
@@ -40,15 +23,17 @@ unset($farray);
 
 # Send Expires header
 include_once("php/transPath.php");
-if ($_REQUEST["fpath"]) {
-	$fpath = transPathV2R($_REQUEST["fpath"]);
-	if (is_file($fpath))
-		sendModHeader($fpath);
-} else {
-	if (isset($lastArticlePath))
-		sendModHeader(transPathV2R($lastArticlePath), 600);
-	else
-		sendModHeader(__FILE__, 600);
+if (!$CONF["func"]["debug"]["enable"]) {
+	if ($_REQUEST["fpath"]) {
+		$fpath = transPathV2R($_REQUEST["fpath"]);
+		if (is_file($fpath))
+			sendModHeader($fpath);
+	} else {
+		if (isset($lastArticlePath))
+			sendModHeader(transPathV2R($lastArticlePath), 600);
+		else
+			sendModHeader(__FILE__, 600);
+	}
 }
 
 ?>
@@ -139,6 +124,7 @@ if (!Array.prototype.indexOf) { // for IE6
 }
 
 conf.init = function () {
+	SetCookie("hl", "<?=$CONF["language"]?>");
 	chgMenuTag("menutab_Recent");
 
 	var buf = "";
@@ -152,21 +138,40 @@ conf.init = function () {
 
 	obj = document.getElementById("displayArea");
 <?php
-if (!$_REQUEST["fpath"]) {
+if (!isset($_REQUEST["fpath"])) {
 	include_once("php/getRecentArticlePath.php");
 	$farray = getRecentArticlePath($CONF["numAtStart"]);
 	foreach ($farray as $vpath)
-		echo "buf += \"<div class='article' id='\"+getIdFromPath(\"$vpath\")+\"' onmouseover='javascript:selectArticle(this)'><\\/div>\";\n";
+		echo "buf += \"<div class='article' id='\"+getIdFromPath(\"$vpath\")+\"' onmouseover='javascript: selectArticle(this);'><\\/div>\";\n";
 	echo "obj.innerHTML = buf;\n";
 	foreach ($farray as $vpath)
 		echo "showArticle(\"$vpath\", 0x30);\n";
 }
 ?>
 }
+
+// sometimes browser will run undefined function selectArticle
+// so use the empty function to avoid the problem
+if (typeof(selectArticle) == undefined) {
+	function selectArticle(obj) {}
+}
 		</script>
 	</head>
 	<body>
-		<div id="header"><a class='title' href="<?=$CONF["link"]?>"><?=$CONF["title"]?></a><span class="subtitle"><?=$CONF["description"]?></span></div>
+		<div id="header">
+			<a class="lang" href="javascript:;" onclick="javascript: toggleObj(this.nextSibling, 'block');">Language</a><div class="langblock">
+<?php
+foreach (getDir("lang") as $f) {
+	if (substr($f, -4) == ".php") {
+		$f = substr($f, 0, -4);
+		echo "<a class='langbtn' href='javascript: chgLang(\"$f\");'>$f</a>\n";
+	}
+}
+?>
+			</div><br />
+			<a class="title" href="<?=$CONF["link"]?>"><?=$CONF["title"]?></a>
+			<span class="subtitle"><?=$CONF["description"]?></span>
+		</div>
 		<div id="mainmenu">
 			<div id="menuOpt" class="menublock">
 <?php if ($CONF["func"]["google"]["search"]["enable"]) : ?>
