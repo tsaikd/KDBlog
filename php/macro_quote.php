@@ -26,7 +26,7 @@ function macro_quote($node, $type) {
 
 		if ($node["attributes"]["header"]) {
 			$hval  = "<div class='macro_quote_header'";
-			$hval .= " onclick='javascript:toggleObj(this.nextSibling, \"block\")'>";
+			$hval .= " onclick='javascript:toggleObj(this.nextSibling, \"none\")'>";
 			$hval .= $node["attributes"]["header"];
 			$hval .= "</div>";
 		} else {
