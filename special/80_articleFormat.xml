@@ -3,6 +3,7 @@
 <title>標準文章格式</title>
 <macro name="alink" />
 <macro name="block" />
+<macro name="hide" />
 <macro name="kdgallery" />
 <macro name="quote" />
 <contents>
@@ -16,6 +17,7 @@ KDBlog 是以檔案系統為基礎的閱讀介面
 <tag></tag>
 <macro name="alink" />
 <macro name="block" />
+<macro name="hide" />
 <macro name="kdgallery" />
 <macro name="quote" />
 <macro name="replace">
@@ -115,6 +117,19 @@ macro block 的使用方式:
 看起來就會像這樣
 <block>文章內容區塊</block>
 macro block 裡常會使用 <![CDATA[&lt;![CDATA[  ]]&gt;]]> 來避免 xml 格式錯誤
+
+<hr />
+macro hide 的使用方式:
+宣告文章有使用 macro hide
+<quote><![CDATA[
+<macro name="hide" />
+]]></quote>
+<![CDATA[
+然後在文章內容裡就可以使用
+裡面的東西&lt;hide&gt;文章內容區塊&lt;/hide&gt;消失了
+]]>
+看起來就會像這樣
+裡面的東西<hide>文章內容區塊</hide>消失了
 
 <hr />
 macro kdgallery 的使用方式:
