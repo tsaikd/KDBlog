@@ -12,7 +12,7 @@ if (!file_exists("config.php")) {
 	exit;
 }
 include_once("config.php");
-if ($CONF["version"] < 21)
+if ($CONF["version"] < 22)
 	die($LANG["message"]["confTooOld"]);
 
 # Get last article path
