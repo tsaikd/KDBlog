@@ -12,7 +12,7 @@ if (!file_exists("config.php")) {
 	exit;
 }
 include_once("config.php");
-if ($CONF["version"] < 20)
+if ($CONF["version"] < 21)
 	die($LANG["message"]["confTooOld"]);
 
 # Get last article path
@@ -174,12 +174,18 @@ foreach (getDir("lang") as $f) {
 		</div>
 		<div id="mainmenu">
 			<div id="menuOpt" class="menublock">
-<?php if ($CONF["func"]["google"]["search"]["enable"]) : ?>
+<?php
+if ($CONF["func"]["google"]["search"]["enable"]) :
+	if ($CONF["func"]["google"]["cse"]["cseid"] && $CONF["func"]["google"]["cse"]["keysrc"]) :
+		include("php/google_cse.php");
+	else :
+?>
 <form class="googleForm" target="_blank" method="get" action="http://www.google.com/search">
 <input class="googleOpt" type="checkbox" name="sitesearch" value="<?=$CONF["blogurl"]["sitesearch"]?>" checked /><?=$LANG["mainmenu"]["menuOpt"]["googleOpt"]?><br />
 <input class="googleInput" type="text" name="q" />
 <input class="googleSubmit" type="submit" value="Google" title="<?=$LANG["message"]["runNewWin"]?>" />
 </form>
+<?php	endif ?>
 <?php endif ?>
 				<a href="javascript:closeArticle('displayArea')"><?=$LANG["mainmenu"]["menuOpt"]["closeAll"]?></a>
 			</div>
@@ -215,7 +221,8 @@ if (count($farray)) {
 
 if ($CONF["extraMenures"])
 	foreach ($CONF["extraMenures"] as $f)
-		include($f);
+		if (file_exists($f))
+			include($f);
 ?>
 				<div class="menufootblock">
 					<a class="menuitem" href="rss2.php?feed=all"><?php
