@@ -77,7 +77,7 @@ function chgMenuTag(tagId, childName) {
 					buf = "/" + tagId.replace("_", "/");
 					if (childName)
 						buf += childName.substr(4);
-					urchinTracker(buf);
+					pageTracker._trackPageview(buf);
 				}
 			} else {
 				alert('There was a problem with the request.');

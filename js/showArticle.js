@@ -73,7 +73,7 @@ function showArticle(fpath, position) {
 				}
 
 				if (conf.func.google.analytics.enable)
-					urchinTracker(conf.blogurl.blog+fpath);
+					pageTracker._trackPageview(conf.blogurl.blog+fpath);
 			} else {
 				alert('There was a problem with the request.');
 			}
