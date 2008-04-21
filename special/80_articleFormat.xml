@@ -6,6 +6,7 @@
 <macro name="hide" />
 <macro name="kdgallery" />
 <macro name="quote" />
+<macro name="nokw">KDBlog</macro>
 <contents>
 KDBlog 是以檔案系統為基礎的閱讀介面
 讀取的文章必須符合標準的格式
@@ -20,6 +21,7 @@ KDBlog 是以檔案系統為基礎的閱讀介面
 <macro name="hide" />
 <macro name="kdgallery" />
 <macro name="quote" />
+<macro name="nokw">KEYWORD(ex: KDBlog)</macro>
 <macro name="replace">
 <from>&lt;![CDATA[KDBlog]]&gt;</from>
 <to>&lt;![CDATA[<a href="http://blog.tsaikd.org/">KDBlog</a>]]&gt;</to>
@@ -167,6 +169,25 @@ macro quote 的使用方式:
 在標題上點一下滑鼠還可以把內容隱藏起來
 
 macro quote 裡常會使用 <![CDATA[&lt;![CDATA[  ]]&gt;]]> 來避免 xml 格式錯誤
+
+<hr />
+macro nokw 的使用方式: (NO KeyWord)
+宣告文章有使用 macro nokw
+<quote><![CDATA[
+<macro name="nokw">KDBlog</macro>
+]]></quote>
+<![CDATA[
+上面的 "KDBlog" 是預設的 keyword
+會自動轉換成
+&lt;a href="http://www.tsaikd.org/kdintro/"&gt;KDBlog&lt;/a&gt;
+如果設了 nokw 之後
+就會維持原來的樣子
+]]>
+設定 nokw 前
+<a href="http://www.tsaikd.org/kdintro/">KDBlog</a>
+
+設定 nokw 後
+KDBlog
 
 <hr />
 macro replace 的使用方式:

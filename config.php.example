@@ -3,7 +3,7 @@
 # 以下設定為 KDBlog 網頁程式所使用
 ############################################################
 # (int) 設定檔的版本，當升級時版本有更動會產生訊息
-$CONF["version"] = 22;
+$CONF["version"] = 23;
 
 # (string) Blog 的標題
 $CONF["title"] = "KD's Blog";
@@ -123,6 +123,21 @@ $CONF["func"]["showLastDate"]["enable"] = true;
 # (string URL) 預設 KDGallery 的網址
 # 亦可以在 macro kdgallery 中單獨設定
 #$CONF["func"]["kdgallery"]["url"] = "http://pic.tsaikd.org/";
+
+############################################################
+# keyword 設定
+############################################################
+# (bool) 是否啟用 keyword 設定
+# keyword 可將文章中常用的詞句設定成某種特定的表示
+$CONF["func"]["macro_kw"]["enable"] = true;
+
+# ex) 將所有文章中出現 KDBlog 的字都加上超連結
+#     成 <a target="_blank" href="http://www.tsaikd.org/kdintro/">KDBlog</a>
+$CONF["func"]["macro_kw"]["src"][0] = 'KDBlog';
+$CONF["func"]["macro_kw"]["tar"][0] = '<a target="_blank" href="http://www.tsaikd.org/kdintro/">KDBlog</a>';
+
+$CONF["func"]["macro_kw"]["src"][1] = 'KDGallery';
+$CONF["func"]["macro_kw"]["tar"][1] = '<a target="_blank" href="http://www.tsaikd.org/kdintro/">KDGallery</a>';
 
 ############################################################
 # 快取設定

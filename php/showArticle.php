@@ -97,6 +97,15 @@ function showArticleItem($fpath, $type) {
 
 	$amacro = array();
 	$amacroReplace = array();
+
+	// add default keyword to replace macro (configure at config.php)
+	foreach ($CONF["func"]["macro_kw"]["src"] as $i => $j) {
+		$aBuf = array();
+		$aBuf[0] = $CONF["func"]["macro_kw"]["src"][$i];
+		$aBuf[1] = $CONF["func"]["macro_kw"]["tar"][$i];
+		array_push($amacroReplace, $aBuf);
+	}
+
 	$xmlkey = "macro";
 	if ($index[$xmlkey]) {
 		$rtoday = $CONF["link"]."misc/".transPath2Date($fpath);
@@ -120,7 +129,12 @@ function showArticleItem($fpath, $type) {
 					$i++;
 				}
 				if (count($aBuf) == 2)
-					array_push($amacroReplace, $aBuf);
+					array_unshift($amacroReplace, $aBuf);
+			} else if ($macroName == "nokw") {
+				foreach ($amacroReplace as $j => $k) {
+					if ($k[0] == $vals[$i]["value"])
+						array_splice($amacroReplace, $j, 1);
+				}
 			} else if ($macroName) {
 				array_push($amacro, $macroName);
 			}
@@ -170,10 +184,7 @@ function showArticleItem($fpath, $type) {
 			logecho("<title>".$vals[$i]["value"]."</title>");
 		} else { // $type == "html"
 			logecho("<h1>");
-			// show permalink at title
-//			logecho("<a href='index.php?fpath=".$vpath."'>");
 			logecho($vals[$i]["value"]);
-//			logecho("</a>");
 			logecho("</h1>");
 		}
 	}
@@ -205,8 +216,12 @@ function showArticleItem($fpath, $type) {
 			$node["type"] = "";
 		}
 
-		foreach ($amacroReplace as $amac)
-			$node["value"] = str_replace($amac[0], $amac[1], $node["value"]);
+		foreach ($amacroReplace as $amac) {
+			$s = str_replace($amac[0], "   $amac[0]   ", $node["value"]);
+			$pmac = str_replace("/", "\\/", $amac[0]);
+			$s = preg_replace("/(<.*?)   $pmac   (.*?".">)/", "\$1"."$amac[0]"."\$2", $s);
+			$node["value"] = str_replace("   $amac[0]   ", $amac[1], $s);
+		}
 
 		switch ($node["type"]) {
 		case "open":
