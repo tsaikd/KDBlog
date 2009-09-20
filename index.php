@@ -213,10 +213,12 @@ if (count($farray)) {
 		$fdir = dirname($f);
 		$fname = basename($f);
 		$buf = explode("_", $fname);
-		$dataVPath = "data/$fdir/".$buf[0]."_".$buf[1].".xml";
+		$fnum = (int)array_pop($buf);
+		$buf = implode("_", $buf);
+		$dataVPath = "data/$fdir/".$buf.".xml";
 		echo "<a class='menuRecentFile'";
 		echo " href='javascript:showArticle(\"$dataVPath\", 1)'>";
-		echo "Re: ".getArticleTitle($dataVPath)." (".(int)$buf[2].")";
+		echo "Re: ".getArticleTitle($dataVPath)." (".$fnum.")";
 		echo "</a>";
 	}
 	echo "</div>";
