@@ -1,6 +1,7 @@
 <?php
 include_once("php/getArticleCommentPath.php");
 include_once("php/parseXml.php");
+include_once("php/makeCommentIndex.php");
 
 /*
 $info := (array) or null
@@ -44,9 +45,7 @@ function writeArticleComment($vArticlePath, $comment, $info=null) {
 	fclose($fp);
 
 	// Set index
-	include_once("php/smartSymLink.php");
-	$indexPath = $CONF["func"]["comment"]["indexByTime"]."/".$_SERVER["REQUEST_TIME"];
-	smartSymLink($fCommentPath, $indexPath);
+	makeCommentIndex($fCommentPath, $_SERVER["REQUEST_TIME"]);
 
 	// Check index number
 	include_once("php/rm_ex.php");
