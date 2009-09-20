@@ -2,6 +2,7 @@
 <article>
 <title>KDBlog 簡介</title>
 <macro name="quote" />
+<macro name="alink" />
 <macro name="replace">
 <from><![CDATA["KDBlog"]]></from>
 <to><![CDATA[<a href="http://blog.tsaikd.org/">KDBlog</a>]]></to>
@@ -39,12 +40,12 @@
 <to><![CDATA[<a href="http://blog.tsaikd.org/index.php?fpath=data/2007/04/05_1.xml">"用 Office 2007 寫 Blog"</a>]]></to>
 </macro>
 <macro name="replace">
-<from><![CDATA[KDBlog_svn]]></from>
-<to><![CDATA[<a href="http://svn.tsaikd.org/tsaikd/KDBlog/">這裡</a>]]></to>
+<from><![CDATA[KDBlog_git]]></from>
+<to><![CDATA[<a href="http://www.tsaikd.org/git/?p=KDBlog/.git;a=summary">這裡</a>]]></to>
 </macro>
 <macro name="replace">
-<from><![CDATA[Subversion]]></from>
-<to><![CDATA[<a href="http://subversion.tigris.org/">Subversion</a>]]></to>
+<from><![CDATA[ Git ]]></from>
+<to><![CDATA[ <a href="http://www.git-scm.org/">Git</a> ]]></to>
 </macro>
 <macro name="replace">
 <from><![CDATA[清除快取目錄]]></from>
@@ -208,15 +209,14 @@ ex) tag: Linux/Gentoo 的意思就是
 如同"用 Office 2007 寫 Blog"所提到的
 何必去牽就難用的瀏覽器 Editor 哩??
 我自己是用 vi 來寫啦...^_^
+後來用 AutoIt 寫了一個 <alink src="data/2008/12/28_2.xml" /> 來輔助寫文章
 
 <hr /><h2>安裝 "KDBlog"</h2>
-目前 "KDBlog" 是使用 Subversion 來協助開發
-你可以在KDBlog_svn找到完整的程式碼
+目前 "KDBlog" 是使用 Git 來協助開發
+你可以在KDBlog_git找到完整的程式碼
 建議使用這個指令來下載最新版
-<quote>svn co http://svn.tsaikd.org/tsaikd/KDBlog/tags/lastRelease/</quote>
-
+<quote>git clone http://www.tsaikd.org/git/KDBlog/.git</quote>
 不然你也可以自行把程式抓下來
-只不過我沒有提供打包檔就是了...XD
 
 下載後參考 config.php.example
 寫一份新的設定檔到 config.php
@@ -227,24 +227,17 @@ ex) tag: Linux/Gentoo 的意思就是
 就看 browser 上出現的訊息去做設定啦
 
 <hr /><h2>更新 "KDBlog"</h2>
-如果你用上面的方式取的 "KDBlog" 的話
+如果你用 git clone 的方式取得 "KDBlog" 的話
 你就可以用這個指令來進行更新的動作
-<quote>svn up</quote>
+<quote>git pull</quote>
 更新完後
 請手動把 cache 資料夾清一下 (或是使用清除快取目錄)
 
 如果設定檔有變動的話
 請看看 config.php.example 有什麼變化
-<quote>svn di config.php.example -r PREV</quote>
 然後看是要重新設定一次 config.php 或是手動把新加入的東西加到 config.php
 
-更詳細的 Subversion 操作請問問 Google 大神吧 (ex: svn merge ... etc)
-
-附上一個小小的指令
-看不懂的話還是不要用比較保險...XD
-<quote>svn di config.php.example -r PREV | \
-	sed 's/config.php.example/config.php/g' | \
-	patch</quote>
+更詳細的 Git 操作請問問 Google 大神吧
 
 <hr /><h2>開始寫文章囉!!</h2>
 首先
@@ -259,7 +252,7 @@ ex) tag: Linux/Gentoo 的意思就是
 (ex: 31_1.xml)
 
 那個流水號會決定文章顯示的順序
-所以如果你的文章量大的時候(一天超過 9 篇)
+所以如果文章量大的時候(一天超過 9 篇)
 流水號可以選用兩位數
 或是用 a, b, c, ... etc 取代
 
@@ -271,15 +264,24 @@ data/2007/03/31_a.xml
 內容的格式請參考標準文章格式
 
 ps:
-文章的路徑一但決定之後，請不要輕易更改
-否則該文章的 comment 會遺失
-若要刪除文章
+<ul>
+<li style="white-space: pre">文章的路徑一但決定之後，請不要輕易更改
+否則該文章的 comment 會遺失</li>
+<li style="white-space: pre">如果移動目錄的路徑
+那 comment 的連結會錯誤
+需要在 KDBlog 的目錄下手動執行
+<quote>php util/rebuildCommentIndex.php</quote>
+這個指令會重建 comment 的連結</li>
+<li style="white-space: pre">若要刪除文章
 請自行到 comment 的目錄中把路徑相似的 comment 刪除
-再執行重建分類索引
+再執行重建分類索引</li>
+</ul>
 
 tips:
-寫文章時可以先建一個副檔名不是 xml 的檔案來暫存
+<ul>
+<li style="white-space: pre">寫文章時可以先建一個副檔名不是 xml 的檔案來暫存
 (通常是怕寫到一半當機之類的)
-等全部寫好之後，再把副檔名改成 xml
+等全部寫好之後，再把副檔名改成 xml</li>
+</ul>
 </contents>
 </article>
