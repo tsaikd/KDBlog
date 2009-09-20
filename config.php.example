@@ -101,7 +101,7 @@ $CONF["func"]["google"]["search"]["enable"] = true;
 # 保留空白則不使用 Google CSE
 $CONF["func"]["google"]["cse"]["cseid"] = "";
 # (string) Google Custom Search Engine Key source
-# # Google code -> script src -> "http://www.google.com/uds/api" 那一整串網址
+# Google code -> script src -> "http://www.google.com/uds/api" 那一整串網址
 # ex) "http://www.google.com/uds/api?file=uds.js&v=1.0&key=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 # 保留空白則不使用 Google CSE
 $CONF["func"]["google"]["cse"]["keysrc"] = "";
